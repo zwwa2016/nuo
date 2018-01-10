@@ -16,16 +16,13 @@
 		<result property="city" column="city" />
 		<result property="province" column="province" />
 		<result property="country" column="country" />
-		<result property="role" column="role" />
-		<result property="schoolId" column="fk_school_id" />
-		<result property="classId" column="fk_class_id" />
 	</resultMap>
 	
     <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_user(`wechat_nickname`, `wechat_openid`, `sex`, `birthday`, `create_time`,
-			`avatar_url`, `city`, `province`, `country`, `role`, `fk_school_id`, `fk_class_id`)
+			`avatar_url`, `city`, `province`, `country`)
 		VALUES(#{wechatNickname}, #{wechatOpenid}, #{sex}, #{birthday}, #{createTime},
-			#{avatarUrl}, #{city}, #{province}, #{country}, #{role}, #{schoolId}, #{classId})
+			#{avatarUrl}, #{city}, #{province}, #{country})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="userMap">
 		SELECT * 
@@ -66,10 +63,7 @@
 		`avatar_url` = #{avatarUrl},
 		`city` = #{city},
 		`province` = #{province},
-		`country` = #{country},
-		`role` = #{role},
-		`fk_school_id` = #{schoolId},
-		`fk_class_id` = #{classId}
+		`country` = #{country}
 		WHERE pk_id = #{id}
 	</update>
 

@@ -12,12 +12,14 @@
 		<result property="studentId" column="fk_student_id" />
 		<result property="score" column="score" />
 		<result property="pic" column="pic" />
+		<result property="coreBatchId" column="fk_score_batch_id" />
+		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Score" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score(`name`, `type`, `fk_student_id`, `score`, `pic`, `create_time`) 
-		VALUES(#{name}, #{type}, #{studentId}, #{score}, #{pic}, #{createTime})
+		INSERT INTO t_score(`name`, `type`, `fk_student_id`, `score`, `pic`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
+		VALUES(#{name}, #{type}, #{studentId}, #{score}, #{pic}, #{scoreBatchId}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreMap">
 		SELECT * 
@@ -55,6 +57,8 @@
 		`fk_student_id` = #{studentId},
 		`score` = #{score},
 		`pic` = #{pic},
+		`fk_score_batch_id` = #{scoreBtachId},
+		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime}
 		WHERE pk_id = #{id}
 	</update>

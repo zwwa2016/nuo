@@ -19,7 +19,7 @@ public class UserView extends HashMap<String, Object> {
 		put("wechatNickname", user.getWechatNickname());
 		put("wechatOpenid", user.getWechatOpenid());
 		put("birthday", user.getBirthday());
-		
+
 		if(user.getCreateTime() != null) {
 			put("createTime", DateTool.standardSdf.format(user.getCreateTime()));
 		}
@@ -28,6 +28,8 @@ public class UserView extends HashMap<String, Object> {
 		put("city", user.getCity());
 		put("country", user.getCountry());
 		put("province", user.getProvince());
+		put("manager", user.getManager());
+		put("managerClass", user.getManagerClassList());
 	}
 	
 }

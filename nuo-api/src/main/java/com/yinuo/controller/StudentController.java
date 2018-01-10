@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yinuo.bean.Constant;
+import com.yinuo.validation.NeedRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +68,7 @@ public class StudentController {
 		return result;
     }
 	
-	@NeedLogin
+	@NeedRole(Constant.Role.Teacher)
 	@RequestMapping(value="/students", method=RequestMethod.DELETE)
     public Object post(User loginUser, @RequestParam long id){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -74,8 +76,8 @@ public class StudentController {
 		result.put("id", id);
 		return result;
     }
-	
-	@NeedLogin
+
+	@NeedRole(Constant.Role.Teacher)
 	@RequestMapping(value="/students", method=RequestMethod.PUT)
     public Object put(User loginUser, @RequestBody String body){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -85,10 +87,10 @@ public class StudentController {
 		result.put("id", student.getId());
 		return result;
 	}
-	
-	@NeedLogin
+
+	@NeedRole(Constant.Role.Teacher)
 	@RequestMapping(value="/students", method=RequestMethod.POST)
-    public Object get(User loginUser, @RequestBody String body){
+	public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
 		Student student = validation.getObject(body, Student.class, new String[]{});
 		studentService.insert(loginUser, student);

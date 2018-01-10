@@ -23,7 +23,8 @@ public class StudentView extends HashMap<String, Object> {
 		put("sex", student.getSex());
 		put("pic", student.getPic());
 		put("classId", student.getClassId());
-		put("state", student.getState());
+		put("managerId", student.getManagerId());
+		put("schoolId", student.getSchoolId());
 
 		if(student.getCreateTime() != null) {
 			put("createTime", DateTool.standardSdf.format(student.getCreateTime()));

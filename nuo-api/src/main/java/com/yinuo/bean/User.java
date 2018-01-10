@@ -3,13 +3,18 @@ package com.yinuo.bean;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.exception.InvalidHttpArgumentException;
 import com.yinuo.validation.IsInt;
 import com.yinuo.validation.IsString;
+import org.apache.xmlbeans.impl.xb.ltgfmt.FileDesc;
+
+import javax.persistence.RollbackException;
 
 
 public class User {
@@ -29,10 +34,6 @@ public class User {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date birthday;
 	
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createTime;
-	
 	@IsString(minLength=1,maxLength=255)
 	private String avatarUrl;
 	
@@ -45,11 +46,15 @@ public class User {
 	@IsString(minLength=1,maxLength=15)
 	private String country;
 
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date createTime;
+
+	private Manager manager;
+
+	private List<ManagerClass> managerClassList;
+
 	private Integer role;
-
-	private Long schoolId;
-
-	private Long classId;
 	
 	public Long getId() {
 		return id;
@@ -141,28 +146,81 @@ public class User {
 		this.country = country;
 	}
 
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public List<ManagerClass> getManagerClassList() {
+		return managerClassList;
+	}
+
+	public void setManagerClassList(List<ManagerClass> managerClassList) {
+		this.managerClassList = managerClassList;
+		if(managerClassList != null && managerClassList.size() > 0) {
+			for(ManagerClass managerClass: managerClassList) {
+				if(role.intValue() == 0 || managerClass.getRole().intValue() < role.intValue()) {
+					setRole(managerClass.getRole());
+				}
+			}
+		}
+	}
+
+	public void checkLevel(int needRole, long schoolId, long classId) {
+		if(manager == null || managerClassList == null || managerClassList.size() <= 0) {
+			throw new InvalidArgumentException("当前操作超出权限");
+		}
+
+		boolean flag = false;
+		managerLoop: for(ManagerClass managerClass: managerClassList) {
+			if(managerClass.getRole() == Constant.Role.Manager) {
+				flag = true;
+				break managerLoop;
+			}else if(needRole == Constant.Role.School && managerClass.getRole() == Constant.Role.School
+					&& managerClass.getSchoolId().longValue() == schoolId) {
+				flag = true;
+				break managerLoop;
+			}else if(needRole == Constant.Role.Teacher) {
+				if(managerClass.getRole() == Constant.Role.School && managerClass.getSchoolId().longValue() == schoolId) {
+					flag = true;
+					break managerLoop;
+				}else if(managerClass.getRole() == Constant.Role.Teacher && managerClass.getClassId().longValue() == classId) {
+					flag = true;
+					break managerLoop;
+				}
+			}
+		}
+		if(!flag) {
+			throw new InvalidArgumentException("当前操作超出权限");
+		}
+	}
+
+	public void checkLevel(int needRole) {
+		if(manager == null || managerClassList == null || managerClassList.size() <= 0) {
+			throw new InvalidArgumentException("当前操作超出权限");
+		}
+
+		boolean flag = false;
+		managerLoop: for(ManagerClass managerClass: managerClassList) {
+			if(managerClass.getRole() <= needRole) {
+				flag = true;
+				break managerLoop;
+			}
+		}
+		if(!flag) {
+			throw new InvalidArgumentException("当前操作超出权限");
+		}
+	}
+
 	public Integer getRole() {
 		return role;
 	}
 
 	public void setRole(Integer role) {
 		this.role = role;
-	}
-
-	public Long getSchoolId() {
-		return schoolId;
-	}
-
-	public void setSchoolId(Long schoolId) {
-		this.schoolId = schoolId;
-	}
-
-	public Long getClassId() {
-		return classId;
-	}
-
-	public void setClassId(Long classId) {
-		this.classId = classId;
 	}
 
 	public String toString() {

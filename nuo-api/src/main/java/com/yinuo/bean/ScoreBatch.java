@@ -1,9 +1,5 @@
 package com.yinuo.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,8 +7,12 @@ import com.yinuo.exception.InvalidHttpArgumentException;
 import com.yinuo.validation.IsInt;
 import com.yinuo.validation.IsString;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class Score {
+
+public class ScoreBatch {
 
 	private Long id;
 	
@@ -22,15 +22,10 @@ public class Score {
 	@IsInt(min=1, max=2)
 	private Integer type;
 	
-	private Long studentId;
+	private Long schoolId;
 	
-	private Integer score;
+	private Long classId;
 	
-	@IsString(minLength=1, maxLength=255)
-	private String pic;
-
-	private Long scoreBatchId;
-
 	private Long managerId;
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -57,36 +52,12 @@ public class Score {
 		return createTime;
 	}
 
-	public String getPic() {
-		return pic;
-	}
-
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
-
 	public Integer getType() {
 		return type;
 	}
 
 	public void setType(Integer type) {
 		this.type = type;
-	}
-
-	public Long getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(Long studentId) {
-		this.studentId = studentId;
-	}
-
-	public Integer getScore() {
-		return score;
-	}
-
-	public void setScore(Integer score) {
-		this.score = score;
 	}
 
 	public void setCreateTime(String createTime) {
@@ -98,12 +69,20 @@ public class Score {
 		}
 	}
 
-	public Long getScoreBatchId() {
-		return scoreBatchId;
+	public Long getSchoolId() {
+		return schoolId;
 	}
 
-	public void setScoreBatchId(Long scoreBatchId) {
-		this.scoreBatchId = scoreBatchId;
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
 	}
 
 	public Long getManagerId() {

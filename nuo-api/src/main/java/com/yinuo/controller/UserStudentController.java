@@ -27,11 +27,7 @@ public class UserStudentController {
 	public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
 		UserStudent userStudent = validation.getObject(body, UserStudent.class, new String[]{"studentId", "relationship"});
-
 		userStudent.setUserId(loginUser.getId());
-		if(userStudent.getRelationship().intValue() == UserStudentRelationship.create) {
-			throw new InvalidArgumentException("不能绑定为创建人");
-		}
 
 		userStudentService.insert(loginUser, userStudent);
 		result.put("id", userStudent.getId());

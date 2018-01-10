@@ -29,9 +29,11 @@ public class Student {
 	@IsString(minLength=1,maxLength=255)
 	private String pic;
 
+	private Long schoolId;
+
 	private Long classId;
-	
-	private Integer state;
+
+	private Long managerId;
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -90,14 +92,6 @@ public class Student {
 		this.classId = classId;
 	}
 
-	public Integer getState() {
-		return state;
-	}
-
-	public void setState(Integer state) {
-		this.state = state;
-	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -109,6 +103,22 @@ public class Student {
 		} catch (ParseException e) {
 			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
 		}
+	}
+
+	public Long getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(Long managerId) {
+		this.managerId = managerId;
+	}
+
+	public Long getSchoolId() {
+		return schoolId;
+	}
+
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
 	}
 
 	public String toString() {

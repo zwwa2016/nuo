@@ -1,9 +1,5 @@
 package com.yinuo.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,25 +7,19 @@ import com.yinuo.exception.InvalidHttpArgumentException;
 import com.yinuo.validation.IsInt;
 import com.yinuo.validation.IsString;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class Score {
+
+public class Manager {
 
 	private Long id;
 	
 	@IsString(minLength=1,maxLength=15)
 	private String name;
-
-	@IsInt(min=1, max=2)
-	private Integer type;
 	
-	private Long studentId;
-	
-	private Integer score;
-	
-	@IsString(minLength=1, maxLength=255)
-	private String pic;
-
-	private Long scoreBatchId;
+	private Long userId;
 
 	private Long managerId;
 
@@ -57,38 +47,6 @@ public class Score {
 		return createTime;
 	}
 
-	public String getPic() {
-		return pic;
-	}
-
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	public Long getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(Long studentId) {
-		this.studentId = studentId;
-	}
-
-	public Integer getScore() {
-		return score;
-	}
-
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-
 	public void setCreateTime(String createTime) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -98,20 +56,20 @@ public class Score {
 		}
 	}
 
-	public Long getScoreBatchId() {
-		return scoreBatchId;
-	}
-
-	public void setScoreBatchId(Long scoreBatchId) {
-		this.scoreBatchId = scoreBatchId;
-	}
-
 	public Long getManagerId() {
 		return managerId;
 	}
 
 	public void setManagerId(Long managerId) {
 		this.managerId = managerId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String toString() {

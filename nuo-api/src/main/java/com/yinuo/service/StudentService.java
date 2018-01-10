@@ -1,13 +1,5 @@
 package com.yinuo.service;
 
-import java.util.*;
-
-import com.yinuo.view.StudentView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.yinuo.bean.Constant.StudentState;
 import com.yinuo.bean.Constant.UserStudentRelationship;
 import com.yinuo.bean.Student;
 import com.yinuo.bean.User;
@@ -17,6 +9,12 @@ import com.yinuo.mapper.StudentMapper;
 import com.yinuo.util.CommonUtil;
 import com.yinuo.util.DateTool;
 import com.yinuo.util.MergerUtil;
+import com.yinuo.view.StudentView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
@@ -32,7 +30,7 @@ public class StudentService {
 		CommonUtil.setDefaultValue(student);
 		
 		student.setCreateTime(DateTool.standardSdf.format(new Date()));
-		student.setState(StudentState.create);
+		student.setManagerId(loginUser.getManager().getId());
 		studentMapper.insert(student);
 		
 		UserStudent us = new UserStudent(null, student.getId(), loginUser.getId(), UserStudentRelationship.create, new Date());

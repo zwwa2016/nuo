@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yinuo.validation.NeedRole;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -96,7 +97,8 @@ public class IndexAspect {
         StringBuilder urlContent = new StringBuilder();
 
         try {
-        if (clazz.isAnnotationPresent(NeedLogin.class) || method.isAnnotationPresent(NeedLogin.class)) {
+        if (clazz.isAnnotationPresent(NeedLogin.class) || method.isAnnotationPresent(NeedLogin.class)
+                || clazz.isAnnotationPresent(NeedRole.class) || method.isAnnotationPresent(NeedRole.class)) {
             ServletRequestAttributes sra = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = sra.getRequest();
             urlContent.append("url: " + request.getRequestURL());
@@ -134,6 +136,14 @@ public class IndexAspect {
             if (loginInfo == null) {
             	 throw new NeedAuthorizationException("ticket过期，请重新登录");
             }else {
+
+                //校验权限
+                if(clazz.isAnnotationPresent(NeedRole.class) || method.isAnnotationPresent(NeedRole.class)) {
+                    NeedRole needRole = clazz.getAnnotation(NeedRole.class);
+                    int needRoleValue = needRole.value();
+                    loginInfo.checkLevel(needRoleValue);
+                }
+
             	//刷新时间
             	jedisUtil.set(RedisNameSpace.LOGIN + ticket, JSON.toJSONString(loginInfo), RedisNameSpace.LOGIN_TIME);
             	jedisUtil.set(loginInfo.getWechatOpenid(), ticket, RedisNameSpace.LOGIN_TIME);

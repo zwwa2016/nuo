@@ -3,6 +3,7 @@ package com.yinuo.service;
 import java.util.Date;
 import java.util.List;
 
+import com.yinuo.bean.Student;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserStudentService {
 	
 	@Autowired
 	private UserStudentMapper userStudentMapper;
+
+	@Autowired
+	private StudentService studentService;
 	
 	public long insert(User loginUser, UserStudent userStudent) {
 
@@ -28,6 +32,13 @@ public class UserStudentService {
 			throw new InvalidArgumentException("你已经绑定过该学生");
 		}
 
+		Student student = studentService.selectOne(userStudent.getStudentId());
+		if(student == null) {
+			throw new InvalidArgumentException("找不到的学生");
+		}
+
+		userStudent.setSchoolId(student.getSchoolId());
+		userStudent.setClassId(student.getClassId());
 		CommonUtil.setDefaultValue(userStudent);
 		
 		userStudent.setCreateTime(DateTool.standardSdf.format(new Date()));

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.yinuo.bean.Constant;
+import com.yinuo.service.ManagerClassService;
+import com.yinuo.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,12 @@ public class UserController {
 	
 	@Autowired
 	private WechatService wechatService;
+
+	@Autowired
+	private ManagerService managerService;
+
+	@Autowired
+	private ManagerClassService managerClassService;
 	
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -76,14 +84,18 @@ public class UserController {
         }
 		
 		if(loginUser.getId() == null || loginUser.getId().longValue() <= 0) {
-			loginUser.setRole(Constant.UserRole.user);
 			userService.insert(loginUser);
 		}else {
 			userService.update(loginUser);
 		}
 		
 		loginUser = userService.selectByOpenid(openid);
-		
+		//设置管理员信息
+		loginUser.setManager(managerService.selectByUserid(loginUser.getId()));
+		if(loginUser.getManager() != null && loginUser.getManager().getId() > 0) {
+			loginUser.setManagerClassList(managerClassService.selectByManagerId(loginUser.getManager().getId()));
+		}
+
 		//获取昵称等信息
 		logger.info("wechatUserInfo: " + JSON.toJSONString(wechatUserInfo));
 		

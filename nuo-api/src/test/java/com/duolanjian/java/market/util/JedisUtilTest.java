@@ -1,6 +1,7 @@
 package com.duolanjian.java.market.util;
 
 
+import com.yinuo.util.Constant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class JedisUtilTest {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void get() {
+		System.out.println("info: "+ jedisUtil.get(Constant.RedisNameSpace.LOGIN + "fc02019d-6ada-43b7-a8d6-f10c1dc403e7"));
 	}
 	
 }

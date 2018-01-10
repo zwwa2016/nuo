@@ -1,30 +1,28 @@
 package com.yinuo.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yinuo.exception.InvalidHttpArgumentException;
-import com.yinuo.validation.IsInt;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public class UserStudent {
+public class ManagerClass {
 
 	private Long id;
-
-	private Long studentId;
-
-	private Long userId;
-
-	@IsInt(min=1, max=15)
-	private Integer relationship;
+	
+	private Long managerId;
 
 	private Long schoolId;
 
 	private Long classId;
+
+	private Long createId;
+
+	private Integer role;
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -36,30 +34,6 @@ public class UserStudent {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(Long studentId) {
-		this.studentId = studentId;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Integer getRelationship() {
-		return relationship;
-	}
-
-	public void setRelationship(Integer relationship) {
-		this.relationship = relationship;
 	}
 
 	public Date getCreateTime() {
@@ -75,15 +49,12 @@ public class UserStudent {
 		}
 	}
 
-	public UserStudent() {}
-	
-	public UserStudent(Long id, Long studentId, Long userId,
-			Integer relationship, Date createTime) {
-		this.id = id;
-		this.studentId = studentId;
-		this.userId = userId;
-		this.relationship = relationship;
-		this.createTime = createTime;
+	public Long getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(Long managerId) {
+		this.managerId = managerId;
 	}
 
 	public Long getSchoolId() {
@@ -100,6 +71,22 @@ public class UserStudent {
 
 	public void setClassId(Long classId) {
 		this.classId = classId;
+	}
+
+	public Long getCreateId() {
+		return createId;
+	}
+
+	public void setCreateId(Long createId) {
+		this.createId = createId;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 
 	public String toString() {
