@@ -94,4 +94,12 @@
 	    	and fk_student_id = #{studentId}
         </if>
     </select>
+	<select id="selectByStudentids" parameterType="Map" resultMap="userStudentMap">
+		SELECT *
+		FROM t_user_student
+		WHERE fk_student_id IN
+		<foreach item="item" index="index" collection="studentIds" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

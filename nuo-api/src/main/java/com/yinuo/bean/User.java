@@ -162,7 +162,7 @@ public class User {
 		this.managerClassList = managerClassList;
 		if(managerClassList != null && managerClassList.size() > 0) {
 			for(ManagerClass managerClass: managerClassList) {
-				if(role.intValue() == 0 || managerClass.getRole().intValue() < role.intValue()) {
+				if(role == null || role.intValue() == 0 || managerClass.getRole().intValue() < role.intValue()) {
 					setRole(managerClass.getRole());
 				}
 			}

@@ -42,10 +42,7 @@ wechat登陆
 			"avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/loVyFiaRialvJRVMTqMWSxnGVj4ibSEAgiasLRicIGFlcoibA5mYGqabHzzoPJH4w3HZDsrXRiaQ1QBNYUfHSEywwmtQQ/0",
 			"city": "",
 			"country": "China",
-			"province": "Beijing",
-			"role":1,
-			"schoolId":1,
-			"classId":1
+			"province": "Beijing"
 		}
 
 	response:
@@ -57,21 +54,36 @@ wechat登陆
 
 		{
 		    "code": 200,
-		    "cost": 7.699,
+		    "cost": 0.776,
 		    "loginUser": {
-		        "id": 1,
-		        "createTime": "2017-11-08 20:48:18",
+		        "id": 22,
+		        "createTime": "2018-01-09 21:17:16",
 		        "birthday": 0,
-		        "wechatNickname": "chenlisongabc",
-		        "sex": 0,
-		        "wechatOpenid": "onIX60AX6xG8RsqnPr1b-z9MGyzY",
-				"avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/loVyFiaRialvJRVMTqMWSxnGVj4ibSEAgiasLRicIGFlcoibA5mYGqabHzzoPJH4w3HZDsrXRiaQ1QBNYUfHSEywwmtQQ/0",
-				"city": "",
-				"country": "China",
-				"province": "Beijing",
-				"role":1,
-				"schoolId":1,
-				"classId":1
+		        "wechatNickname": "凭栏处、潇潇雨歇",
+		        "sex": 1,
+		        "manager": {
+		            "id": 1,
+		            "name": "cls",
+		            "userId": 22,
+		            "managerId": 1,
+		            "createTime": "1970-01-01 08:00:00"
+		        },
+		        "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/icKVaJJ7o9BLp6B70D7gm7gDtWB9QDeibwbn5oNuwrnc0rWsiaPnDUBW8icly1aK1IDOTzl7uE7aZsHYKsI6WficxeA/0",
+		        "province": "Beijing",
+		        "managerClass": [
+		            {
+		                "id": 1,
+		                "managerId": 1,
+		                "schoolId": 1,
+		                "classId": 1,
+		                "createId": 1,
+		                "role": 1,
+		                "createTime": "1970-01-01 08:00:00"
+		            }
+		        ],
+		        "wechatOpenid": "oUG0W0b1mJkwrVKDtfIJcIAMEYZw",
+		        "country": "China",
+		        "city": ""
 		    }
 		}
 
@@ -80,53 +92,58 @@ wechat登陆
 	创建：request/post: /students
 
 		{
-			"name": "student abc",
+			"name": "abcd",
 			"birthday": "1993-08-11 00:00:00",
 			"sex": 1,
 			"pic": "www.pic.com/pic.jpg",
-			"classId": 0
+			"schoolId": 1,
+			"classId": 1
 		}
 
 	更新：request/put: /students
 		{
-			"id": 1,
-			"name": "student abc",
+			"id": 8,
+			"name": "abc",
 			"birthday": "1993-08-11 00:00:00",
 			"sex": 1,
 			"pic": "www.pic.com/pic.jpg",
 			"classId": 0,
-			"state":2	//0未知，1尚未入学，2已入学
+			"schoolId": 1
 		}
 
 	删除：request/delete: /students?id=1
 
-	查询：request/get: /students?page=1&pageLength=10	/查询当前登录者的信息
-						/students?name=student abc222	/按照学生名查询
+	查询：request/get: 	/students?page=1&pageLength=10	/查询当前登录者绑定的信息
+						/students?name=abc	/按照学生名查询
+						/students?classId=3	/按照班级ID查询，需要至少老师权限
 
 		response: 
 		{
-		    "cost": 0.038,
-		    "code": 200,
+		    "count": 1,
 		    "data": [
 		        {
-		            "birthday": "2017-11-30 21:01:47",
-		            "userStudent": {
-		                "id": 15,
-		                "studentId": 2,
-		                "userId": 1,
-		                "relationship": 2,	//关系，1自己，2父亲，3母亲，4爷爷，5奶奶，6姑姑，7姑父，8姨，9姨父, 10创建者
-		                "createTime": "2017-12-23 21:09:47"
-		            },
-		            "classId": 0,
-		            "createTime": "2017-11-30 21:01:47",
+		            "id": 8,
+		            "createTime": "2018-01-11 22:18:59",
+		            "birthday": "1993-08-11 00:00:00",
 		            "sex": 1,
+		            "classId": 3,
+		            "managerId": 1,
 		            "name": "abc",
-		            "id": 2,
-		            "pic": "http://www.qqzhi.com/uploadpic/2015-01-22/022222987.jpg",
-		            "state": 2	//0未知，1尚未入学，2已入学,
+		            "schoolId": 1,
+		            "pic": "www.pic.com/pic.jpg",
+		            "userStudent": {
+		                "id": 42,
+		                "studentId": 8,
+		                "userId": 22,
+		                "relationship": 10,
+		                "schoolId": 1,
+		                "classId": 1,
+		                "createTime": "2018-01-11 22:18:59"
+		            }
 		        }
 		    ],
-		    "count": 1
+		    "code": 200,
+		    "cost": 0.336
 		}
 
 绑定学生信息
@@ -134,12 +151,14 @@ wechat登陆
 	绑定：request/post: /userStudents
 
 		{
-			"studentId": 2,
+			"studentId": 8,
 			"relationship": 2	//关系，1自己，2父亲，3母亲，4爷爷，5奶奶，6姑姑，7姑父，8姨，9姨父, 10创建者
 		}
 	
-	解绑：request/delete: /userStudents?id=1
+	解绑：request/delete: /userStudents?id=43
 
+
+//以下未测试-----------------------------------
 
 班级信息
 	

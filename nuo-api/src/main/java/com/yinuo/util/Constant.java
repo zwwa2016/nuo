@@ -28,32 +28,6 @@ public class Constant {
 		public static final int LOGIN_TIME = 60 * 30;
 	}
 	
-	public static class OrderState {
-		public static final int CREATE = 1;
-		public static final int ORDER = 2;
-		public static final int DELIVERY = 3;
-		public static final int CONFIRM = 4;
-		public static final int REFUND = 5;
-		public static final int END = 6;
-		
-		
-	}
-	
-	public static class DealState {
-		public static final int NOPASS = 1;
-		public static final int PASS = 2;		
-	}
-	
-	public static class CommodityState {
-		public static final int UP = 1;
-		public static final int DOWN = 2;
-	}
-	public static class FileType {
-		public static final int IMAGE_USER = 1;
-		public static final int IMAGE_SHOP= 2;
-		public static final int IMAGE_COMMODITY= 3;
-	}
-	
 }
 
 

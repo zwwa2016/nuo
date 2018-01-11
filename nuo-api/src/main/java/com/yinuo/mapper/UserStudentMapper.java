@@ -13,6 +13,8 @@ public interface UserStudentMapper extends MapperI<UserStudent>{
 	public List<UserStudent> selectListByUserid(@Param("userId")long userId, @Param("studentId")long studentId, @Param("limit")int limit, @Param("offset")int offset);
 
 	public int countListByUserid(@Param("userId")long userId, @Param("studentId")long studentId);
+
+	public List<UserStudent> selectByStudentids(@Param("studentIds")List<Long> studentIds);
 	
 }
  

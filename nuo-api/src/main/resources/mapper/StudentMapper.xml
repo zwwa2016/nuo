@@ -11,13 +11,14 @@
 		<result property="birthday" column="birthday" />
 		<result property="sex" column="sex" />
 		<result property="pic" column="pic" />
+		<result property="schoolId" column="fk_school_id" />
 		<result property="classId" column="fk_class_id" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_student(`name`, `birthday`, `sex`, `pic`, `fk_school_id`, fk_class_id`, `fk_manager_id`, `create_time`)
+		INSERT INTO t_student(`name`, `birthday`, `sex`, `pic`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`)
 		VALUES(#{name}, #{birthday}, #{sex}, #{pic}, #{schoolId}, #{classId}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="studentMap">
@@ -79,5 +80,16 @@
 		SELECT count(1)
 		FROM t_student
 		WHERE name = #{name}
+	</select>
+	<select id="selectByClassid" parameterType="Map" resultMap="studentMap">
+		SELECT *
+		FROM t_student
+		WHERE fk_class_id = #{classId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countByClassid" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_student
+		WHERE fk_class_id = #{classId}
 	</select>
 </mapper>

@@ -5,6 +5,8 @@ public class Constant {
 	public static class UserStudentRelationship {
 
 		public static final int create = 10;
+
+		public static final int MaxTimes = 3;
 	}
 
 	public static class Role {

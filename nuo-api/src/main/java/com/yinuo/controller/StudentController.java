@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yinuo.bean.Constant;
-import com.yinuo.validation.NeedRole;
+import com.yinuo.validation.RoleTeacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,8 @@ public class StudentController {
 	
 	@NeedLogin
 	@RequestMapping(value="/students", method=RequestMethod.GET)
-    public Object post(User loginUser, @RequestParam(defaultValue="") String name, @RequestParam(defaultValue="1") int page,
+    public Object post(User loginUser, @RequestParam(defaultValue="") String name, @RequestParam(defaultValue="0") long classId,
+					   @RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		List<Student> students = null;
@@ -47,6 +48,16 @@ public class StudentController {
 		if(name != null && !name.isEmpty()) {
 			students = studentService.selectByName(name);
 			count = studentService.countByName(name);
+		}else if(classId > 0L) {
+			students = studentService.selectByClassid(loginUser, classId, page, pageSize);
+			count = studentService.countByClassid(classId);
+
+			if(students != null && students.size() > 0) {
+				List<Long> studentIds = CommonUtil.entity(students, "id", Long.class);
+				List<UserStudent> uss = userStudentService.selectByStudentids(studentIds);
+				ussMap = CommonUtil.entityMap(uss, "studentId", Long.class);
+			}
+
 		}else if(page > 0 && pageSize > 0){
 			List<UserStudent> uss = userStudentService.selectListByUserid(loginUser.getId(), 0, page, pageSize);
 			count = userStudentService.countListByUserid(loginUser.getId(), 0);
@@ -67,8 +78,9 @@ public class StudentController {
 		result.put("count", count);
 		return result;
     }
-	
-	@NeedRole(Constant.Role.Teacher)
+
+    @NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/students", method=RequestMethod.DELETE)
     public Object post(User loginUser, @RequestParam long id){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -77,7 +89,8 @@ public class StudentController {
 		return result;
     }
 
-	@NeedRole(Constant.Role.Teacher)
+    @NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/students", method=RequestMethod.PUT)
     public Object put(User loginUser, @RequestBody String body){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -88,7 +101,8 @@ public class StudentController {
 		return result;
 	}
 
-	@NeedRole(Constant.Role.Teacher)
+	@NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/students", method=RequestMethod.POST)
 	public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();

@@ -6,7 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yinuo.validation.NeedRole;
+import com.yinuo.bean.Constant;
+import com.yinuo.validation.RoleManager;
+import com.yinuo.validation.RoleSchool;
+import com.yinuo.validation.RoleTeacher;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -94,11 +97,20 @@ public class IndexAspect {
             }
         }
 
+        //需要校验权限
+        int needCheckRole = 0;
+        if (clazz.isAnnotationPresent(RoleTeacher.class) || method.isAnnotationPresent(RoleTeacher.class)) {
+            needCheckRole = Constant.Role.Teacher;
+        }else if (clazz.isAnnotationPresent(RoleManager.class) || method.isAnnotationPresent(RoleManager.class)) {
+            needCheckRole = Constant.Role.Manager;
+        }else if (clazz.isAnnotationPresent(RoleSchool.class) || method.isAnnotationPresent(RoleSchool.class)) {
+            needCheckRole = Constant.Role.School;
+        }
+
         StringBuilder urlContent = new StringBuilder();
 
         try {
-        if (clazz.isAnnotationPresent(NeedLogin.class) || method.isAnnotationPresent(NeedLogin.class)
-                || clazz.isAnnotationPresent(NeedRole.class) || method.isAnnotationPresent(NeedRole.class)) {
+        if (clazz.isAnnotationPresent(NeedLogin.class) || method.isAnnotationPresent(NeedLogin.class)) {
             ServletRequestAttributes sra = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = sra.getRequest();
             urlContent.append("url: " + request.getRequestURL());
@@ -138,10 +150,8 @@ public class IndexAspect {
             }else {
 
                 //校验权限
-                if(clazz.isAnnotationPresent(NeedRole.class) || method.isAnnotationPresent(NeedRole.class)) {
-                    NeedRole needRole = clazz.getAnnotation(NeedRole.class);
-                    int needRoleValue = needRole.value();
-                    loginInfo.checkLevel(needRoleValue);
+                if(needCheckRole > 0) {
+                    loginInfo.checkLevel(needCheckRole);
                 }
 
             	//刷新时间

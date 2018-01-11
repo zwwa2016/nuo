@@ -3,6 +3,7 @@ package com.yinuo.service;
 import java.util.Date;
 import java.util.List;
 
+import com.yinuo.bean.Constant;
 import com.yinuo.bean.Student;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
@@ -31,6 +32,11 @@ public class UserStudentService {
 		if(count > 0) {
 			throw new InvalidArgumentException("你已经绑定过该学生");
 		}
+
+        count = countListByUserid(loginUser.getId(), 0L);
+        if(count > Constant.UserStudentRelationship.MaxTimes) {
+            throw new InvalidArgumentException(String.format("超过绑定次数：%d", Constant.UserStudentRelationship.MaxTimes));
+        }
 
 		Student student = studentService.selectOne(userStudent.getStudentId());
 		if(student == null) {
@@ -62,14 +68,16 @@ public class UserStudentService {
 		}
 		userStudentMapper.delete(id);
 	}
-	
+
 	public List<UserStudent> selectListByUserid(long userId, long studentId, int page, int pageSize) {
 		return userStudentMapper.selectListByUserid(userId, studentId, pageSize, (page-1)*pageSize);
 	}
-	
-	
+
 	public int countListByUserid(long userId, long studentId) {
 		return userStudentMapper.countListByUserid(userId, studentId);
 	}
-	
+
+	public List<UserStudent> selectByStudentids(List<Long> studentIds) {
+		return userStudentMapper.selectByStudentids(studentIds);
+	}
 }
