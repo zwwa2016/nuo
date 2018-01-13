@@ -87,7 +87,7 @@ wechat登陆
 		    }
 		}
 
-学生信息
+学生信息/增删改需要老师及以上权限
 
 	创建：request/post: /students
 
@@ -157,10 +157,53 @@ wechat登陆
 	
 	解绑：request/delete: /userStudents?id=43
 
+学校信息/增删改需要管理员权限
+	
+	新增：request/post: /schools
 
-//以下未测试-----------------------------------
+		{
+			"name": "abc"
+		}
 
-班级信息
+	删除：request/delete: /schools?id=1
+	
+	修改：request/put: /schools
+
+		{
+			"id": 1,
+			"name": "abc2"
+		}
+
+	查询：request/get: /schools?id=4
+						/schools?page=1&pageSize=10
+
+		{
+		    "count": 3,
+		    "data": [
+		        {
+		            "id": 4,
+		            "name": "abc2",
+		            "managerId": 1,
+		            "createTime": "2018-01-13 16:09:39"
+		        },
+		        {
+		            "id": 3,
+		            "name": "abc",
+		            "managerId": 1,
+		            "createTime": "2018-01-13 16:09:16"
+		        },
+		        {
+		            "id": 2,
+		            "name": "abc",
+		            "managerId": 1,
+		            "createTime": "2018-01-13 16:06:57"
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.307
+		}
+
+班级信息/增删改需要学校管理权限
 	
 	新增：request/post: /classes
 
@@ -181,23 +224,34 @@ wechat登陆
 			"schoolId": 1	//归属学校ID
 		}
 
-	查询：request/get: /classes?id=1
-						/classes?page=1&pageSize=10
+	查询：request/get: /classes?id=4
+						/classes?schoolId=1&page=1&pageSize=10
 
 		{
-		    "count": 1,
+		    "count": 2,
 		    "data": [
 		        {
-		            "id": 1,
+		            "id": 3,
 		            "grade": 1,
+		            "number": 1,
+		            "schoolId": 1,
+		            "managerId": 1,
+		            "createTime": "2018-01-11 22:49:00"
+		        },
+		        {
+		            "id": 4,
+		            "grade": 2,
 		            "number": 2,
 		            "schoolId": 1,
-		            "createTime": "2017-12-07 20:46:07"
+		            "managerId": 1,
+		            "createTime": "2018-01-13 14:56:51"
 		        }
 		    ],
 		    "code": 200,
-		    "cost": 5.054
+		    "cost": 1.718
 		}
+
+//以下未测试-----------------------------------
 
 课程信息
 

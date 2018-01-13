@@ -1,28 +1,22 @@
 package com.yinuo.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yinuo.exception.InvalidHttpArgumentException;
-import com.yinuo.validation.IsInt;
+import com.yinuo.validation.IsString;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public class Classes {
+public class School {
 
 	private Long id;
 	
-	@IsInt(min=1, max=6)
-	private Integer grade;
-
-	@IsInt(min=1, max=99)
-	private Integer number;
-
-	@IsInt(min=1, max=1)
-	private Long schoolId;
+	@IsString(minLength = 1, maxLength = 63)
+	private String name;
 
 	private Long managerId;
 	
@@ -51,36 +45,20 @@ public class Classes {
 		return createTime;
 	}
 
-	public Integer getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Integer grade) {
-		this.grade = grade;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
-	}
-
-	public Long getSchoolId() {
-		return schoolId;
-	}
-
-	public void setSchoolId(Long schoolId) {
-		this.schoolId = schoolId;
-	}
-
 	public Long getManagerId() {
 		return managerId;
 	}
 
 	public void setManagerId(Long managerId) {
 		this.managerId = managerId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String toString() {

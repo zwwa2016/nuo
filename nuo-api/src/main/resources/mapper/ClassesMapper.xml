@@ -10,12 +10,13 @@
 		<result property="grade" column="grade" />
 		<result property="number" column="number" />
 		<result property="schoolId" column="fk_school_id" />
+		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Classes" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_class(`grade`, `number`, `fk_school_id`, `create_time`)
-		VALUES(#{grade}, #{number}, #{schoolId}, #{createTime})
+		INSERT INTO t_class(`grade`, `number`, `fk_school_id`, `fk_manager_id`, `create_time`)
+		VALUES(#{grade}, #{number}, #{schoolId}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="classesMap">
 		SELECT * 
@@ -52,6 +53,7 @@
 		SET `grade` = #{grade},
 		`number` = #{number},
 		`fk_school_id` = #{schoolId},
+		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime}
 		WHERE pk_id = #{id}
 	</update>
@@ -64,8 +66,15 @@
 	<delete id="deleteAll">
 		delete from t_class
     </delete>
-    <select id="countListByPage" parameterType="Map" resultType="Integer">
-        SELECT count(1) 
-        FROM t_class
-    </select>
+	<select id="selectBySchoolId" parameterType="Map" resultMap="classesMap">
+		SELECT *
+		FROM t_class
+		WHERE fk_school_id = #{schoolId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_class
+		WHERE fk_school_id = #{schoolId}
+	</select>
 </mapper>
