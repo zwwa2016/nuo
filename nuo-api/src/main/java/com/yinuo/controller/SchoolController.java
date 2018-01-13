@@ -5,6 +5,7 @@ import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.service.SchoolService;
 import com.yinuo.validation.NeedLogin;
+import com.yinuo.validation.RoleManager;
 import com.yinuo.validation.RoleSchool;
 import com.yinuo.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class SchoolController {
     }
 	
 	@NeedLogin
-	@RoleSchool
+	@RoleManager
 	@RequestMapping(value="/schools", method=RequestMethod.DELETE)
     public Object post(User loginUser, @RequestParam long id){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -58,7 +59,7 @@ public class SchoolController {
     }
 	
 	@NeedLogin
-	@RoleSchool
+	@RoleManager
 	@RequestMapping(value="/schools", method=RequestMethod.PUT)
     public Object put(User loginUser, @RequestBody String body){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -70,7 +71,7 @@ public class SchoolController {
 	}
 	
 	@NeedLogin
-	@RoleSchool
+	@RoleManager
 	@RequestMapping(value="/schools", method=RequestMethod.POST)
     public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();

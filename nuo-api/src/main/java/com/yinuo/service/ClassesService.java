@@ -39,6 +39,7 @@ public class ClassesService {
 	
 	public void delete (User loginUser, long id) {
 		Classes classes = selectOne(id);
+		CommonUtil.checkNull(classes, "找不到该班级");
 		loginUser.checkLevel(Constant.Role.School, classes.getSchoolId(), classes.getId());
 
 		classesMapper.delete(id);

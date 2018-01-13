@@ -251,6 +251,107 @@ wechat登陆
 		    "cost": 1.718
 		}
 
+考试批次/增删改需要老师权限
+	
+	新增：request/post: /scoreBatchs
+		
+		{
+			"name": "期中考试语文20170812",	
+			"schoolId": 1,	
+			"classId": 1
+		}
+
+	删除：request/delete: /scoreBatchs?id=1
+
+	修改：request/put: /scoreBatchs
+
+		{
+			"id": 1,
+			"name": "期中考试语文20170812",	
+			"schoolId": 1,	
+			"classId": 1
+		}
+
+	查询：request/get: /scoreBatchs?schoolId=1&page=1&pageSize=10
+					  /scoreBatchs?id=1
+					  /scoreBatchs?classId=1&page=1&pageSize=10
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 2,
+		            "name": "期中考试语文20170812",
+		            "schoolId": 1,
+		            "classId": 1,
+		            "managerId": 0,
+		            "createTime": "2018-01-13 16:51:07"
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.288
+		}
+
+
+分数信息/增删改需要老师权限
+
+	新增：request/post: /scores
+		
+		{
+		    "type":1,
+		    "studentId":8,
+		    "score":87,
+		    "pic":"http://www.baidu.com/1.jpg",
+		    "scoreBatchId":2
+		}
+
+		type>1考试，2作业
+
+	删除：request/delete: /scores?id=1
+
+	修改：request/put: /scores
+
+		{
+		    "id":8,
+		    "type":1,
+		    "studentId":8,
+		    "score":89,
+		    "pic":"http://www.baidu.com/1.jpg",
+		    "scoreBatchId":2
+		}
+
+	查询：request/get: /scores?studentId=1&type=1&page=1&pageSize=10	//type可选
+					  /scores?id=1
+					  /scores?classId=1&type=1&scoreBatchId=1&page=1&pageSize=10	//type, scoreBatchId可选
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 9,
+		            "createTime": "2018-01-13 17:18:44",
+		            "classId": 3,
+		            "studentId": 8,
+		            "scoreBatchId": 2,
+		            "managerId": 0,
+		            "score": 88,
+		            "scoreBatch": {
+		                "id": 2,
+		                "name": "期中考试语文20170812",
+		                "schoolId": 1,
+		                "classId": 1,
+		                "managerId": 0,
+		                "createTime": "2018-01-13 16:51:07"
+		            },
+		            "pic": "http://www.baidu.com/1.jpg",
+		            "type": 1
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.3
+		}
+
+
 //以下未测试-----------------------------------
 
 课程信息
@@ -312,61 +413,6 @@ wechat登陆
 		    "cost": 1.648
 		}
 
-分数信息
-
-	新增：request/post: /scores
-		
-		{
-			"name": "期中考试语文20170812",	
-			"type": 1,		
-			"studentId": 1,	
-			"score": 87,	
-			"pic": "http://www.baidu.com/1.jpg"
-		}
-
-		type>1考试，2作业
-
-	删除：request/delete: /scores?id=1
-
-	修改：request/put: /scores
-
-		{
-			"id": 1,
-			"name": "期中考试语文20170812",	
-			"type": 1,		
-			"studentId": 1,	
-			"score": 87,	
-			"pic": "http://www.baidu.com/1.jpg"
-		}
-
-	查询：request/get: /scores?studentId=1&type=1&page=1&pageSize=10
-						/scores?id=1
-
-		{
-		    "count": 2,
-		    "data": [
-		        {
-		            "id": 2,
-		            "name": "期中考试数学1",
-		            "type": 1,
-		            "studentId": 1,
-		            "score": 87,
-		            "pic": "http://www.baidu.com/1.jpg",
-		            "createTime": "2017-12-09 01:28:48"
-		        },
-		        {
-		            "id": 3,
-		            "name": "期中考试语文1",
-		            "type": 1,
-		            "studentId": 1,
-		            "score": 87,
-		            "pic": "http://www.baidu.com/1.jpg",
-		            "createTime": "2017-12-09 01:28:51"
-		        }
-		    ],
-		    "code": 200,
-		    "cost": 0.359
-		}
 
 图片上传：
 	

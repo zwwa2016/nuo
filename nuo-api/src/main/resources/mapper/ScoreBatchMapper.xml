@@ -3,12 +3,11 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinuo.mapper.ScoreBatchBatchMapper">
+<mapper namespace="com.yinuo.mapper.ScoreBatchMapper">
 
-	<resultMap id="ScoreBatchBatchMap" type="ScoreBatch">
+	<resultMap id="scoreBatchMap" type="ScoreBatch">
 		<result property="id" column="pk_id" />
 		<result property="name" column="name" />
-		<result property="type" column="type" />
 		<result property="schoolId" column="fk_school_id" />
 		<result property="classId" column="fk_class_id" />
 		<result property="managerId" column="fk_manager_id" />
@@ -16,23 +15,23 @@
 	</resultMap>
 	
     <insert id="insert" parameterType="ScoreBatch" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score_batch(`name`, `type`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`)
-		VALUES(#{name}, #{type}, #{schoolId}, #{classId}, #{managerId}, #{createTime})
+		INSERT INTO t_score_batch(`name`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`)
+		VALUES(#{name}, #{schoolId}, #{classId}, #{managerId}, #{createTime})
 	</insert>
-	<select id="selectOne" parameterType="Map" resultMap="ScoreBatchBatchMap">
+	<select id="selectOne" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT * 
 		FROM t_score_batch
 		WHERE pk_id = #{id}
 	</select>
 	
-	<select id="selectListByPage" parameterType="Map" resultMap="ScoreBatchBatchMap">
+	<select id="selectListByPage" parameterType="Map" resultMap="scoreBatchMap">
         SELECT * 
         FROM t_score_batch
         order by pk_id desc
         LIMIT #{limit}
         OFFSET #{offset}
     </select>
-    <select id="selectListByIds" parameterType="Map" resultMap="ScoreBatchBatchMap">
+    <select id="selectListByIds" parameterType="Map" resultMap="scoreBatchMap">
         SELECT * 
         FROM t_score_batch
         WHERE pk_id IN
@@ -51,7 +50,6 @@
 	<update id="update" parameterType="ScoreBatch">
 		UPDATE t_score_batch
 		SET `name` = #{name},
-		`type` = #{type},
 		`fk_school_id` = #{schoolId},
 		`fk_class_id` = #{classId},
 		`fk_manager_id` = #{managerId},
@@ -67,4 +65,26 @@
 	<delete id="deleteAll">
 		delete from t_score_batch
     </delete>
+	<select id="selectBySchoolId" parameterType="Map" resultMap="scoreBatchMap">
+		SELECT *
+		FROM t_score_batch
+		WHERE fk_school_id = #{schoolId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_score_batch
+		WHERE fk_school_id = #{schoolId}
+	</select>
+	<select id="selectByClassId" parameterType="Map" resultMap="scoreBatchMap">
+		SELECT *
+		FROM t_score_batch
+		WHERE fk_class_id = #{classId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countByClassId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_score_batch
+		WHERE fk_class_id = #{classId}
+	</select>
 </mapper>

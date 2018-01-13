@@ -15,21 +15,21 @@ import com.yinuo.validation.IsString;
 public class Score {
 
 	private Long id;
-	
-	@IsString(minLength=1,maxLength=15)
-	private String name;
 
 	@IsInt(min=1, max=2)
 	private Integer type;
 	
 	private Long studentId;
-	
+
+	@IsInt(max = 1000, min = 0)
 	private Integer score;
 	
 	@IsString(minLength=1, maxLength=255)
 	private String pic;
 
 	private Long scoreBatchId;
+
+	private Long classId;
 
 	private Long managerId;
 
@@ -43,14 +43,6 @@ public class Score {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Date getCreateTime() {
@@ -112,6 +104,14 @@ public class Score {
 
 	public void setManagerId(Long managerId) {
 		this.managerId = managerId;
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
 	}
 
 	public String toString() {

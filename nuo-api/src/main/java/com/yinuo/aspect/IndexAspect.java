@@ -138,8 +138,8 @@ public class IndexAspect {
             }
             if (ticket != null && !"".equals(ticket)) {
                 try {
-                	logger.info("key: {}", RedisNameSpace.LOGIN + ticket);
                     loginInfo = JSON.parseObject(jedisUtil.get(RedisNameSpace.LOGIN + ticket), User.class);
+                    urlContent.append(", userId: " + loginInfo.getId() + ", userName: " + loginInfo.getWechatNickname());
                 } catch(Exception e) {
                     throw new NeedAuthorizationException(RedisNameSpace.LOGIN_URL);
                 }
@@ -187,11 +187,10 @@ public class IndexAspect {
 			}
 		} catch (Exception e) {
 			Method methodE = exceptionHandlerMap.getMethod(e.getClass());
-			System.out.println("method:" + methodE.getName());
 			if (methodE != null) {
 				Object errorResponse = methodE.invoke(
 						exceptionHandlerMap.getExceptionHandler(methodE), e);
-				System.out.println("exceptionHandlerMap.getExceptionHandler(methodE):" + exceptionHandlerMap.getExceptionHandler(methodE));
+                urlContent.append(", response: " + JSON.toJSONString(errorResponse));
 				return errorResponse;
 			}
 		}finally {

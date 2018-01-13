@@ -7,19 +7,19 @@
 
 	<resultMap id="scoreMap" type="Score">
 		<result property="id" column="pk_id" />
-		<result property="name" column="name" />
 		<result property="type" column="type" />
 		<result property="studentId" column="fk_student_id" />
+		<result property="classId" column="fk_class_id" />
 		<result property="score" column="score" />
 		<result property="pic" column="pic" />
-		<result property="coreBatchId" column="fk_score_batch_id" />
+		<result property="scoreBatchId" column="fk_score_batch_id" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Score" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score(`name`, `type`, `fk_student_id`, `score`, `pic`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
-		VALUES(#{name}, #{type}, #{studentId}, #{score}, #{pic}, #{scoreBatchId}, #{managerId}, #{createTime})
+		INSERT INTO t_score(`type`, `fk_student_id`, `fk_class_id`, `score`, `pic`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
+		VALUES(#{type}, #{studentId}, #{classId}, #{score}, #{pic}, #{scoreBatchId}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreMap">
 		SELECT * 
@@ -52,12 +52,12 @@
     </select>
 	<update id="update" parameterType="Score">
 		UPDATE t_score
-		SET `name` = #{name},
-		`type` = #{type},
+		SET `type` = #{type},
 		`fk_student_id` = #{studentId},
+		`fk_class_id` = #{classId},
 		`score` = #{score},
 		`pic` = #{pic},
-		`fk_score_batch_id` = #{scoreBtachId},
+		`fk_score_batch_id` = #{scoreBatchId},
 		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime}
 		WHERE pk_id = #{id}
@@ -71,21 +71,44 @@
 	<delete id="deleteAll">
 		delete from t_score
     </delete>
-    <select id="selectByStudentId" parameterType="Map" resultMap="scoreMap">
-        SELECT * 
-        FROM t_score
-        WHERE fk_student_id = #{studentId}
-        <if test="type > 0">
-        	and type = #{type}
-        </if>
-        limit #{limit} offset #{offset}
-    </select>
-    <select id="countByStudentId" parameterType="Map" resultType="Integer">
-        SELECT count(1) 
-        FROM t_score
-        WHERE fk_student_id = #{studentId}
-        <if test="type > 0">
-        	and type = #{type}
-        </if>
-    </select>
+	<select id="selectByStudentId" parameterType="Map" resultMap="scoreMap">
+		SELECT *
+		FROM t_score
+		WHERE fk_student_id = #{studentId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countByStudentId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_score
+		WHERE fk_student_id = #{studentId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
+	</select>
+	<select id="selectByClassId" parameterType="Map" resultMap="scoreMap">
+		SELECT *
+		FROM t_score
+		WHERE `fk_class_id` = #{classId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
+		<if test="scoreBatchId > 0">
+			and fk_score_batch_id = #{scoreBatchId}
+		</if>
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countByClassId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_score
+		WHERE `fk_class_id` = #{classId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
+		<if test="scoreBatchId > 0">
+			and fk_score_batch_id = #{scoreBatchId}
+		</if>
+	</select>
 </mapper>

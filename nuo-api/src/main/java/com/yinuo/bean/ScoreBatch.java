@@ -18,9 +18,6 @@ public class ScoreBatch {
 	
 	@IsString(minLength=1,maxLength=15)
 	private String name;
-
-	@IsInt(min=1, max=2)
-	private Integer type;
 	
 	private Long schoolId;
 	
@@ -50,14 +47,6 @@ public class ScoreBatch {
 
 	public Date getCreateTime() {
 		return createTime;
-	}
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
 	}
 
 	public void setCreateTime(String createTime) {

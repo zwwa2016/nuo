@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yinuo.exception.InvalidArgumentException;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -230,6 +231,11 @@ public class CommonUtil {
 		}
 		return list;
 	}
-	
+
+	public static void checkNull(Object obj, String desc) {
+		if(obj == null) {
+			throw new InvalidArgumentException(desc);
+		}
+	}
 
 }
