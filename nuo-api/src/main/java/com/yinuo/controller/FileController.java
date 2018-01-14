@@ -22,7 +22,7 @@ public class FileController {
 	@Autowired
 	private Validation validation;
 
-	private static String path = "/home/tomcat/apache-tomcat-default/webapps/ROOT/nuo/";
+	private static String path = "/home/tomcat/apache-tomcat-default/webapps/ROOT/";
 
 	//private static String path = "/opt/images/";
 
@@ -43,7 +43,7 @@ public class FileController {
 			String fileName = uuid + "." + imageName;
 			try {
 				file.transferTo(new File(path + fileName));
-				result.put("url", "https://www.kehue.com/nuo/" + fileName);
+				result.put("url", "https://www.kehue.com/" + fileName);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

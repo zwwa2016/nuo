@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.yinuo.bean.Student;
 import com.yinuo.service.StudentService;
+import com.yinuo.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,9 @@ public class CourseController {
 		}
 		
 		if(id > 0) {
-			list.add(service.selectOne(id));
+			Course course = service.selectOne(id);
+			CommonUtil.checkNull(course, "找不到该课程");
+			list.add(course);
 			count = 1;
 		}else if(studentId > 0 && begin!=null && end!=null){
 			Student student = studentService.selectOne(studentId);

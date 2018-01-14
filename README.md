@@ -424,7 +424,7 @@ wechat登陆
 		{
 		    "cost": 0.182,
 		    "code": 200,
-		    "url": "https://www.kehue.com/nuo/19db8ea2af2d48dcb0accd4edffddba1.jpeg"
+		    "url": "https://www.kehue.com/19db8ea2af2d48dcb0accd4edffddba1.jpeg"
 		}
 
 

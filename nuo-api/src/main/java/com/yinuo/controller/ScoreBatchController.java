@@ -4,6 +4,7 @@ import com.yinuo.bean.ScoreBatch;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.service.ScoreBatchService;
+import com.yinuo.util.CommonUtil;
 import com.yinuo.validation.NeedLogin;
 import com.yinuo.validation.RoleTeacher;
 import com.yinuo.validation.Validation;
@@ -35,6 +36,7 @@ public class ScoreBatchController {
 		int count = 0;
 		if(id > 0) {
 			ScoreBatch score = service.selectOne(id);
+			CommonUtil.checkNull(score, "找不到该成绩批次");
 			scores.add(score);
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0) {

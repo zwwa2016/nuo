@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yinuo.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class ScoreController {
 		int count = 0;
 		if(id > 0) {
 			Score score = service.selectOne(id);
+			CommonUtil.checkNull(score, "找不到该次成绩");
 			scores.add(score);
 			count = 1;
 		}else if(studentId > 0 && page > 0 && pageSize > 0) {

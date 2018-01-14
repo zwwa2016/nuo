@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yinuo.exception.InvalidArgumentException;
+import com.yinuo.util.CommonUtil;
 import com.yinuo.validation.RoleSchool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,8 @@ public class ClassesController {
 		List<Classes> list = new ArrayList<Classes>();
 		
 		if(id > 0) {
+			Classes classes = service.selectOne(id);
+			CommonUtil.checkNull(classes, "找不到该班级");
 			list.add(service.selectOne(id));
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0){

@@ -4,6 +4,7 @@ import com.yinuo.bean.School;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.service.SchoolService;
+import com.yinuo.util.CommonUtil;
 import com.yinuo.validation.NeedLogin;
 import com.yinuo.validation.RoleManager;
 import com.yinuo.validation.RoleSchool;
@@ -34,7 +35,9 @@ public class SchoolController {
 		List<School> list = new ArrayList<School>();
 		
 		if(id > 0) {
-			list.add(service.selectOne(id));
+			School school = service.selectOne(id);
+			CommonUtil.checkNull(school, "找不到该学校");
+			list.add(school);
 			count = 1;
 		}else if(page > 0 && pageSize > 0){
 			list = service.selectListByPage(page, pageSize);
