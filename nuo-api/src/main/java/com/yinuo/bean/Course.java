@@ -1,37 +1,24 @@
 package com.yinuo.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yinuo.exception.InvalidHttpArgumentException;
-import com.yinuo.validation.IsString;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Course {
 
 	private Long id;
-	
-	@IsString(minLength=1, maxLength=31)
-	private String name;
-	
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date beginTime;
-	
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date endTime;
 
 	private Long classId;
 
-	private Long teacherId;
-	
-	@IsString(minLength=1, maxLength=255)
-	private String remark;
+	private String pic;
+
+	private Long managerId;
 	
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -45,40 +32,6 @@ public class Course {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getBeginTime() {
-		return beginTime;
-	}
-
-	public void setBeginTime(String beginTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			this.beginTime = sdf.parse(beginTime);
-		} catch (ParseException e) {
-			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
-		}
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			this.endTime = sdf.parse(endTime);
-		} catch (ParseException e) {
-			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
-		}
-	}
-
 	public Long getClassId() {
 		return classId;
 	}
@@ -87,20 +40,20 @@ public class Course {
 		this.classId = classId;
 	}
 
-	public String getRemark() {
-		return remark;
+	public String getPic() {
+		return pic;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 
-	public Long getTeacherId() {
-		return teacherId;
+	public Long getManagerId() {
+		return managerId;
 	}
 
-	public void setTeacherId(Long teacherId) {
-		this.teacherId = teacherId;
+	public void setManagerId(Long managerId) {
+		this.managerId = managerId;
 	}
 
 	public Date getCreateTime() {

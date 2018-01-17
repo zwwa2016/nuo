@@ -21,6 +21,8 @@
 		<typeAlias alias="ManagerClass" type="com.yinuo.bean.ManagerClass" />
 		<typeAlias alias="School" type="com.yinuo.bean.School" />
 		<typeAlias alias="ScoreBatch" type="com.yinuo.bean.ScoreBatch" />
+		<typeAlias alias="ClassStat" type="com.yinuo.bean.ClassStat" />
+		<typeAlias alias="StudentStat" type="com.yinuo.bean.StudentStat" />
 		<!-- <typeAlias alias="Order" type="com.duolanjian.java.market.bean.Order" />
 		<typeAlias alias="Shop" type="com.duolanjian.java.market.bean.Shop" />
 		<typeAlias alias="Commodity" type="com.duolanjian.java.market.bean.Commodity" />
@@ -45,6 +47,8 @@
 		<mapper resource="mapper/ManagerClassMapper.xml" />
 		<mapper resource="mapper/SchoolMapper.xml" />
 		<mapper resource="mapper/ScoreBatchMapper.xml" />
+		<mapper resource="mapper/ClassStatMapper.xml" />
+		<mapper resource="mapper/StudentStatMapper.xml" />
 		<!-- <mapper resource="mapper/OrderMapper.xml"/>
 		<mapper resource="mapper/ShopMapper.xml"/>
 		<mapper resource="mapper/CommodityMapper.xml"/>

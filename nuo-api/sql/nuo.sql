@@ -44,15 +44,16 @@ DROP TABLE IF EXISTS `t_class_stat`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_class_stat` (
   `pk_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '批次中，班级老师点击状态完成时异步计算。',
+  `subject` tinyint(4) NOT NULL DEFAULT '0' COMMENT '学科',
   `fk_score_batch_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '考试批次ID',
   `fk_school_id` bigint(20) NOT NULL DEFAULT '0',
   `fk_class_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级ID',
   `high_score` int(11) NOT NULL DEFAULT '0' COMMENT '最高分',
   `average_score` int(11) NOT NULL DEFAULT '0' COMMENT '平均分',
   `median_score` int(11) NOT NULL DEFAULT '0' COMMENT '中位数分数',
-  `create_time` datetime DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +70,7 @@ CREATE TABLE `t_course` (
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +164,7 @@ CREATE TABLE `t_score` (
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +187,7 @@ CREATE TABLE `t_score_batch` (
   `fk_fix_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '操作完成的管理员',
   `fix_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '完成时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,13 +221,13 @@ DROP TABLE IF EXISTS `t_student_stat`;
 CREATE TABLE `t_student_stat` (
   `pk_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '批次中，班级老师点击状态完成时异步计算。',
   `fk_student_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '学生ID',
-  `t_student_statcol` bigint(20) NOT NULL,
-  `high_score` int(11) NOT NULL DEFAULT '0',
-  `average_score` int(11) NOT NULL DEFAULT '0',
-  `median_score` int(11) NOT NULL DEFAULT '0',
-  `update_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
+  `subject` tinyint(4) NOT NULL DEFAULT '0' COMMENT '学科',
+  `high_score` int(11) NOT NULL DEFAULT '0' COMMENT '最高分',
+  `average_score` int(11) NOT NULL DEFAULT '0' COMMENT '平均分',
+  `median_score` int(11) NOT NULL DEFAULT '0' COMMENT '中位数',
+  `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +249,7 @@ CREATE TABLE `t_user` (
   `country` varchar(15) NOT NULL DEFAULT '' COMMENT '国家',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +268,7 @@ CREATE TABLE `t_user_student` (
   `relationship` tinyint(4) NOT NULL DEFAULT '0' COMMENT '关系，1自己，2父亲，3母亲，4爷爷，5奶奶，6姑姑，7姑父，8姨，9姨父, 10创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -279,4 +280,4 @@ CREATE TABLE `t_user_student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-15  0:00:23
+-- Dump completed on 2018-01-17 22:54:35

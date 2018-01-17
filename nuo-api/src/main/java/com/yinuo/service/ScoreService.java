@@ -76,12 +76,12 @@ public class ScoreService {
 		return scoreMapper.selectListByIds(ids);
 	}
 
-	public List<Score> selectByStudentId(long studentId, int type, int page, int pageSize) {
-		return scoreMapper.selectByStudentId(studentId, type, pageSize, (page-1) * pageSize);
+	public List<Score> selectByStudentId(long studentId, int type, int subject, int page, int pageSize) {
+		return scoreMapper.selectByStudentId(studentId, type, subject, pageSize, (page-1) * pageSize);
 	}
 
-	public int countByStudentId(long studentId, int type) {
-		return scoreMapper.countByStudentId(studentId, type);
+	public int countByStudentId(long studentId, int type, int subject) {
+		return scoreMapper.countByStudentId(studentId, type, subject);
 	}
 
 

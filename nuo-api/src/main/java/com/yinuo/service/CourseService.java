@@ -3,6 +3,8 @@ package com.yinuo.service;
 import java.util.Date;
 import java.util.List;
 
+import com.yinuo.bean.Classes;
+import com.yinuo.bean.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +22,16 @@ public class CourseService {
 	
 	@Autowired
 	private CourseMapper courseMapper;
+
+	@Autowired
+	private ClassesService classesService;
 	
 	public long insert(User loginUser, Course course) {
+		checkLevel(loginUser, course.getClassId());
 		CommonUtil.setDefaultValue(course);
 		
 		course.setCreateTime(DateTool.standardSdf.format(new Date()));
+		course.setManagerId(loginUser.getManager().getId());
 		courseMapper.insert(course);
 		return course.getId();
 	}
@@ -33,7 +40,11 @@ public class CourseService {
 		return courseMapper.selectOne(id);
 	}
 	
-	public void delete (long id) {
+	public void delete (User loginUser, long id) {
+		Course course = courseMapper.selectOne(id);
+		CommonUtil.checkNull(course, "找不到该课程");
+
+		checkLevel(loginUser, course.getClassId());
 		courseMapper.delete(id);
 	}
 	
@@ -41,6 +52,8 @@ public class CourseService {
 		Course src = selectOne(course.getId());
 		
 		course = (Course) MergerUtil.merger(src, course);
+
+		checkLevel(loginUser, course.getClassId());
 		courseMapper.update(course);
 	}
 	
@@ -52,12 +65,14 @@ public class CourseService {
 		return courseMapper.selectListByPage(pageLength, (page-1)*pageLength);
 	}
 	
-	public List<Course> selectByClassId(long classId, Date beginTime, Date endTime) {
-		return courseMapper.selectByClassId(classId, beginTime, endTime);
+	public Course selectByClassId(long classId) {
+		return courseMapper.selectByClassId(classId);
 	}
 
-	public int countByClassId(long classId, Date beginTime, Date endTime) {
-		return courseMapper.countByClassId(classId, beginTime, endTime);
+	public void checkLevel(User loginUser, long classId) {
+		Classes classes = classesService.selectOne(classId);
+		CommonUtil.checkNull(classes, "找不到该班级");
+		loginUser.checkLevel(Constant.Role.Teacher, classes.getSchoolId(), classId);
 	}
 	
 }

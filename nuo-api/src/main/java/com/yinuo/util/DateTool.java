@@ -13,8 +13,6 @@ public class DateTool {
 
 	public static SimpleDateFormat standardSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public static SimpleDateFormat standardSdf2 = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-	
 	public static int getSat(Date date) {
 		int count = 0;
 		Date begin = getMonthBegin(date);

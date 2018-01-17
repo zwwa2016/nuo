@@ -25,6 +25,19 @@ public class ScoreBatch {
 	
 	private Long managerId;
 
+	private Integer state;
+
+	@IsInt(min = 1, max = 10)
+	private Integer subject;
+
+	private Long parentId;
+
+	private Long fixManagerId;
+
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date fixTime;
+
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createTime;
@@ -80,6 +93,51 @@ public class ScoreBatch {
 
 	public void setManagerId(Long managerId) {
 		this.managerId = managerId;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public Integer getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Integer subject) {
+		this.subject = subject;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public Long getFixManagerId() {
+		return fixManagerId;
+	}
+
+	public void setFixManagerId(Long fixManagerId) {
+		this.fixManagerId = fixManagerId;
+	}
+
+	public Date getFixTime() {
+		return fixTime;
+	}
+
+	public void setFixTime(String fixTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.fixTime = sdf.parse(fixTime);
+		} catch (ParseException e) {
+			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
+		}
 	}
 
 	public String toString() {

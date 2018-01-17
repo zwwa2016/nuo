@@ -12,11 +12,19 @@
 		<result property="classId" column="fk_class_id" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
+
+		<result property="state" column="state" />
+		<result property="subject" column="subject" />
+		<result property="parentId" column="fk_parent_id" />
+		<result property="fixManagerId" column="fk_fix_manager_id" />
+		<result property="fixTime" column="fix_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="ScoreBatch" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score_batch(`name`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`)
-		VALUES(#{name}, #{schoolId}, #{classId}, #{managerId}, #{createTime})
+		INSERT INTO t_score_batch(`name`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
+		`state`, `subject`, `fk_parent_id`, `fk_fix_manager_id`, `fix_time`)
+		VALUES(#{name}, #{schoolId}, #{classId}, #{managerId}, #{createTime},
+		#{state}, #{subject}, #{parentId}, #{fixManagerId}, #{fixTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT * 
@@ -53,7 +61,12 @@
 		`fk_school_id` = #{schoolId},
 		`fk_class_id` = #{classId},
 		`fk_manager_id` = #{managerId},
-		`create_time` = #{createTime}
+		`create_time` = #{createTime},
+		`state` = #{state},
+		`subject` = #{subject},
+		`fk_parent_id` = #{parentId},
+		`fk_fix_manager_id` = #{fixManagerId},
+		`fix_time` = #{fixTime}
 		WHERE pk_id = #{id}
 	</update>
 
@@ -87,4 +100,30 @@
 		FROM t_score_batch
 		WHERE fk_class_id = #{classId}
 	</select>
+	<select id="selectByParentId" parameterType="Map" resultMap="scoreBatchMap">
+		SELECT *
+		FROM t_score_batch
+		WHERE `fk_parent_id` = #{parentId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countByParentId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_score_batch
+		WHERE fk_parent_id = #{parentId}
+	</select>
+	<select id="selectByState" parameterType="Map" resultMap="scoreBatchMap">
+		SELECT *
+		FROM t_score_batch
+		WHERE `state` = #{state}
+		limit #{limit}
+	</select>
+	<update id="updateBatch" parameterType="Map">
+		UPDATE t_score_batch
+		SET `state` = #{state},
+		`fix_time` = #{fixTime}
+		WHERE pk_id IN
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 </mapper>

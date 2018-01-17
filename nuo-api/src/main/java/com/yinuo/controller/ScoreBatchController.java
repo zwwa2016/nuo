@@ -28,7 +28,7 @@ public class ScoreBatchController {
 	@NeedLogin
 	@RequestMapping(value="/scoreBatchs", method=RequestMethod.GET)
     public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
-    		@RequestParam(defaultValue="0") long classId, @RequestParam(defaultValue="1") int page,
+    		@RequestParam(defaultValue="0") long classId, @RequestParam(defaultValue="0") long parentId, @RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -45,6 +45,9 @@ public class ScoreBatchController {
 		}else if(classId > 0 && page > 0 && pageSize > 0) {
 			scores = service.selectByClassId(classId, page, pageSize);
 			count = service.countByClassId(classId);
+		}else if(parentId > 0 && page > 0 && pageSize > 0) {
+			scores = service.selectByParentId(parentId, page, pageSize);
+			count = service.countByParentId(parentId);
 		}else {
 			throw new InvalidArgumentException("无效的参数");
 		}
@@ -80,7 +83,7 @@ public class ScoreBatchController {
 	@RequestMapping(value="/scoreBatchs", method=RequestMethod.POST)
     public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
-		ScoreBatch score = validation.getObject(body, ScoreBatch.class, new String[]{"name"});
+		ScoreBatch score = validation.getObject(body, ScoreBatch.class, new String[]{"name", "subject"});
 		service.insert(loginUser, score);
 		result.put("id", score.getId());
         return result;

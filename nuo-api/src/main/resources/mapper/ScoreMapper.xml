@@ -78,6 +78,9 @@
 		<if test="type > 0">
 			and `type` = #{type}
 		</if>
+		<if test="subject > 0">
+			and `subject` = #{subject}
+		</if>
 		limit #{limit} offset #{offset}
 	</select>
 	<select id="countByStudentId" parameterType="Map" resultType="Integer">
@@ -86,6 +89,9 @@
 		WHERE fk_student_id = #{studentId}
 		<if test="type > 0">
 			and `type` = #{type}
+		</if>
+		<if test="subject > 0">
+			and `subject` = #{subject}
 		</if>
 	</select>
 	<select id="selectByClassId" parameterType="Map" resultMap="scoreMap">

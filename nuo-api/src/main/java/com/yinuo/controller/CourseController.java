@@ -9,9 +9,11 @@ import java.util.Map;
 import com.yinuo.bean.Student;
 import com.yinuo.service.StudentService;
 import com.yinuo.util.CommonUtil;
+import com.yinuo.validation.RoleTeacher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,37 +43,22 @@ public class CourseController {
 	
 	@NeedLogin
 	@RequestMapping(value="/courses", method=RequestMethod.GET)
-    public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long studentId,
-					   @RequestParam(defaultValue="0") long classId,
-    		@RequestParam(defaultValue="") String beginTime,@RequestParam(defaultValue="") String endTime,
+    public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long classId,
     		@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		int count = 0;
 		List<Course> list = new ArrayList<Course>();
-		
-		Date begin = null;
-		Date end = null;
-		try {
-			begin = DateTool.standardSdf.parse(beginTime);
-			end = DateTool.standardSdf.parse(endTime);
-		}catch(Exception e) {
-			logger.error("conver time error. ", e);
-		}
 		
 		if(id > 0) {
 			Course course = service.selectOne(id);
 			CommonUtil.checkNull(course, "找不到该课程");
 			list.add(course);
 			count = 1;
-		}else if(studentId > 0 && begin!=null && end!=null){
-			Student student = studentService.selectOne(studentId);
-			if(student.getClassId() > 0) {
-				list = service.selectByClassId(student.getClassId(), begin, end);
-				count = service.countByClassId(student.getClassId(), begin, end);
-			}
-		}else if(classId > 0 && begin!=null && end!=null){
-			list = service.selectByClassId(classId, begin, end);
-			count = service.countByClassId(classId, begin, end);
+		}else if(classId > 0){
+			Course course = service.selectByClassId(classId);
+			CommonUtil.checkNull(course, "找不到该课程");
+			list.add(course);
+			count = 1;
 		}
 		
 		result.put("data", list);
@@ -80,15 +67,17 @@ public class CourseController {
     }
 	
 	@NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/courses", method=RequestMethod.DELETE)
     public Object post(User loginUser, @RequestParam long id){
 		Map<String,Object> result = new HashMap<String, Object>();
-		service.delete(id);
+		service.delete(loginUser, id);
 		result.put("id", id);
 		return result;
     }
 	
 	@NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/courses", method=RequestMethod.PUT)
     public Object put(User loginUser, @RequestBody String body){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -100,10 +89,11 @@ public class CourseController {
 	}
 	
 	@NeedLogin
+	@RoleTeacher
 	@RequestMapping(value="/courses", method=RequestMethod.POST)
     public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
-		Course course = validation.getObject(body, Course.class, new String[]{"name", "classId", "teacherId"});
+		Course course = validation.getObject(body, Course.class, new String[]{"classId"});
 		service.insert(loginUser, course);
 		result.put("id", course.getId());
         return result;

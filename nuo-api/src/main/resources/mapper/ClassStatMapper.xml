@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.mapper.ClassStatMapper">
+
+	<resultMap id="classStatMap" type="ClassStat">
+		<result property="id" column="pk_id" />
+		<result property="subject" column="subject" />
+		<result property="scoreBatchId" column="fk_score_batch_id" />
+		<result property="schoolId" column="fk_school_id" />
+		<result property="classId" column="fk_class_id" />
+		<result property="highScore" column="high_score" />
+		<result property="averageScore" column="average_score" />
+		<result property="medianScore" column="median_score" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	
+    <insert id="insert" parameterType="ClassStat" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_class_stat(`fk_score_batch_id`, `subject`, `fk_school_id`, `fk_class_id`, `high_score`, `average_score`,
+		 `median_score`, `create_time`)
+		VALUES(#{scoreBatchId}, #{subject}, #{schoolId}, #{classId}, #{highScore}, #{averageScore}, #{medianScore}, #{createTime})
+	</insert>
+	<select id="selectOne" parameterType="Map" resultMap="classStatMap">
+		SELECT * 
+		FROM t_class_stat
+		WHERE pk_id = #{id}
+	</select>
+	
+	<select id="selectListByPage" parameterType="Map" resultMap="classStatMap">
+        SELECT * 
+        FROM t_class_stat
+        order by pk_id desc
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+    <select id="selectListByIds" parameterType="Map" resultMap="classStatMap">
+        SELECT * 
+        FROM t_class_stat
+        WHERE pk_id IN
+	    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </select>
+    <select id="countListByIds" parameterType="Map" resultType="Integer">
+        SELECT count(1)
+        FROM t_class_stat
+        WHERE pk_id IN
+	    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </select>
+	
+	<update id="update" parameterType="ClassStat">
+		UPDATE t_class_stat
+		SET `fk_score_batch_id` = #{scoreBatchId},
+		`subject` = #{subject},
+		`fk_school_id` = #{schoolId},
+		`fk_class_id` = #{classId},
+		`high_score` = #{highScore},
+		`median_score` = #{medianScore},
+		`average_score` = #{averageScore},
+		`create_time` = #{createTime}
+		WHERE pk_id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Map">
+		delete from t_class_stat
+		where pk_id = #{id}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from t_class_stat
+    </delete>
+	<select id="selectBySchoolId" parameterType="Map" resultMap="classStatMap">
+		SELECT *
+		FROM t_class_stat
+		WHERE fk_school_id = #{schoolId}
+		<if test="classId > 0">
+			and fk_class_id = #{classId}
+		</if>
+		<if test="scoreBatchId > 0">
+			and fk_score_batch_id = #{scoreBatchId}
+		</if>
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_class_stat
+		WHERE fk_school_id = #{schoolId}
+		<if test="classId > 0">
+			and fk_class_id = #{classId}
+		</if>
+		<if test="scoreBatchId > 0">
+			and fk_score_batch_id = #{scoreBatchId}
+		</if>
+	</select>
+
+	<delete id="deleteByBatchId" parameterType="Map">
+		delete from t_class_stat
+		where fk_class_id = #{classId}
+		and fk_score_batch_id = #{scoreBatchId}
+	</delete>
+</mapper>

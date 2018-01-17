@@ -10,10 +10,10 @@ import com.yinuo.bean.Score;
 @Component
 public interface ScoreMapper extends MapperI<Score>{
 	
-	public List<Score> selectByStudentId(@Param("studentId")long studentId, @Param("type")int type, 
+	public List<Score> selectByStudentId(@Param("studentId")long studentId, @Param("type")int type, @Param("subject")int subject,
 			@Param("limit")int limit, @Param("offset")int offset);
 	
-	public int countByStudentId(@Param("studentId")long studentId, @Param("type")int type);
+	public int countByStudentId(@Param("studentId")long studentId, @Param("type")int type, @Param("subject")int subject);
 
 	public List<Score> selectByClassId(@Param("classId")long classId, @Param("type")int type,
 									   @Param("scoreBatchId")long scoreBatchId, @Param("limit")int limit, @Param("offset")int offset);

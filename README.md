@@ -258,7 +258,9 @@ wechat登陆
 		{
 			"name": "期中考试语文20170812",	
 			"schoolId": 1,	
-			"classId": 1
+			"classId": 1,
+			"subject": 1,
+			"parentId": 1
 		}
 
 	删除：request/delete: /scoreBatchs?id=1
@@ -275,6 +277,7 @@ wechat登陆
 	查询：request/get: /scoreBatchs?schoolId=1&page=1&pageSize=10
 					  /scoreBatchs?id=1
 					  /scoreBatchs?classId=1&page=1&pageSize=10
+					  /scoreBatchs?parentId=1&page=1&pageSize=10
 
 		{
 		    "count": 1,
@@ -351,66 +354,90 @@ wechat登陆
 		    "cost": 0.3
 		}
 
+统计逻辑：将scoreBatchs接口状态置为2，每隔5分钟自动执行更新学生，班级统计。以及scoreBatchs状态和时间。
 
-//以下未测试-----------------------------------
+班级统计/查询
+
+	查询：request/get: /classStats?schoolId=1&scoreBatchId=3&classId=1&page=1&pageSize=10	//scoreBatchId,classId 可选
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 3,
+		            "subject": 1,
+		            "scoreBatchId": 3,
+		            "schoolId": 1,
+		            "classId": 1,
+		            "highScore": 90,
+		            "averageScore": 90,
+		            "medianScore": 90,
+		            "createTime": "2018-01-17 22:29:23"
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.568
+		}
+
+
+学生统计/查询
+
+	查询：request/get: /studentStats?studentId=14&subject=1&page=1&pageSize=10	//subject 可选
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 1,
+		            "studentId": 14,
+		            "subject": 1,
+		            "highScore": 90,
+		            "averageScore": 90,
+		            "medianScore": 90,
+		            "createTime": "2018-01-17 22:29:29"
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.447
+		}
 
 课程信息
 
 	新增：request/post: /courses
 
 		{
-			"name": "语文课",	
-			"beginTime": "2017-01-01 08:00:00",		
-			"endTime": "2017-01-01 08:00:00",	
-			"classId": 1,	
-			"remark": "很厉害的外教课程"
-		}
+            "classId": 1,
+            "pic": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1874612018,2337305222&fm=27&gp=0.jpg"
+        }
 
 	删除：request/delete: /courses?id=1
 	
 	修改：request/put: /courses
 
 		{
-			"id": 1,
-			"name": "语文课",	
-			"beginTime": "2017-01-01 08:00:00",		
-			"endTime": "2017-01-01 08:00:00",	
-			"classId": 1,	
-			"remark": "很厉害的外教课程"
-		}
+            "id": 4,
+            "classId": 1,
+            "pic": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1874612018,2337305222&fm=27&gp=0.jpg"
+        }
 
 	查询：request/get: /courses
 
-		按照班级时间查询 /courses?classId=1&beginTime=2017-01-01 00:00:00&endTime=2018-01-01 00:00:00
-		按照ID查询 /courses?id=1
-		按照学生id查询 /courses?studentId=1&beginTime=2017-01-01 00:00:00&endTime=2018-01-01 00:00:00
+		按照班级时间查询 /courses?classId=1
+		按照ID查询 /courses?id=4
 
 		{
-		    "count": 2,
+		    "count": 1,
 		    "data": [
 		        {
-		            "id": 1,
-		            "name": "语文课",
-		            "beginTime": "2017-01-01 08:00:00",
-		            "endTime": "2017-01-01 08:00:00",
+		            "id": 4,
 		            "classId": 1,
-		            "teacherId": 1,
-		            "remark": "很厉害的外教课程",
-		            "createTime": "2017-12-08 20:42:14"
-		        },
-		        {
-		            "id": 2,
-		            "name": "语文课2",
-		            "beginTime": "2017-01-01 08:00:00",
-		            "endTime": "2017-01-01 08:00:00",
-		            "classId": 1,
-		            "teacherId": 1,
-		            "remark": "很厉害的外教课程",
-		            "createTime": "2017-12-08 20:42:21"
+		            "pic": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1874612018,2337305222&fm=27&gp=0.jpg",
+		            "managerId": 1,
+		            "createTime": "2018-01-17 22:48:53"
 		        }
 		    ],
 		    "code": 200,
-		    "cost": 1.648
+		    "cost": 0.509
 		}
 
 
