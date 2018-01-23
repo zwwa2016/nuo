@@ -21,7 +21,6 @@ public class Classes {
 	@IsInt(min=1, max=99)
 	private Integer number;
 
-	@IsInt(min=1, max=1)
 	private Long schoolId;
 
 	private Long managerId;
