@@ -203,6 +203,28 @@ wechat登陆
 		    "cost": 0.307
 		}
 
+	查询：request/get: /schools/managers 查询我所拥有的学校管理权限
+	需要至少学校管理权限
+
+	{
+	    "data": [
+	        {
+	            "id": 1,
+	            "createTime": "2018-01-13 16:06:57",
+	            "managerId": 1,
+	            "name": "固始县永和小学"
+	        },
+	        {
+	            "id": 3,
+	            "createTime": "2018-01-13 16:09:16",
+	            "managerId": 1,
+	            "name": "abc"
+	        }
+	    ],
+	    "code": 200,
+	    "cost": 0.448
+	}
+
 班级信息/增删改需要学校管理权限
 	
 	新增：request/post: /classes
@@ -250,6 +272,56 @@ wechat登陆
 		    "code": 200,
 		    "cost": 1.718
 		}
+
+	查询：request/get: /classes/managers 查询我所拥有的班级管理权限
+	需要至少班级管理权限
+
+	{
+	    "data": [
+	        {
+	            "classes": [
+	                {
+	                    "id": 1,
+	                    "grade": 1,
+	                    "number": 1,
+	                    "schoolId": 1,
+	                    "managerId": 1,
+	                    "createTime": "2018-01-11 22:49:00"
+	                }
+	            ],
+	            "id": 1,
+	            "createTime": "2018-01-13 16:06:57",
+	            "managerId": 1,
+	            "name": "固始县永和小学"
+	        },
+	        {
+	            "classes": [
+	                {
+	                    "id": 6,
+	                    "grade": 1,
+	                    "number": 1,
+	                    "schoolId": 3,
+	                    "managerId": 1,
+	                    "createTime": "2018-01-13 14:56:51"
+	                },
+	                {
+	                    "id": 7,
+	                    "grade": 1,
+	                    "number": 2,
+	                    "schoolId": 3,
+	                    "managerId": 1,
+	                    "createTime": "1970-01-01 08:00:00"
+	                }
+	            ],
+	            "id": 3,
+	            "createTime": "2018-01-13 16:09:16",
+	            "managerId": 1,
+	            "name": "abc"
+	        }
+	    ],
+	    "code": 200,
+	    "cost": 0.448
+	}
 
 考试批次/增删改需要老师权限
 	

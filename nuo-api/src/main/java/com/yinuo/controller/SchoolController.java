@@ -1,14 +1,14 @@
 package com.yinuo.controller;
 
+import com.yinuo.bean.Constant;
 import com.yinuo.bean.School;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
+import com.yinuo.service.ManagerClassService;
 import com.yinuo.service.SchoolService;
 import com.yinuo.util.CommonUtil;
-import com.yinuo.validation.NeedLogin;
-import com.yinuo.validation.RoleManager;
-import com.yinuo.validation.RoleSchool;
-import com.yinuo.validation.Validation;
+import com.yinuo.validation.*;
+import com.yinuo.view.ManagerView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +25,9 @@ public class SchoolController {
 	
 	@Autowired
 	private SchoolService service;
+
+	@Autowired
+    private ManagerClassService managerClassService;
 	
 	@NeedLogin
 	@RequestMapping(value="/schools", method=RequestMethod.GET)
@@ -45,11 +48,21 @@ public class SchoolController {
 		}else {
 			throw new InvalidArgumentException("无效的查询参数");
 		}
-		
+
 		result.put("data", list);
 		result.put("count", count);
 		return result;
     }
+
+	@RoleSchool
+	@NeedLogin
+	@RequestMapping(value="/schools/managers", method=RequestMethod.GET)
+	public Object getManagers(User loginUser){
+		Map<String,Object> result = new HashMap<String, Object>();
+		List<ManagerView> views = managerClassService.getClassManagers(loginUser, Constant.Role.School);
+		result.put("data", views);
+		return result;
+	}
 	
 	@NeedLogin
 	@RoleManager

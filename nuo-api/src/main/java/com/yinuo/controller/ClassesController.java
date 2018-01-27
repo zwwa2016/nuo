@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yinuo.bean.Constant;
+import com.yinuo.bean.ManagerClass;
 import com.yinuo.exception.InvalidArgumentException;
+import com.yinuo.service.ManagerClassService;
 import com.yinuo.util.CommonUtil;
 import com.yinuo.validation.RoleSchool;
+import com.yinuo.validation.RoleTeacher;
+import com.yinuo.view.ManagerView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,16 +34,19 @@ public class ClassesController {
 	
 	@Autowired
 	private ClassesService service;
-	
+
+	@Autowired
+	private ManagerClassService managerClassService;
+
 	@NeedLogin
 	@RequestMapping(value="/classes", method=RequestMethod.GET)
-    public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
+	public Object get(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
 					   @RequestParam(defaultValue="1") int page,
-    		@RequestParam(defaultValue="20") int pageSize){
+					   @RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		int count = 0;
 		List<Classes> list = new ArrayList<Classes>();
-		
+
 		if(id > 0) {
 			Classes classes = service.selectOne(id);
 			CommonUtil.checkNull(classes, "找不到该班级");
@@ -50,11 +58,21 @@ public class ClassesController {
 		}else {
 			throw new InvalidArgumentException("无效的查询参数");
 		}
-		
+
 		result.put("data", list);
 		result.put("count", count);
 		return result;
-    }
+	}
+
+	@RoleTeacher
+	@NeedLogin
+	@RequestMapping(value="/classes/managers", method=RequestMethod.GET)
+	public Object getManagers(User loginUser){
+		Map<String,Object> result = new HashMap<String, Object>();
+		List<ManagerView> views = managerClassService.getClassManagers(loginUser, Constant.Role.Teacher);
+		result.put("data", views);
+		return result;
+	}
 	
 	@NeedLogin
 	@RoleSchool
