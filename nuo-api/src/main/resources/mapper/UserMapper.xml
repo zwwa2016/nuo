@@ -78,7 +78,13 @@
 	<select id="selectByOpenid" parameterType="Map" resultMap="userMap">
 		SELECT * 
 		FROM t_user
-		WHERE `wechat_openid` = #{wechatOpenid}
+		WHERE `wechat_openid` = #{wechatOpenid} limit 1
 	</select>
-	
+	<select id="selectByNickName" parameterType="Map" resultMap="userMap">
+		SELECT *
+		FROM t_user
+		WHERE `wechat_nickname` = #{nickName}
+		limit 1
+	</select>
+
 </mapper>

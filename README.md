@@ -51,6 +51,7 @@ wechat登陆
 		}
 
 	查询：request/get: /users
+						/users?nickName=凭栏处、潇潇雨歇
 
 		{
 		    "code": 200,
@@ -512,6 +513,109 @@ wechat登陆
 		    "cost": 0.509
 		}
 
+创建空权限的管理者/增删改需要学校管理权限
+	
+	新增：request/post: /managers
+		
+		{
+			"name": "张一峰",	
+			"userId": 1
+		}
+
+	修改：request/post: /managers
+		
+		{
+			"id", 1,
+			"name": "张一峰",	
+			"userId": 1
+		}
+
+
+权限绑定/增删改需要超级管理员权限
+	
+	新增：request/post: /managerClass
+		
+		{
+			"managerId": 1,	
+			"schoolId": 1,	
+			"classId": 1,
+			"role": 1
+		}
+
+	删除：request/delete: /managerClass?id=1
+
+	修改：request/put: /managerClass
+
+		{
+			"id": 1,
+			"managerId": 1,	
+			"schoolId": 1,	
+			"classId": 1,
+			"role": 1
+		}
+
+	查询：request/get: /managerClass?schoolId=1&classId=1&role=1&page=1&pageSize=10 role必传
+
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 2,
+		            "managerId": 1,	
+					"schoolId": 1,	
+					"classId": 1,
+					"role": 1,
+					"manager": {
+						"name": "张一峰",	
+						"userId": 1
+					}
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.288
+		}
+
+
+权限绑定/增删改需要超级管理员权限
+	
+	新增：request/post: /managerClass
+		
+		{
+			"managerId": 1,	
+			"schoolId": 1,	
+			"classId": 1,
+			"role": 1
+		}
+
+	删除：request/delete: /managerClass?id=1
+
+	修改：request/put: /managerClass
+
+		{
+			"id": 1,
+			"managerId": 1,	
+			"schoolId": 1,	
+			"classId": 1,
+			"role": 1
+		}
+
+	查询：request/get: /managerClass?schoolId=1&page=1&pageSize=10
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 2,
+		            "managerId": 1,	
+					"schoolId": 1,	
+					"classId": 1,
+					"role": 1
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.288
+		}
 
 图片上传：
 	

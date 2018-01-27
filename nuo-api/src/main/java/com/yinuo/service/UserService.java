@@ -27,7 +27,11 @@ public class UserService {
 	public User selectByOpenid(String openid) {
 		return userMapper.selectByOpenid(openid);
 	}
-	
+
+	public User selectByNickName(String nickName) {
+		return userMapper.selectByNickName(nickName);
+	}
+
 	public List<User> selectListByPage(int page, int pageSize) {
 		return userMapper.selectListByPage(pageSize, (page-1)*pageSize);
 	}

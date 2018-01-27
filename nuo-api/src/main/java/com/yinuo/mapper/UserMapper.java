@@ -9,6 +9,7 @@ import com.yinuo.bean.User;
 public interface UserMapper extends MapperI<User>{
 	
 	public User selectByOpenid(@Param("wechatOpenid")String openid);
-	
+
+	public User selectByNickName(@Param("nickName")String nickName);
 }
  

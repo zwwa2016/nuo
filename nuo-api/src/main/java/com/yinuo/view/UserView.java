@@ -2,6 +2,7 @@ package com.yinuo.view;
 
 import java.util.HashMap;
 
+import com.yinuo.bean.ManagerClass;
 import com.yinuo.bean.User;
 import com.yinuo.util.DateTool;
 
@@ -30,6 +31,16 @@ public class UserView extends HashMap<String, Object> {
 		put("province", user.getProvince());
 		put("manager", user.getManager());
 		put("managerClass", user.getManagerClassList());
+		put("role", 0);
+		if(user.getManagerClassList() != null && user.getManagerClassList().size() > 0) {
+			int role = Integer.MAX_VALUE;
+			for(ManagerClass managerClass: user.getManagerClassList()) {
+				if(managerClass.getRole().intValue() < role) {
+					role = managerClass.getRole().intValue();
+				}
+			}
+			put("role", role);
+		}
 	}
 	
 }

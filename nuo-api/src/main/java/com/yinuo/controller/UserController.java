@@ -9,6 +9,8 @@ import java.util.UUID;
 import com.yinuo.bean.Constant;
 import com.yinuo.service.ManagerClassService;
 import com.yinuo.service.ManagerService;
+import com.yinuo.validation.RoleSchool;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,13 +126,18 @@ public class UserController {
 		result.put("id", user.getId());
 		return result;
 	}
-	
+
+	@RoleSchool
 	@NeedLogin
 	@RequestMapping(value="/users", method=RequestMethod.GET)
-    public Object get(User loginUser){
+    public Object get(User loginUser, @RequestParam(name="nickName") String nickName){
 		
         Map<String, Object> result=new HashMap<String, Object>();
-        result.put("loginUser", new UserView(loginUser));
+        if(nickName != null && !"".equals(nickName)) {
+        	result.put("user", new UserView(userService.selectByNickName(nickName)));
+		}else {
+			result.put("loginUser", new UserView(loginUser));
+		}
         return result;
     }
 	
