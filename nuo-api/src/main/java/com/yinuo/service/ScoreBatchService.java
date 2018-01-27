@@ -28,7 +28,6 @@ public class ScoreBatchService {
 
 		scoreBatch.setManagerId(loginUser.getManager().getId());
 		scoreBatch.setCreateTime(DateTool.standardSdf.format(new Date()));
-		scoreBatch.setManagerId(0L);
 		scoreBatch.setFixTime(Constant.Time.Zone);
 		scoreBatch.setState(Constant.ScoreBatchState.Create);
 		scoreBatchMapper.insert(scoreBatch);
@@ -54,6 +53,7 @@ public class ScoreBatchService {
 
 		if(scoreBatch.getState() == Constant.ScoreBatchState.WaitStat && src.getState() != Constant.ScoreBatchState.WaitStat) {
 			scoreBatch.setFixTime(Constant.Time.Now());
+			scoreBatch.setFixManagerId(loginUser.getManager().getId());
 		}
 		scoreBatchMapper.update(scoreBatch);
 	}
@@ -66,21 +66,20 @@ public class ScoreBatchService {
 		return scoreBatchMapper.countBySchoolId(schoolId);
 	}
 
-
-	public List<ScoreBatch> selectByParentId(long parentId, int page, int pageLength) {
-		return scoreBatchMapper.selectByParentId(parentId, pageLength, (page-1)*pageLength);
-	}
-
-	public int countByParentId(long parentId) {
-		return scoreBatchMapper.countByParentId(parentId);
-	}
-
 	public List<ScoreBatch> selectByClassId(long classId, int page, int pageLength) {
 		return scoreBatchMapper.selectByClassId(classId, pageLength, (page-1)*pageLength);
 	}
 
 	public int countByClassId(long classId) {
 		return scoreBatchMapper.countByClassId(classId);
+	}
+
+	public List<ScoreBatch> selectByExamId(long examId, int page, int pageLength) {
+		return scoreBatchMapper.selectByExamId(examId, pageLength, (page-1)*pageLength);
+	}
+
+	public int countByExamId(long examId) {
+		return scoreBatchMapper.countByExamId(examId);
 	}
 
 	public List<ScoreBatch> selectByIds(List<Long> ids) {
@@ -102,13 +101,7 @@ public class ScoreBatchService {
 			throw new InvalidArgumentException("学校不能为空");
 		}
 
-		//需要学校管理员权限
-		if(scoreBatch.getClassId() == null || scoreBatch.getClassId() <= 0) {
-			scoreBatch.setParentId(0L);
-			loginUser.checkLevel(Constant.Role.School, scoreBatch.getSchoolId(), 0L);
-		}else {
-			//仅需要班级管理权限
-			loginUser.checkLevel(Constant.Role.Teacher, scoreBatch.getSchoolId(), scoreBatch.getClassId());
-		}
+		//需要班级管理权限
+		loginUser.checkLevel(Constant.Role.Teacher, scoreBatch.getSchoolId(), scoreBatch.getClassId());
 	}
 }

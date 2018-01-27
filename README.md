@@ -248,7 +248,7 @@ wechat登陆
 		}
 
 	查询：request/get: /classes?id=4
-						/classes?schoolId=1&page=1&pageSize=10
+						/classes?schoolId=1&grade=1&page=1&pageSize=10
 
 		{
 		    "count": 2,
@@ -324,16 +324,58 @@ wechat登陆
 	    "cost": 0.448
 	}
 
+考试/增删改需要学校权限
+	
+	新增：request/post: /exams
+		
+		{
+			"name": "2018年1月份统考",
+			"schoolId": 3,
+			"grade": 1,
+			"subjects": "1,2,3"
+		}
+
+	删除：request/delete: /exams?id=1
+
+	修改：request/put: /exams
+
+		{
+			"id": 1,
+			"state": 2
+		}
+
+	查询：request/get: /exams?schoolId=1&page=1&pageSize=10
+
+		{
+		    "count": 1,
+		    "data": [
+		        {
+		            "id": 2,
+		            "name": "2018年1月份统考",
+					"schoolId": 3,
+					"grade": 1,
+					"subjects": "1,2,3",
+					"state": 1,
+		            "managerId": 0,
+		            "createTime": "2018-01-13 16:51:07",
+		            "fixTime": "2018-01-13 16:51:07",
+		            "fixManagerId": 1
+		        }
+		    ],
+		    "code": 200,
+		    "cost": 0.288
+		}
+
+
 考试批次/增删改需要老师权限
 	
 	新增：request/post: /scoreBatchs
 		
 		{
-			"name": "期中考试语文20170812",	
+			"examId": 1,	
 			"schoolId": 1,	
 			"classId": 1,
-			"subject": 1,
-			"parentId": 1
+			"subject": 1
 		}
 
 	删除：request/delete: /scoreBatchs?id=1
@@ -342,26 +384,27 @@ wechat登陆
 
 		{
 			"id": 1,
-			"name": "期中考试语文20170812",	
-			"schoolId": 1,	
-			"classId": 1
+			"state": 2
 		}
 
 	查询：request/get: /scoreBatchs?schoolId=1&page=1&pageSize=10
 					  /scoreBatchs?id=1
 					  /scoreBatchs?classId=1&page=1&pageSize=10
-					  /scoreBatchs?parentId=1&page=1&pageSize=10
+					  /scoreBatchs?examId=1&page=1&pageSize=10
 
 		{
 		    "count": 1,
 		    "data": [
 		        {
 		            "id": 2,
-		            "name": "期中考试语文20170812",
-		            "schoolId": 1,
-		            "classId": 1,
+		            "examId": 1,	
+					"schoolId": 1,	
+					"classId": 1,
+					"subject": 1
 		            "managerId": 0,
-		            "createTime": "2018-01-13 16:51:07"
+		            "createTime": "2018-01-13 16:51:07",
+		            "fixTime": "2018-01-13 16:51:07",
+		            "fixManagerId": 1
 		        }
 		    ],
 		    "code": 200,

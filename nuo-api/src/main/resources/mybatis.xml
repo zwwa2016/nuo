@@ -23,6 +23,7 @@
 		<typeAlias alias="ScoreBatch" type="com.yinuo.bean.ScoreBatch" />
 		<typeAlias alias="ClassStat" type="com.yinuo.bean.ClassStat" />
 		<typeAlias alias="StudentStat" type="com.yinuo.bean.StudentStat" />
+		<typeAlias alias="Exam" type="com.yinuo.bean.Exam" />
 		<!-- <typeAlias alias="Order" type="com.duolanjian.java.market.bean.Order" />
 		<typeAlias alias="Shop" type="com.duolanjian.java.market.bean.Shop" />
 		<typeAlias alias="Commodity" type="com.duolanjian.java.market.bean.Commodity" />
@@ -49,6 +50,7 @@
 		<mapper resource="mapper/ScoreBatchMapper.xml" />
 		<mapper resource="mapper/ClassStatMapper.xml" />
 		<mapper resource="mapper/StudentStatMapper.xml" />
+		<mapper resource="mapper/ExamMapper.xml" />
 		<!-- <mapper resource="mapper/OrderMapper.xml"/>
 		<mapper resource="mapper/ShopMapper.xml"/>
 		<mapper resource="mapper/CommodityMapper.xml"/>

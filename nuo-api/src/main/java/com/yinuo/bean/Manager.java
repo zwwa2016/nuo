@@ -18,7 +18,8 @@ public class Manager {
 	
 	@IsString(minLength=1,maxLength=15)
 	private String name;
-	
+
+	@IsInt(min = 1, max = Integer.MAX_VALUE)
 	private Long userId;
 
 	private Long managerId;

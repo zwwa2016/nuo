@@ -38,9 +38,9 @@ public class ManagerController {
 	@RequestMapping(value="/managers", method=RequestMethod.POST)
     public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
-		Manager manager = validation.getObject(body, Manager.class, new String[]{});
-		managerService.insert(loginUser, manager);
-		result.put("id", manager.getId());
+		Manager manager = validation.getObject(body, Manager.class, new String[]{"userId"});
+		long id = managerService.insert(loginUser, manager);
+		result.put("id", id);
         return result;
     }
 }

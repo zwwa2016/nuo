@@ -7,7 +7,7 @@
 
 	<resultMap id="scoreBatchMap" type="ScoreBatch">
 		<result property="id" column="pk_id" />
-		<result property="name" column="name" />
+		<result property="examId" column="fk_exam_id" />
 		<result property="schoolId" column="fk_school_id" />
 		<result property="classId" column="fk_class_id" />
 		<result property="managerId" column="fk_manager_id" />
@@ -15,16 +15,15 @@
 
 		<result property="state" column="state" />
 		<result property="subject" column="subject" />
-		<result property="parentId" column="fk_parent_id" />
 		<result property="fixManagerId" column="fk_fix_manager_id" />
 		<result property="fixTime" column="fix_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="ScoreBatch" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score_batch(`name`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
-		`state`, `subject`, `fk_parent_id`, `fk_fix_manager_id`, `fix_time`)
-		VALUES(#{name}, #{schoolId}, #{classId}, #{managerId}, #{createTime},
-		#{state}, #{subject}, #{parentId}, #{fixManagerId}, #{fixTime})
+		INSERT INTO t_score_batch(`fk_exam_id`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
+		`state`, `subject`, `fk_fix_manager_id`, `fix_time`)
+		VALUES(#{examId}, #{schoolId}, #{classId}, #{managerId}, #{createTime},
+		#{state}, #{subject}, #{fixManagerId}, #{fixTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT * 
@@ -57,14 +56,13 @@
     </select>
 	<update id="update" parameterType="ScoreBatch">
 		UPDATE t_score_batch
-		SET `name` = #{name},
+		SET `fk_exam_id` = #{examId},
 		`fk_school_id` = #{schoolId},
 		`fk_class_id` = #{classId},
 		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime},
 		`state` = #{state},
 		`subject` = #{subject},
-		`fk_parent_id` = #{parentId},
 		`fk_fix_manager_id` = #{fixManagerId},
 		`fix_time` = #{fixTime}
 		WHERE pk_id = #{id}
@@ -100,16 +98,16 @@
 		FROM t_score_batch
 		WHERE fk_class_id = #{classId}
 	</select>
-	<select id="selectByParentId" parameterType="Map" resultMap="scoreBatchMap">
+	<select id="selectByExamId" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT *
 		FROM t_score_batch
-		WHERE `fk_parent_id` = #{parentId}
+		WHERE fk_exam_id = #{examId}
 		limit #{limit} offset #{offset}
 	</select>
-	<select id="countByParentId" parameterType="Map" resultType="Integer">
+	<select id="countByExamId" parameterType="Map" resultType="Integer">
 		SELECT count(1)
 		FROM t_score_batch
-		WHERE fk_parent_id = #{parentId}
+		WHERE fk_exam_id = #{examId}
 	</select>
 	<select id="selectByState" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT *

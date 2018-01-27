@@ -41,7 +41,7 @@ public class ClassesController {
 	@NeedLogin
 	@RequestMapping(value="/classes", method=RequestMethod.GET)
 	public Object get(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
-					   @RequestParam(defaultValue="1") int page,
+					  @RequestParam(defaultValue="0") int grade,@RequestParam(defaultValue="1") int page,
 					   @RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		int count = 0;
@@ -53,8 +53,8 @@ public class ClassesController {
 			list.add(service.selectOne(id));
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0){
-			list = service.selectBySchoolId(schoolId, page, pageSize);
-			count = service.countBySchoolId(schoolId);
+			list = service.selectBySchoolId(schoolId, grade, page, pageSize);
+			count = service.countBySchoolId(schoolId, grade);
 		}else {
 			throw new InvalidArgumentException("无效的查询参数");
 		}

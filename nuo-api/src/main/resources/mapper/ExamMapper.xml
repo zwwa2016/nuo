@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.mapper.ExamMapper">
+
+	<resultMap id="examMap" type="Exam">
+		<result property="id" column="pk_id" />
+		<result property="name" column="name" />
+		<result property="schoolId" column="fk_school_id" />
+		<result property="grade" column="grade" />
+		<result property="subjects" column="subjects" />
+		<result property="state" column="state" />
+		<result property="createTime" column="create_time" />
+		<result property="managerId" column="fk_manager_id" />
+
+		<result property="fixManagerId" column="fk_fix_manager_id" />
+		<result property="fixTime" column="fix_time" />
+	</resultMap>
+	
+    <insert id="insert" parameterType="Exam" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_exam(`name`, `fk_school_id`, `grade`, `subjects`, `create_time`,
+		`state`, `fk_manager_id`, `fk_fix_manager_id`, `fix_time`)
+		VALUES(#{name}, #{schoolId}, #{grade}, #{subjects}, #{createTime},
+		#{state}, #{managerId}, #{fixManagerId}, #{fixTime})
+	</insert>
+	<select id="selectOne" parameterType="Map" resultMap="examMap">
+		SELECT * 
+		FROM t_exam
+		WHERE pk_id = #{id}
+	</select>
+	
+	<select id="selectListByPage" parameterType="Map" resultMap="examMap">
+        SELECT * 
+        FROM t_exam
+        order by pk_id desc
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+    <select id="selectListByIds" parameterType="Map" resultMap="examMap">
+        SELECT * 
+        FROM t_exam
+        WHERE pk_id IN
+	    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </select>
+    <select id="countListByIds" parameterType="Map" resultType="Integer">
+        SELECT count(1)
+        FROM t_exam
+        WHERE pk_id IN
+	    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </select>
+
+	<update id="update" parameterType="Exam">
+		UPDATE t_exam
+		SET `name` = #{name},
+		`fk_school_id` = #{schoolId},
+		`grade` = #{grade},
+		`fk_manager_id` = #{managerId},
+		`create_time` = #{createTime},
+		`state` = #{state},
+		`subjects` = #{subjects},
+		`fk_fix_manager_id` = #{fixManagerId},
+		`fix_time` = #{fixTime}
+		WHERE pk_id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Map">
+		delete from t_exam
+		where pk_id = #{id}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from t_exam
+    </delete>
+	<select id="selectBySchoolId" parameterType="Map" resultMap="examMap">
+		SELECT *
+		FROM t_exam
+		WHERE fk_school_id = #{schoolId}
+		limit #{limit} offset #{offset}
+	</select>
+	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
+		SELECT count(1)
+		FROM t_exam
+		WHERE fk_school_id = #{schoolId}
+	</select>
+	<select id="selectByState" parameterType="Map" resultMap="examMap">
+		SELECT *
+		FROM t_exam
+		WHERE `state` = #{state}
+		limit #{limit}
+	</select>
+</mapper>

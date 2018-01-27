@@ -22,7 +22,12 @@ public class ManagerService {
 	
 	public long insert(User loginUser, Manager manager) {
 		CommonUtil.setDefaultValue(manager);
-		
+
+		Manager src = selectByUserid(manager.getUserId());
+		if(src != null && src.getId() != null &&  src.getId() > 0) {
+			return src.getId();
+		}
+
 		manager.setCreateTime(DateTool.standardSdf.format(new Date()));
 		managerMapper.insert(manager);
 		

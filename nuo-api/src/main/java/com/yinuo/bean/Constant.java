@@ -31,6 +31,15 @@ public class Constant {
 		public static final int Done = 3;
 	}
 
+	public static class ExamState {
+
+		public static final int Create = 1;
+
+		public static final int WaitStat = 2;
+
+		public static final int Done = 3;
+	}
+
 	public static class Time {
 
 		public static final String Zone = "1970-01-01 08:00:00";

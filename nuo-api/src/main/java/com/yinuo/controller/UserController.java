@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.yinuo.bean.Constant;
+import com.yinuo.bean.Manager;
+import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.service.ManagerClassService;
 import com.yinuo.service.ManagerService;
 import com.yinuo.validation.RoleSchool;
@@ -134,7 +136,13 @@ public class UserController {
 		
         Map<String, Object> result=new HashMap<String, Object>();
         if(nickName != null && !"".equals(nickName)) {
-        	result.put("user", new UserView(userService.selectByNickName(nickName)));
+        	User user = userService.selectByNickName(nickName);
+        	if(user == null) {
+        		throw new InvalidArgumentException("找不到的用户");
+			}
+        	Manager manager = managerService.selectByUserid(user.getId());
+			user.setManager(manager);
+        	result.put("user", new UserView(user));
 		}else {
 			result.put("loginUser", new UserView(loginUser));
 		}

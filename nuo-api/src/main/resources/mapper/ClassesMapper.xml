@@ -70,11 +70,17 @@
 		SELECT *
 		FROM t_class
 		WHERE fk_school_id = #{schoolId}
+		<if test="grade>0">
+			and `grade` = #{grade}
+		</if>
 		limit #{limit} offset #{offset}
 	</select>
 	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
 		SELECT count(1)
 		FROM t_class
 		WHERE fk_school_id = #{schoolId}
+		<if test="grade>0">
+			and `grade` = #{grade}
+		</if>
 	</select>
 </mapper>

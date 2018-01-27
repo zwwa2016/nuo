@@ -29,7 +29,7 @@ public class ManagerClassService {
 	
 	public long insert(User loginUser, ManagerClass managerClass) {
 		CommonUtil.setDefaultValue(managerClass);
-		
+
 		managerClass.setCreateTime(DateTool.standardSdf.format(new Date()));
 		managerClassMapper.insert(managerClass);
 		

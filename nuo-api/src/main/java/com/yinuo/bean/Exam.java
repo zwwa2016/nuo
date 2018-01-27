@@ -12,24 +12,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class ScoreBatch {
+public class Exam {
 
 	private Long id;
-	
-	private Long examId;
-	
+
+	@IsString(maxLength = 15, minLength = 1)
+	private String name;
+
+	@IsInt(min = 1, max = Integer.MAX_VALUE)
 	private Long schoolId;
-	
-	private Long classId;
-	
-	private Long managerId;
+
+	@IsInt(min = 1, max = 127)
+	private Integer grade;
+
+	@IsString(maxLength = 45, minLength = 1)
+	private String subjects;
 
 	private Integer state;
 
-	@IsInt(min = 1, max = 10)
-	private Integer subject;
-
 	private Long fixManagerId;
+
+	private Long managerId;
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -38,15 +41,6 @@ public class ScoreBatch {
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createTime;
-
-	public ScoreBatch() {}
-
-	public ScoreBatch(long examId, long schoolId, long classId, int subject) {
-		this.examId = examId;
-		this.schoolId = schoolId;
-		this.classId = classId;
-		this.subject = subject;
-	}
 	
 	public Long getId() {
 		return id;
@@ -54,14 +48,6 @@ public class ScoreBatch {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getExamId() {
-		return examId;
-	}
-
-	public void setExamId(Long examId) {
-		this.examId = examId;
 	}
 
 	public Date getCreateTime() {
@@ -85,14 +71,6 @@ public class ScoreBatch {
 		this.schoolId = schoolId;
 	}
 
-	public Long getClassId() {
-		return classId;
-	}
-
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
-
 	public Long getManagerId() {
 		return managerId;
 	}
@@ -107,14 +85,6 @@ public class ScoreBatch {
 
 	public void setState(Integer state) {
 		this.state = state;
-	}
-
-	public Integer getSubject() {
-		return subject;
-	}
-
-	public void setSubject(Integer subject) {
-		this.subject = subject;
 	}
 
 	public Long getFixManagerId() {
@@ -136,6 +106,30 @@ public class ScoreBatch {
 		} catch (ParseException e) {
 			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
+
+	public String getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(String subjects) {
+		this.subjects = subjects;
 	}
 
 	public String toString() {

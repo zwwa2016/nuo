@@ -14,13 +14,13 @@ public interface ScoreBatchMapper extends MapperI<ScoreBatch>{
 
     public int countBySchoolId(@Param("schoolId")long schoolId);
 
-    public List<ScoreBatch> selectByParentId(@Param("parentId") long parentId, @Param("limit")int limit, @Param("offset")int offset);
-
-    public int countByParentId(@Param("parentId")long parentId);
-
     public List<ScoreBatch> selectByClassId(@Param("classId")long classId, @Param("limit")int limit, @Param("offset")int offset);
 
     public int countByClassId(@Param("classId")long classId);
+
+    public List<ScoreBatch> selectByExamId(@Param("examId")long examId, @Param("limit")int limit, @Param("offset")int offset);
+
+    public int countByExamId(@Param("examId")long examId);
 
     public List<ScoreBatch> selectByState(@Param("state")int state, @Param("limit")int limit);
 

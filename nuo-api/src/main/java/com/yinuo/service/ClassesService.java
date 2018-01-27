@@ -63,12 +63,12 @@ public class ClassesService {
 		return classesMapper.selectListByPage(pageLength, (page-1)*pageLength);
 	}
 	
-	public List<Classes> selectBySchoolId(long schoolId, int page, int pageLength) {
-		return classesMapper.selectBySchoolId(schoolId, pageLength, (page-1)*pageLength);
+	public List<Classes> selectBySchoolId(long schoolId, int grade, int page, int pageLength) {
+		return classesMapper.selectBySchoolId(schoolId, grade, pageLength, (page-1)*pageLength);
 	}
 
-	public int countBySchoolId(long schoolId) {
-		return classesMapper.countBySchoolId(schoolId);
+	public int countBySchoolId(long schoolId, int grade) {
+		return classesMapper.countBySchoolId(schoolId, grade);
 	}
 	
 }

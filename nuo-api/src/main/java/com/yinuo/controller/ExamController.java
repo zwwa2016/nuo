@@ -1,11 +1,12 @@
 package com.yinuo.controller;
 
-import com.yinuo.bean.ScoreBatch;
+import com.yinuo.bean.Exam;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
-import com.yinuo.service.ScoreBatchService;
+import com.yinuo.service.ExamService;
 import com.yinuo.util.CommonUtil;
 import com.yinuo.validation.NeedLogin;
+import com.yinuo.validation.RoleSchool;
 import com.yinuo.validation.RoleTeacher;
 import com.yinuo.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,48 +18,42 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ScoreBatchController {
+public class ExamController {
 
 	@Autowired
 	private Validation validation;
 	
 	@Autowired
-	private ScoreBatchService service;
+	private ExamService service;
 	
 	@NeedLogin
-	@RequestMapping(value="/scoreBatchs", method=RequestMethod.GET)
+	@RequestMapping(value="/exams", method=RequestMethod.GET)
     public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
-    		@RequestParam(defaultValue="0") long classId, @RequestParam(defaultValue="0") long examId, @RequestParam(defaultValue="1") int page,
+    		@RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		List<ScoreBatch> scores = new ArrayList<ScoreBatch>();
+		List<Exam> exams = new ArrayList<Exam>();
 		int count = 0;
 		if(id > 0) {
-			ScoreBatch score = service.selectOne(id);
-			CommonUtil.checkNull(score, "找不到该成绩批次");
-			scores.add(score);
+			Exam exam = service.selectOne(id);
+			CommonUtil.checkNull(exam, "找不到该次考试");
+			exams.add(exam);
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectBySchoolId(schoolId, page, pageSize);
+			exams = service.selectBySchoolId(schoolId, page, pageSize);
 			count = service.countBySchoolId(schoolId);
-		}else if(classId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectByClassId(classId, page, pageSize);
-			count = service.countByClassId(classId);
-		}else if(examId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectByExamId(examId, page, pageSize);
-			count = service.countByExamId(examId);
 		}else {
 			throw new InvalidArgumentException("无效的参数");
 		}
-		result.put("data", scores);
+		result.put("data", exams);
 		result.put("count", count);
 		return result;
     }
 	
 	@NeedLogin
-	@RoleTeacher
-	@RequestMapping(value="/scoreBatchs", method=RequestMethod.DELETE)
+	@RoleSchool
+	@RequestMapping(value="/exams", method=RequestMethod.DELETE)
     public Object post(User loginUser, @RequestParam long id){
 		Map<String,Object> result = new HashMap<String, Object>();
 		service.delete(loginUser, id);
@@ -67,25 +62,25 @@ public class ScoreBatchController {
     }
 	
 	@NeedLogin
-	@RoleTeacher
-	@RequestMapping(value="/scoreBatchs", method=RequestMethod.PUT)
+	@RoleSchool
+	@RequestMapping(value="/exams", method=RequestMethod.PUT)
     public Object put(User loginUser, @RequestBody String body){
 		Map<String,Object> result = new HashMap<String, Object>();
-		ScoreBatch score = validation.getObject(body, ScoreBatch.class, new String[]{"id"});
+		Exam exam = validation.getObject(body, Exam.class, new String[]{"id"});
 		
-		service.update(loginUser, score);
-		result.put("id", score.getId());
+		service.update(loginUser, exam);
+		result.put("id", exam.getId());
 		return result;
 	}
 	
 	@NeedLogin
-	@RoleTeacher
-	@RequestMapping(value="/scoreBatchs", method=RequestMethod.POST)
+	@RoleSchool
+	@RequestMapping(value="/exams", method=RequestMethod.POST)
     public Object get(User loginUser, @RequestBody String body){
 		Map<String, Object> result=new HashMap<String, Object>();
-		ScoreBatch score = validation.getObject(body, ScoreBatch.class, new String[]{});
-		service.insert(loginUser, score);
-		result.put("id", score.getId());
+		Exam exam = validation.getObject(body, Exam.class, new String[]{"name", "schoolId", "grade", "subjects"});
+		service.insert(loginUser, exam);
+		result.put("id", exam.getId());
         return result;
     }
 }

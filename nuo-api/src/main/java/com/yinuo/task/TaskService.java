@@ -44,33 +44,43 @@ public class TaskService {
 		int scoreBatchCount = 0;
 		do {
 			logger.info("execute taskCycle");
-			List<ScoreBatch> scoreBatches = scoreBatchService.selectByState(Constant.ScoreBatchState.WaitStat, 10);
-			scoreBatchCount = scoreBatches == null ? 0 : scoreBatches.size();
-			if(scoreBatchCount > 0) {
-				List<Long> scoreBatchIds = new ArrayList<Long>();
-				scoreBatchLoop: for(ScoreBatch scoreBatch: scoreBatches) {
-					if(scoreBatch.getClassId() == null || scoreBatch.getClassId().intValue() == 0) {
-						continue scoreBatchLoop;
-					}
-					scoreBatchIds.add(scoreBatch.getId());
-					//班级统计
-					classStatService.stat(scoreBatch.getClassId(), scoreBatch.getId());
-
-					//学生统计
-					List<Score> scores = scoreService.selectByClassId(scoreBatch.getClassId(), Constant.ScoreType.Test, scoreBatch.getId(), 1, Integer.MAX_VALUE);
-					if(scores != null && scores.size() > 0) {
-						for(Score score: scores) {
-							studentStatService.stat(score.getStudentId(), scoreBatch.getSubject());
-						}
-					}
-				}
-				scoreBatchService.updateBatch(scoreBatchIds, Constant.ScoreBatchState.Done, new Date());
-			}
+			scoreBatchCount = classStat();
 
 			if(scoreBatchCount == 0) {
 				Thread.sleep(sleepTimes);
 			}
 		}while(true);
+	}
+
+	/**
+	 * 学生班级统计
+	 * @return
+	 */
+	private int classStat() {
+		int scoreBatchCount = 0;
+		List<ScoreBatch> scoreBatches = scoreBatchService.selectByState(Constant.ScoreBatchState.WaitStat, 10);
+		scoreBatchCount = scoreBatches == null ? 0 : scoreBatches.size();
+		if(scoreBatchCount > 0) {
+			List<Long> scoreBatchIds = new ArrayList<Long>();
+			scoreBatchLoop: for(ScoreBatch scoreBatch: scoreBatches) {
+				if(scoreBatch.getClassId() == null || scoreBatch.getClassId().intValue() == 0) {
+					continue scoreBatchLoop;
+				}
+				scoreBatchIds.add(scoreBatch.getId());
+				//班级统计
+				classStatService.stat(scoreBatch.getClassId(), scoreBatch.getId());
+
+				//学生统计
+				List<Score> scores = scoreService.selectByClassId(scoreBatch.getClassId(), Constant.ScoreType.Test, scoreBatch.getId(), 1, Integer.MAX_VALUE);
+				if(scores != null && scores.size() > 0) {
+					for(Score score: scores) {
+						studentStatService.stat(score.getStudentId(), scoreBatch.getSubject());
+					}
+				}
+			}
+			scoreBatchService.updateBatch(scoreBatchIds, Constant.ScoreBatchState.Done, new Date());
+		}
+		return scoreBatchCount;
 	}
 	
 }
