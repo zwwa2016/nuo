@@ -32,7 +32,7 @@ CREATE TABLE `t_class` (
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +74,28 @@ CREATE TABLE `t_course` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `t_exam`
+--
+
+DROP TABLE IF EXISTS `t_exam`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_exam` (
+  `pk_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `fk_school_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '学校ID',
+  `grade` tinyint(4) NOT NULL DEFAULT '0' COMMENT '年级',
+  `name` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '考试名称',
+  `subjects` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '科目集合，逗号分隔',
+  `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
+  `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态，1录入中，2统计中，3已统计',
+  `fix_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '更新人',
+  `fk_fix_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '操作者',
+  PRIMARY KEY (`pk_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `t_manager`
 --
 
@@ -87,7 +109,7 @@ CREATE TABLE `t_manager` (
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间\n',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +128,7 @@ CREATE TABLE `t_manager_class` (
   `fk_create_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +164,7 @@ CREATE TABLE `t_school` (
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +186,7 @@ CREATE TABLE `t_score` (
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,18 +198,17 @@ DROP TABLE IF EXISTS `t_score_batch`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_score_batch` (
   `pk_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '批次名称',
+  `fk_exam_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '考试ID',
   `subject` tinyint(6) NOT NULL DEFAULT '0' COMMENT '科目，1语文，2数学，3英语，4地理，5政治，6物理，7化学，8生物，9文综，10理综',
   `fk_school_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '学校ID',
   `fk_class_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级ID',
   `state` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' COMMENT '状态，1未完成，2等待更新统计，3已完成',
-  `fk_parent_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '如果是是班级考试批次，则可能会绑定学校考试批次。',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   `fk_fix_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '操作完成的管理员',
   `fix_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '完成时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +270,7 @@ CREATE TABLE `t_user` (
   `country` varchar(15) NOT NULL DEFAULT '' COMMENT '国家',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +289,7 @@ CREATE TABLE `t_user_student` (
   `relationship` tinyint(4) NOT NULL DEFAULT '0' COMMENT '关系，1自己，2父亲，3母亲，4爷爷，5奶奶，6姑姑，7姑父，8姨，9姨父, 10创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -280,4 +301,4 @@ CREATE TABLE `t_user_student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-17 22:54:35
+-- Dump completed on 2018-01-27 20:31:22
