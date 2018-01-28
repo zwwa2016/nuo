@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +73,26 @@ public class ExamService {
 
 		checkPermission(loginUser, exam);
 
-		if(exam.getState() == Constant.ScoreBatchState.WaitStat && src.getState() != Constant.ScoreBatchState.WaitStat) {
+		if(exam.getState() == Constant.ExamState.WaitStat && src.getState() != Constant.ExamState.WaitStat) {
+			List<ScoreBatch> scoreBatches = scoreBatchService.selectByExamId(exam.getId(), 1, Integer.MAX_VALUE);
+
+			if(scoreBatches!=null && scoreBatches.size() > 0) {
+				List<Long> classIds = new ArrayList<Long>();
+				for(ScoreBatch scoreBatch: scoreBatches) {
+					if(scoreBatch.getState() != Constant.ScoreBatchState.Done) {
+						classIds.add(scoreBatch.getClassId());
+					}
+				}
+				if(classIds.size() > 0) {
+					List<Classes> classes = classesService.selectListByIds(classIds);
+					StringBuilder sb = new StringBuilder();
+					for(Classes temp: classes) {
+						sb.append(String.format("%d年级%d班, ", temp.getGrade(), temp.getNumber()));
+					}
+					throw new InvalidArgumentException("等待以下班级统计结束："+sb.toString());
+				}
+			}
+
 			exam.setFixTime(Constant.Time.Now());
 			exam.setFixManagerId(loginUser.getManager().getId());
 		}
