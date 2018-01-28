@@ -28,7 +28,7 @@ public class ScoreBatchController {
 	@NeedLogin
 	@RequestMapping(value="/scoreBatchs", method=RequestMethod.GET)
     public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long schoolId,
-    		@RequestParam(defaultValue="0") long classId, @RequestParam(defaultValue="0") long examId, @RequestParam(defaultValue="1") int page,
+    		@RequestParam(defaultValue="0") long classId,@RequestParam(defaultValue="0") int type, @RequestParam(defaultValue="0") long examId, @RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -40,11 +40,11 @@ public class ScoreBatchController {
 			scores.add(score);
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectBySchoolId(schoolId, page, pageSize);
-			count = service.countBySchoolId(schoolId);
+			scores = service.selectBySchoolId(schoolId, type, page, pageSize);
+			count = service.countBySchoolId(schoolId, type);
 		}else if(classId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectByClassId(classId, page, pageSize);
-			count = service.countByClassId(classId);
+			scores = service.selectByClassId(classId, type, page, pageSize);
+			count = service.countByClassId(classId, type);
 		}else if(examId > 0 && page > 0 && pageSize > 0) {
 			scores = service.selectByExamId(examId, page, pageSize);
 			count = service.countByExamId(examId);

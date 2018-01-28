@@ -20,9 +20,9 @@
 	</resultMap>
 	
     <insert id="insert" parameterType="ScoreBatch" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score_batch(`fk_exam_id`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
+		INSERT INTO t_score_batch(`fk_exam_id`, `type`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
 		`state`, `subject`, `fk_fix_manager_id`, `fix_time`)
-		VALUES(#{examId}, #{schoolId}, #{classId}, #{managerId}, #{createTime},
+		VALUES(#{examId}, #{type}, #{schoolId}, #{classId}, #{managerId}, #{createTime},
 		#{state}, #{subject}, #{fixManagerId}, #{fixTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreBatchMap">
@@ -57,6 +57,7 @@
 	<update id="update" parameterType="ScoreBatch">
 		UPDATE t_score_batch
 		SET `fk_exam_id` = #{examId},
+		`type` = #{type},
 		`fk_school_id` = #{schoolId},
 		`fk_class_id` = #{classId},
 		`fk_manager_id` = #{managerId},
@@ -80,23 +81,35 @@
 		SELECT *
 		FROM t_score_batch
 		WHERE fk_school_id = #{schoolId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
 		limit #{limit} offset #{offset}
 	</select>
 	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
 		SELECT count(1)
 		FROM t_score_batch
 		WHERE fk_school_id = #{schoolId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
 	</select>
 	<select id="selectByClassId" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT *
 		FROM t_score_batch
 		WHERE fk_class_id = #{classId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
 		limit #{limit} offset #{offset}
 	</select>
 	<select id="countByClassId" parameterType="Map" resultType="Integer">
 		SELECT count(1)
 		FROM t_score_batch
 		WHERE fk_class_id = #{classId}
+		<if test="type > 0">
+			and `type` = #{type}
+		</if>
 	</select>
 	<select id="selectByExamId" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT *
@@ -124,4 +137,14 @@
 			#{item}
 		</foreach>
 	</update>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO t_score_batch(`fk_exam_id`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
+		`state`, `subject`, `fk_fix_manager_id`, `fix_time`)
+		VALUES
+		<foreach collection ="scoreBatches" item="item" index= "index" separator =",">
+		(#{item.examId}, #{item.schoolId}, #{item.classId}, #{item.managerId}, #{item.createTime},
+		#{item.state}, #{item.subject}, #{item.fixManagerId}, #{item.fixTime})
+		</foreach>
+	</insert>
 </mapper>

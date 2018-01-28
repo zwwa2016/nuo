@@ -1,12 +1,10 @@
 package com.yinuo.task;
 
 import com.yinuo.bean.Constant;
+import com.yinuo.bean.Exam;
 import com.yinuo.bean.Score;
 import com.yinuo.bean.ScoreBatch;
-import com.yinuo.service.ClassStatService;
-import com.yinuo.service.ScoreBatchService;
-import com.yinuo.service.ScoreService;
-import com.yinuo.service.StudentStatService;
+import com.yinuo.service.*;
 import com.yinuo.util.CommonUtil;
 import org.omg.CORBA.COMM_FAILURE;
 import org.slf4j.Logger;
@@ -15,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TaskService {
@@ -34,6 +30,9 @@ public class TaskService {
 	@Autowired
 	private ScoreService scoreService;
 
+	@Autowired
+	private ExamService examService;
+
 	private static final long sleepTimes = 1000L * 60 * 5;
 
 	private Logger logger = LoggerFactory.getLogger(TaskService.class);
@@ -42,21 +41,59 @@ public class TaskService {
     public void taskCycle() throws Exception{
 
 		int scoreBatchCount = 0;
+		int examStatCount = 0;
 		do {
 			logger.info("execute taskCycle");
-			scoreBatchCount = classStat();
+			scoreBatchCount = classStudentStat();
+			examStatCount = examStat();
 
-			if(scoreBatchCount == 0) {
+			if(scoreBatchCount == 0 && examStatCount == 0) {
 				Thread.sleep(sleepTimes);
 			}
 		}while(true);
 	}
 
 	/**
+	 * 统计学生总分
+	 * @return
+	 */
+	private int examStat() {
+
+		List<Exam> exams = examService.selectByState(Constant.ExamState.WaitStat, 10);
+		int count = exams == null ? 0 : exams.size();
+		for(Exam exam: exams) {
+			List<ScoreBatch> scoreBatches = scoreBatchService.selectByExamId(exam.getId(), 1, Integer.MAX_VALUE);
+			if(scoreBatches != null && scoreBatches.size()>0) {
+				List<Score> scores = new ArrayList<Score>();
+				//按照班级分组，每个班级单独处理
+				Map<Long, List<ScoreBatch>> classMap = new HashMap<Long, List<ScoreBatch>>();
+				for(ScoreBatch scoreBatch: scoreBatches) {
+					if(classMap.get(scoreBatch.getClassId()) == null) {
+						classMap.put(scoreBatch.getClassId(), new ArrayList<ScoreBatch>());
+					}
+					classMap.get(scoreBatch.getClassId()).add(scoreBatch);
+				}
+
+				//分班统计不同学生总分
+
+
+
+			}
+
+
+
+		}
+
+
+
+		return count;
+	}
+
+	/**
 	 * 学生班级统计
 	 * @return
 	 */
-	private int classStat() {
+	private int classStudentStat() {
 		int scoreBatchCount = 0;
 		List<ScoreBatch> scoreBatches = scoreBatchService.selectByState(Constant.ScoreBatchState.WaitStat, 10);
 		scoreBatchCount = scoreBatches == null ? 0 : scoreBatches.size();

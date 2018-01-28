@@ -37,16 +37,20 @@ public class ExamService {
 		exam.setState(Constant.ExamState.Create);
 		examMapper.insert(exam);
 
+		List<ScoreBatch> scoreBatches = new ArrayList<ScoreBatch>();
 		List<Classes> classes = classesService.selectBySchoolId(exam.getSchoolId(), exam.getGrade(), 1, Integer.MAX_VALUE);
 		if(classes != null && classes.size() > 0) {
 			for (Classes temp : classes) {
 				for (String subject : exam.getSubjects().split(",")) {
 					if (subject != null && subject.length() > 0) {
-						ScoreBatch scoreBatch = new ScoreBatch(exam.getId(), exam.getSchoolId(), temp.getId(), Integer.parseInt(subject));
-						scoreBatchService.insert(loginUser, scoreBatch);
+						ScoreBatch scoreBatch = new ScoreBatch(exam.getId(), exam.getSchoolId(), temp.getId(), Integer.parseInt(subject), Constant.ScoreType.Test);
+						scoreBatches.add(scoreBatch);
 					}
 				}
 			}
+		}
+		if(scoreBatches.size() > 0) {
+			scoreBatchService.insertBatch(loginUser, scoreBatches);
 		}
 		return exam.getId();
 	}

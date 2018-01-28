@@ -381,7 +381,8 @@ wechat登陆
 			"examId": 1,	
 			"schoolId": 1,	
 			"classId": 1,
-			"subject": 1
+			"subject": 1,
+			"type":1
 		}
 
 	删除：request/delete: /scoreBatchs?id=1
@@ -393,9 +394,9 @@ wechat登陆
 			"state": 2
 		}
 
-	查询：request/get: /scoreBatchs?schoolId=1&page=1&pageSize=10
+	查询：request/get: /scoreBatchs?schoolId=1&type=1&page=1&pageSize=10
 					  /scoreBatchs?id=1
-					  /scoreBatchs?classId=1&page=1&pageSize=10
+					  /scoreBatchs?classId=1&type=1&page=1&pageSize=10
 					  /scoreBatchs?examId=1&page=1&pageSize=10
 
 		{
@@ -410,7 +411,8 @@ wechat登陆
 		            "managerId": 0,
 		            "createTime": "2018-01-13 16:51:07",
 		            "fixTime": "2018-01-13 16:51:07",
-		            "fixManagerId": 1
+		            "fixManagerId": 1,
+		            "type": 1
 		        }
 		    ],
 		    "code": 200,

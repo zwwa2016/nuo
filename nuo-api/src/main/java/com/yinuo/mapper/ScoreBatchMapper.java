@@ -10,13 +10,13 @@ import java.util.List;
 @Component
 public interface ScoreBatchMapper extends MapperI<ScoreBatch>{
 
-    public List<ScoreBatch> selectBySchoolId(@Param("schoolId") long schoolId, @Param("limit")int limit, @Param("offset")int offset);
+    public List<ScoreBatch> selectBySchoolId(@Param("schoolId") long schoolId,@Param("type") int type, @Param("limit")int limit, @Param("offset")int offset);
 
-    public int countBySchoolId(@Param("schoolId")long schoolId);
+    public int countBySchoolId(@Param("schoolId")long schoolId,@Param("type") int type);
 
-    public List<ScoreBatch> selectByClassId(@Param("classId")long classId, @Param("limit")int limit, @Param("offset")int offset);
+    public List<ScoreBatch> selectByClassId(@Param("classId")long classId,@Param("type") int type, @Param("limit")int limit, @Param("offset")int offset);
 
-    public int countByClassId(@Param("classId")long classId);
+    public int countByClassId(@Param("classId")long classId,@Param("type") int type);
 
     public List<ScoreBatch> selectByExamId(@Param("examId")long examId, @Param("limit")int limit, @Param("offset")int offset);
 
@@ -25,5 +25,7 @@ public interface ScoreBatchMapper extends MapperI<ScoreBatch>{
     public List<ScoreBatch> selectByState(@Param("state")int state, @Param("limit")int limit);
 
     public void updateBatch(@Param("ids")List<Long> ids, @Param("state")int state, @Param("fixTime")Date fixTime);
+
+    public void insertBatch(@Param("scoreBatches")List<ScoreBatch> scoreBatches);
 }
  

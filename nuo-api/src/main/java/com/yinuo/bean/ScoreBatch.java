@@ -17,6 +17,9 @@ public class ScoreBatch {
 	private Long id;
 	
 	private Long examId;
+
+	@IsInt(min = 1, max = 2)
+	private Integer type;
 	
 	private Long schoolId;
 	
@@ -41,11 +44,12 @@ public class ScoreBatch {
 
 	public ScoreBatch() {}
 
-	public ScoreBatch(long examId, long schoolId, long classId, int subject) {
+	public ScoreBatch(long examId, long schoolId, long classId, int subject, int type) {
 		this.examId = examId;
 		this.schoolId = schoolId;
 		this.classId = classId;
 		this.subject = subject;
+		this.type = type;
 	}
 	
 	public Long getId() {
@@ -123,6 +127,14 @@ public class ScoreBatch {
 
 	public void setFixManagerId(Long fixManagerId) {
 		this.fixManagerId = fixManagerId;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public Date getFixTime() {

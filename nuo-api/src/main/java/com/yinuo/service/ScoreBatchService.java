@@ -1,6 +1,7 @@
 package com.yinuo.service;
 
 import com.yinuo.bean.Constant;
+import com.yinuo.bean.Score;
 import com.yinuo.bean.ScoreBatch;
 import com.yinuo.bean.User;
 import com.yinuo.exception.InvalidArgumentException;
@@ -26,12 +27,36 @@ public class ScoreBatchService {
 		checkPermission(loginUser, scoreBatch);
 		CommonUtil.setDefaultValue(scoreBatch);
 
+		if(scoreBatch.getType() == Constant.ScoreType.Test) {
+			scoreBatch.setState(Constant.ScoreBatchState.Create);
+		}else if(scoreBatch.getType() == Constant.ScoreType.Work){
+			scoreBatch.setState(Constant.ScoreBatchState.Done);
+			scoreBatch.setExamId(0L);
+		}else {
+			throw new InvalidArgumentException("必须选择类型");
+		}
+
 		scoreBatch.setManagerId(loginUser.getManager().getId());
 		scoreBatch.setCreateTime(DateTool.standardSdf.format(new Date()));
 		scoreBatch.setFixTime(Constant.Time.Zone);
-		scoreBatch.setState(Constant.ScoreBatchState.Create);
 		scoreBatchMapper.insert(scoreBatch);
 		return scoreBatch.getId();
+	}
+
+	public void insertBatch(User loginUser, List<ScoreBatch> scoreBatches) {
+		if(scoreBatches == null || scoreBatches.size() <= 0) {
+			return;
+		}
+
+		for(ScoreBatch scoreBatch: scoreBatches) {
+			checkPermission(loginUser, scoreBatch);
+			CommonUtil.setDefaultValue(scoreBatch);
+			scoreBatch.setManagerId(loginUser.getManager().getId());
+			scoreBatch.setCreateTime(DateTool.standardSdf.format(new Date()));
+			scoreBatch.setFixTime(Constant.Time.Zone);
+			scoreBatch.setState(Constant.ScoreBatchState.Create);
+		}
+		scoreBatchMapper.insertBatch(scoreBatches);
 	}
 	
 	public ScoreBatch selectOne(long id) {
@@ -58,20 +83,20 @@ public class ScoreBatchService {
 		scoreBatchMapper.update(scoreBatch);
 	}
 
-	public List<ScoreBatch> selectBySchoolId(long schoolId, int page, int pageLength) {
-		return scoreBatchMapper.selectBySchoolId(schoolId, pageLength, (page-1)*pageLength);
+	public List<ScoreBatch> selectBySchoolId(long schoolId, int type, int page, int pageLength) {
+		return scoreBatchMapper.selectBySchoolId(schoolId, type, pageLength, (page-1)*pageLength);
 	}
 
-	public int countBySchoolId(long schoolId) {
-		return scoreBatchMapper.countBySchoolId(schoolId);
+	public int countBySchoolId(long schoolId, int type) {
+		return scoreBatchMapper.countBySchoolId(schoolId, type);
 	}
 
-	public List<ScoreBatch> selectByClassId(long classId, int page, int pageLength) {
-		return scoreBatchMapper.selectByClassId(classId, pageLength, (page-1)*pageLength);
+	public List<ScoreBatch> selectByClassId(long classId, int type, int page, int pageLength) {
+		return scoreBatchMapper.selectByClassId(classId, type, pageLength, (page-1)*pageLength);
 	}
 
-	public int countByClassId(long classId) {
-		return scoreBatchMapper.countByClassId(classId);
+	public int countByClassId(long classId, int type) {
+		return scoreBatchMapper.countByClassId(classId, type);
 	}
 
 	public List<ScoreBatch> selectByExamId(long examId, int page, int pageLength) {

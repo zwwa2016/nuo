@@ -21,11 +21,15 @@ public class Score {
 	
 	private Long studentId;
 
+	private Integer subject;
+
 	@IsInt(max = 1000, min = 0)
 	private Integer score;
 	
 	@IsString(minLength=1, maxLength=255)
 	private String pic;
+
+	private Long examId;
 
 	private Long scoreBatchId;
 
@@ -112,6 +116,22 @@ public class Score {
 
 	public void setClassId(Long classId) {
 		this.classId = classId;
+	}
+
+	public Long getExamId() {
+		return examId;
+	}
+
+	public void setExamId(Long examId) {
+		this.examId = examId;
+	}
+
+	public Integer getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Integer subject) {
+		this.subject = subject;
 	}
 
 	public String toString() {

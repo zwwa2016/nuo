@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yinuo.bean.*;
+import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.util.CommonUtil;
 import com.yinuo.view.ScoreView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,19 @@ public class ScoreService {
 		CommonUtil.checkNull(student, "找不到该学生");
 		loginUser.checkLevel(Constant.Role.Teacher, student.getSchoolId(), student.getClassId());
 
+		if(score.getType() == Constant.ScoreType.Test) {
+
+			ScoreBatch scoreBatch = null;
+			if(score.getScoreBatchId() != null && score.getScoreBatchId() > 0) {
+				scoreBatch = scoreBatchService.selectOne(score.getScoreBatchId());
+			}
+			if(scoreBatch == null) {
+				throw new InvalidArgumentException("考试批次必须要传");
+			}
+			score.setExamId(scoreBatch.getExamId());
+			score.setSubject(scoreBatch.getSubject());
+
+		}
 		score.setCreateTime(DateTool.standardSdf.format(new Date()));
 		scoreMapper.insert(score);
 		return score.getId();

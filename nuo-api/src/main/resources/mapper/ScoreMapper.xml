@@ -8,18 +8,20 @@
 	<resultMap id="scoreMap" type="Score">
 		<result property="id" column="pk_id" />
 		<result property="type" column="type" />
+		<result property="subject" column="subject" />
 		<result property="studentId" column="fk_student_id" />
 		<result property="classId" column="fk_class_id" />
 		<result property="score" column="score" />
 		<result property="pic" column="pic" />
+		<result property="examId" column="fk_exam_id" />
 		<result property="scoreBatchId" column="fk_score_batch_id" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Score" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score(`type`, `fk_student_id`, `fk_class_id`, `score`, `pic`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
-		VALUES(#{type}, #{studentId}, #{classId}, #{score}, #{pic}, #{scoreBatchId}, #{managerId}, #{createTime})
+		INSERT INTO t_score(`type`, `subject`, `fk_student_id`, `fk_class_id`, `score`, `pic`, `fk_exam_id`, ``fk_score_batch_id`, `fk_manager_id`, `create_time`)
+		VALUES(#{type}, #{subject}, #{studentId}, #{classId}, #{score}, #{pic}, #{examId}, #{scoreBatchId}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreMap">
 		SELECT * 
@@ -53,10 +55,12 @@
 	<update id="update" parameterType="Score">
 		UPDATE t_score
 		SET `type` = #{type},
+		`subject` = #{subject},
 		`fk_student_id` = #{studentId},
 		`fk_class_id` = #{classId},
 		`score` = #{score},
 		`pic` = #{pic},
+		`fk_exam_id` = #{examId},
 		`fk_score_batch_id` = #{scoreBatchId},
 		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime}

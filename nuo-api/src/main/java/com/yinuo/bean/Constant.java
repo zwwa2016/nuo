@@ -31,6 +31,13 @@ public class Constant {
 		public static final int Done = 3;
 	}
 
+	public static class Subject {
+
+		//总分
+		public static final int ALL = 999;
+
+	}
+
 	public static class ExamState {
 
 		public static final int Create = 1;
