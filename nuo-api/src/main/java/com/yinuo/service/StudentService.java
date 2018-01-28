@@ -57,21 +57,6 @@ public class StudentService {
 		Student src = selectOne(student.getId());
 		loginUser.checkLevel(Constant.Role.Teacher, src.getSchoolId(), src.getClassId());
 		
-		//check
-		List<UserStudent> uss = userStudentService.selectListByUserid(loginUser.getId(), student.getId(), 1, Integer.MAX_VALUE);
-		boolean flag = true;
-		if(uss != null && uss.size() > 0) {
-			for(UserStudent us: uss) {
-				if(us.getStudentId().longValue() == student.getId().longValue() 
-						&& us.getRelationship().intValue() == UserStudentRelationship.create) {
-					flag = false;
-				}
-			}
-		}
-		if(flag) {
-			throw new InvalidArgumentException("不是创建人，不能修改学生信息");
-		}
-		
 		student = (Student) MergerUtil.merger(src, student);
 		studentMapper.update(student);
 	}

@@ -8,13 +8,14 @@
 	<resultMap id="schoolMap" type="School">
 		<result property="id" column="pk_id" />
 		<result property="name" column="name" />
+		<result property="type" column="type" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
 	
     <insert id="insert" parameterType="School" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_school(`name`, `fk_manager_id`, `create_time`)
-		VALUES(#{name}, #{managerId}, #{createTime})
+		INSERT INTO t_school(`name`, `type`, `fk_manager_id`, `create_time`)
+		VALUES(#{name}, #{type}, #{managerId}, #{createTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="schoolMap">
 		SELECT * 
@@ -49,6 +50,7 @@
 	<update id="update" parameterType="School">
 		UPDATE t_school
 		SET `name` = #{name},
+		`type` = #{type},
 		`fk_manager_id` = #{managerId},
 		`create_time` = #{createTime}
 		WHERE pk_id = #{id}

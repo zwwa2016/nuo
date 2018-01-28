@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yinuo.exception.InvalidHttpArgumentException;
+import com.yinuo.validation.IsInt;
 import com.yinuo.validation.IsString;
 
 import java.text.ParseException;
@@ -17,6 +18,9 @@ public class School {
 	
 	@IsString(minLength = 1, maxLength = 63)
 	private String name;
+
+	@IsInt(min = 1, max = 3)
+	private Integer type;
 
 	private Long managerId;
 	
@@ -59,6 +63,14 @@ public class School {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public String toString() {

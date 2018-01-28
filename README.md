@@ -117,6 +117,7 @@ wechat登陆
 	查询：request/get: 	/students?page=1&pageLength=10	/查询当前登录者绑定的信息
 						/students?name=abc	/按照学生名查询
 						/students?classId=3	/按照班级ID查询，需要至少老师权限
+						/students?id=1	/按照ID查询
 
 		response: 
 		{
@@ -163,7 +164,8 @@ wechat登陆
 	新增：request/post: /schools
 
 		{
-			"name": "abc"
+			"name": "abc",
+			"type": 1
 		}
 
 	删除：request/delete: /schools?id=1
@@ -172,7 +174,8 @@ wechat登陆
 
 		{
 			"id": 1,
-			"name": "abc2"
+			"name": "abc2",
+			"type": 1
 		}
 
 	查询：request/get: /schools?id=4
@@ -184,18 +187,21 @@ wechat登陆
 		        {
 		            "id": 4,
 		            "name": "abc2",
+		            "type": 1,
 		            "managerId": 1,
 		            "createTime": "2018-01-13 16:09:39"
 		        },
 		        {
 		            "id": 3,
 		            "name": "abc",
+		            "type": 1,
 		            "managerId": 1,
 		            "createTime": "2018-01-13 16:09:16"
 		        },
 		        {
 		            "id": 2,
 		            "name": "abc",
+		            "type": 1,
 		            "managerId": 1,
 		            "createTime": "2018-01-13 16:06:57"
 		        }
