@@ -37,9 +37,9 @@ public class ScoreService {
 		CommonUtil.setDefaultValue(score);
 
 		Student student = studentService.selectOne(score.getStudentId());
-		score.setClassId(student.getClassId());
-
 		CommonUtil.checkNull(student, "找不到该学生");
+
+		score.setClassId(student.getClassId());
 		loginUser.checkLevel(Constant.Role.Teacher, student.getSchoolId(), student.getClassId());
 
 		if(score.getType() == Constant.ScoreType.Test) {
@@ -48,9 +48,7 @@ public class ScoreService {
 			if(score.getScoreBatchId() != null && score.getScoreBatchId() > 0) {
 				scoreBatch = scoreBatchService.selectOne(score.getScoreBatchId());
 			}
-			if(scoreBatch == null) {
-				throw new InvalidArgumentException("考试批次必须要传");
-			}
+			CommonUtil.checkNull(scoreBatch, "找不到考试批次");
 			score.setExamId(scoreBatch.getExamId());
 			score.setSubject(scoreBatch.getSubject());
 
@@ -105,6 +103,14 @@ public class ScoreService {
 
 	public int countByClassId(long classId, int type, long scoreBatchId) {
 		return scoreMapper.countByClassId(classId, type, scoreBatchId);
+	}
+
+	public List<Score> selectByExamId(long examId, long id, int limit) {
+		return scoreMapper.selectByExamId(examId, id, limit);
+	}
+
+	public void insertBatch(List<Score> scores) {
+		scoreMapper.insertBatch(scores);
 	}
 
 	public List<ScoreView> convert2View(List<Score> scores) {

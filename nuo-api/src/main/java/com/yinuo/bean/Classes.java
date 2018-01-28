@@ -15,7 +15,7 @@ public class Classes {
 
 	private Long id;
 	
-	@IsInt(min=1, max=6)
+	@IsInt(min=1, max=12)
 	private Integer grade;
 
 	@IsInt(min=1, max=99)
