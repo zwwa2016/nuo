@@ -39,6 +39,11 @@ Page({
       { id: 8, name: "生物" },
       { id: 9, name: "文综" },
       { id: 10, name: "理综" }
+    ],
+    schoolTypes: [
+      { id: 1, name: "小学"},
+      { id: 2, name: "初中"},
+      { id: 3, name: "高中"}
     ]
   },
 
@@ -81,11 +86,13 @@ Page({
     var edit = that.data.edit;
     if(addType == 0){
       var schoolName = value.schoolName;
-      if(schoolName==null || schoolName.length == 0){
+      var schoolType = value.schoolType;
+      if (schoolName == null || schoolName.length == 0 || schoolType == ""){
         that.toast();
         return;
       }
       data.name = schoolName;
+      data.type = schoolType;
     } else if(addType == 1){
       var grade = value.grade;
       var num = value.num;

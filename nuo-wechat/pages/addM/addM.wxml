@@ -4,6 +4,12 @@
     <view wx:if="{{addType == 0}}">
       <view class="title">学校名称</view>
       <input type='text' name="schoolName" placeholder="请输入" />
+      <view class="title">学校类型</view>
+      <radio-group class="radio-group" name="schoolType">
+        <label class="checkbox" wx:for="{{schoolTypes}}" wx:for-item="schoolType">
+          <radio value="{{schoolType.id}}" />{{schoolType.name}}
+        </label>
+      </radio-group>
     </view>
     <view wx:if="{{addType == 1}}">
       <view class="title">年级</view>
