@@ -1,0 +1,81 @@
+<!--pages/addM/addM.wxml-->
+<form bindsubmit="formSubmit" bindreset="formReset">
+  <view class='form'>
+    <view wx:if="{{addType == 0}}">
+      <view class="title">学校名称</view>
+      <input type='text' name="schoolName" placeholder="请输入" />
+    </view>
+    <view wx:if="{{addType == 1}}">
+      <view class="title">年级</view>
+      <input type='number' name="grade" placeholder="请输入" />
+      <view class="title">班级</view>
+      <input type='number' name="num" placeholder="请输入" />
+      <view class="title">学校</view>
+      <radio-group name="schoolId">
+        <block wx:for="{{schools}}" wx:for-item="school" wx:key="id">
+          <label><radio value="{{school.id}}"/>{{school.name}}</label>
+        </block>
+      </radio-group>
+    </view>
+    <view wx:if="{{addType == 2}}">
+      <view class="title">姓名</view>
+      <input type='text' value='{{student.name}}' name="studentName" placeholder="请输入" />
+      <view class="title">出生年月日</view>
+      <picker mode="date" value="{{birthday}}" start="2000-01-01" end="2018-09-01" bindchange="bindDateChange">
+        <view class="picker">
+          {{birthday}}
+        </view>
+      </picker>
+      <view class="title">性别</view>
+      <radio-group name="sex">
+        <label><radio checked="{{nan}}" value="1"/>男</label>
+        <label><radio checked="{{nv}}" value="2"/>女</label>
+      </radio-group>
+      <view class="title-head">头像</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">点击可预览选好的图片</view>
+                <view class="weui-uploader__info">{{imageList.length}}/1</view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files">
+                  <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{value}}">
+                    <view class="weui-uploader__file">
+                      <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+                    </view>
+                  </block>
+                </view>
+                <view class="weui-uploader__input-box {{uplodState}}">
+                  <view class="weui-uploader__input" bindtap="chooseImage"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{addType == 3}}">
+      <view class="title">考试批次名称</view>
+      <input type='text' name="examsName" placeholder="请输入" />
+      <view class="title">年级</view>
+      <radio-group class="radio-group" name="grade">
+        <label wx:if="{{grade.cl== sType}}" class="checkbox" wx:for="{{grades}}" wx:for-item="grade">
+          <radio value="{{grade.id}}" />{{grade.name}}
+        </label>
+      </radio-group>
+      <view class="title">学科</view>
+      <checkbox-group name="subject">
+        <label  class="checkbox" wx:for="{{subjects}}" wx:for-item="subject">
+          <checkbox value="{{subject.id}}" />{{subject.name}}
+        </label>
+      </checkbox-group>
+    </view>
+    <view class="btn-area">
+      <button size='mini' type='primary' formType="submit">提交</button>
+      <button size='mini' formType="reset">重置</button>
+    </view>
+  </view>
+</form>

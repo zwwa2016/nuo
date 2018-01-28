@@ -1,0 +1,36 @@
+<!--pages/schoolM/schoolM.wxml-->
+<view class='index-hd'>
+  <navigator url="../../pages/addM/addM?type=0">
+    <view bindtap='add' class='add'>
+      <image class='add-img' src='../../images/add.png'></image>
+      <text>新增</text>
+    </view>
+  </navigator>
+</view>
+<view class="index-bd">
+  <view class='index-title'><text>学校列表</text></view>
+  <block wx:for="{{schools}}" wx:for-item="school" wx:key="id">
+    <view class='index-c'>
+      <view class="index-list">
+        <view class="kind-list-hd">
+          <text>{{school.name}}</text>
+        </view>
+        <view class='view-delete' bindtap='deleteSchoolModal' data-index="{{index}}" data-sId="{{school.id}}">
+          <image class='icon-delete' src='../../images/delete.png'></image>
+        </view>
+      </view>
+      <navigator url="../../pages/batchM/batchM?sId={{school.id}}">
+        <view class="index-list">
+          <view class="kind-list-hd-l index-student">
+            <image class="kind-list-img" src="../../images/batch.png"></image>
+            <view class='index-stu-title'><text>考试批次管理</text></view>
+            <view class='child-right-icon'>
+              <image class='icon-right' src='../../images/right.png'></image>
+            </view>
+          </view>
+        </view>
+      </navigator>
+    </view>
+    
+  </block>
+</view>

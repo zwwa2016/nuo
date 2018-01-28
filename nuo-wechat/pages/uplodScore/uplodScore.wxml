@@ -1,0 +1,46 @@
+<view class='find-hd'>
+  <text class="find-title">录入成绩</text>
+</view>
+
+<form bindsubmit='sumbitScore'>
+  <view class='childs'>
+    <view class='child-detail'>
+      <view class='child-state'>
+        <view class='state-title'><text>类型</text></view>
+        <text>考试</text>
+      </view>
+      <view class='child-state'>
+        <view class='state-title'><text>成绩</text></view>
+        <input id="score" name="score" type="digit" placeholder="带小数点的数字键盘"/>
+      </view>
+    </view>	
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+              <view class="state-title">试卷</view>
+              <view class="weui-uploader__title">点击可预览选好的图片</view>
+              <view class="weui-uploader__info">{{imageList.length}}/9</view>
+            </view>
+            <view class="weui-uploader__bd">
+              <view class="weui-uploader__files">
+                <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{value}}">
+                  <view class="weui-uploader__file">
+                    <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+                  </view>
+                </block>
+              </view>
+              <view class="weui-uploader__input-box {{uplodState}}">
+                <view class="weui-uploader__input" bindtap="chooseImage"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <button type="primary"  form-type='submit' bindtap="primary"> 提交 </button>
+    <view class='error {{errorShow}}'>{{message}}</view>
+  </view>
+</form>
+

@@ -1,0 +1,26 @@
+<view class="index-bd">
+  <view class='index-title'><text>学生列表</text></view>
+  <block wx:for="{{students}}" wx:for-item="student" wx:key="id">
+    <view class='child-bd'>
+      <view class='child-detail'>
+        <view class="child-content">
+          <view class='child-pic'><image src='{{student.pic}}'></image></view>
+          <view class='child-de'>
+            <view class='child-right'>
+              <view class="child-name">
+                <text>{{student.name}}</text>
+                <image wx:if="{{student.sex == 1}}" class='child-sex' src='../../images/boy.png'></image>
+                <image wx:else class='child-sex' src='../../images/girl.png'></image>
+              </view>
+              <view class="child-birthday"><text>{{student.birthday}}</text></view>
+            </view>
+          </view>
+          <view class='child-btn'>
+            <button wx:if="{{student.scoreType==1}}" bindtap="uplodScore"  data-sid="{{student.id}}" type="primary" size='mini'>上传</button>
+            
+          </view>
+        </view>
+      </view>
+    </view>	
+  </block>
+</view>

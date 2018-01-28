@@ -1,0 +1,41 @@
+<!--pages/homework/homework.wxml-->
+<view class="section">
+  <view class="section-title">作业概况</view>
+  <view class="flex-wrp" style="flex-direction:row;">
+    <view class="flex-item">
+      <view class='score'><text>70 分</text></view>
+      <view class='score-text'><text>平均成绩</text></view>
+    </view>
+    <view class="flex-item">
+      <view class='score'><text>75 分</text></view>
+      <view class='score-text'><text>最新成绩</text></view>
+    </view>
+    <view class="flex-item">
+      <view class='score'><text>90 分</text></view>
+      <view class='score-text'><text>最优成绩</text></view>
+    </view>
+  </view>
+</view>
+<scroll-view class='section' scroll-y="true">
+  <view class="section-title">作业详情</view>
+	<block wx:for="{{score}}" wx:for-item="score" wx:key="id">
+		<view bindtap="viewScore" data-pics="{{score.pics}}">
+			<view class="score-content">
+        <view class="score-detail">
+          <text class="score-name">{{score.scoreBatch.name}}</text>	
+          <text class="score-time">{{score.createTime}}</text>
+        </view>
+        <view class='detail-score'>
+          <text >{{score.score}} 分</text>
+          <image class="right-img" src="../../images/right.png"></image>
+        </view>
+        <view class='score-pic'>
+          <image class='score-pic-img' mode="aspectFill" src="{{score.pics[0]}}"></image>
+        </view>
+			</view>
+		</view>	
+	</block>
+  <view class="score-content">
+    <view class='error {{errorShow}}'><text>{{message}}</text></view>
+  </view>
+</scroll-view>

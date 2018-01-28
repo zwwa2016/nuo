@@ -1,0 +1,117 @@
+/* pages/findChild/findChild.wxss */
+page{
+  background-color: #FFF;
+}
+.find-hd{
+  background-color: #FFF;
+  padding: 30rpx 0;
+  border-bottom:5px solid #f8f8f8;
+}
+.find{
+  height: 100rpx;
+  margin: 0 40rpx;
+  border-bottom:1px solid #fc6804;
+}
+.find-input{
+  height: 100%;
+}
+.find-icon{
+  float: left;
+  height: 60rpx;
+  width: 60rpx;
+  margin-top: 20rpx;
+}
+
+.child-bd{
+  border-bottom:5px solid #f8f8f8;
+}
+.child-detail{
+  padding: 0 40rpx;
+}
+.child-content{
+  display: flex;
+  padding: 30rpx 0;
+}
+
+.child-pic{
+  width: 120rpx;
+  height: 120rpx;
+}
+.child-pic image{
+  width: 100%;
+  height: 100%;
+}
+.child-sex{
+  margin-left: 20rpx;
+  height: 40rpx;
+  width: 40rpx;
+}
+
+.child-state{
+  height:100rpx;
+  font-size: 16px;
+  align-items:center;/*指定垂直居中*/
+  line-height: 100rpx;
+  display: flex;
+  border-top:1px solid #f8f8f8;
+}
+.state-title{
+  width: 140rpx;
+}
+.state{
+  color: #666;
+}
+
+.child-de{
+  display: flex;
+  flex: 1;
+}
+.child-right{
+  padding-left: 20rpx;
+}
+.child-name{
+  font-size: 18px;
+  height: 50%;
+  display: flex;
+  align-items:center;/*指定垂直居中*/
+}
+.child-birthday{
+  font-size: 14px;
+  color: #666;
+  height: 50%;
+  display: flex;
+  align-items:center;/*指定垂直居中*/
+}
+.child-btn{
+  display: flex;
+  align-items:center;/*指定垂直居中*/
+}
+.child-btn-text{
+  font-size: 13px;
+  color: #888;
+}
+.picker{
+  flex:1; 
+}
+.picker-text{
+  float: left;
+  width: 80%
+}
+.picker-icon{
+  float:right;
+  align-items:center;
+  height:85rpx;
+  display:flex;
+  width: 20%;
+}
+.picker-icon-img{
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.error{
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  padding-top: 20rpx;
+}

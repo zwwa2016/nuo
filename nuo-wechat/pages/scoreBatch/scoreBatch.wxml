@@ -1,0 +1,51 @@
+<view class='find-hd'>
+    <text class="find-title">选择成绩批次录入</text>
+</view>
+
+<view class='childs'>
+  <block wx:for="{{scoreBatch}}" wx:for-item="scoreBatch" wx:key="id">
+      <view class='child-bd'>
+        <view class='child-detail'>
+          <view  class='child-state'>
+            <view class='child-work'>
+              <text>批次名称</text>
+            </view>
+            <view class='child-inform'>
+              <text>{{scoreBatch.examName}}</text>
+            </view>
+          </view>
+          <view  class='child-state'>
+            <view class='child-work'>
+              <text>学科</text>
+            </view>
+            <view class='child-inform'>
+              <text>{{subjects[scoreBatch.subject].name}}</text>
+            </view>
+          </view>
+          <view  class='child-state'>
+            <view class='child-work'>
+              <text>成绩录入</text>
+            </view>
+            <view class='child-inform'>
+              <text></text>
+            </view>
+            <view class='child-btn'>
+              <button bindtap="inputScore" data-sname="{{scoreBatch.examName}}" data-cid="{{scoreBatch.classId}}" data-sbid="{{scoreBatch.id}}" type="primary" size='mini'>录入</button>
+            </view>
+          </view>
+          <view  class='child-state'>
+            <view class='child-work'>
+              <text>同步状态</text>
+            </view>
+            <view class='child-inform'>
+              <text>{{scoreBatch.stateMes}}</text>
+            </view>
+            <view class='child-btn'>
+              <button bindtap="updateScoreBatch" data-id="{{scoreBatch.id}}" type="primary" size='mini'>同步</button>
+            </view>
+          </view>
+        </view>
+      </view>	
+  </block>
+  <view class='error {{errorShow}}'>{{message}}</view>
+</view>

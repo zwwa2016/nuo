@@ -1,0 +1,16 @@
+/* pages/scoreBatch/scoreBatch.wxss */
+@import "../children/children.wxss";
+.find-title{
+  padding:0rpx 40rpx;
+  color: #fc6804;
+}
+.child-work{
+  width: 200rpx;
+}
+.child-inform{
+  width:auto;
+  min-width: 40%;
+}
+.child-btn{
+  flex:1;
+}

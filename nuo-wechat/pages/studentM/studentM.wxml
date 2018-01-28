@@ -1,0 +1,38 @@
+<view class='index-hd'>
+  <navigator url="../../pages/addM/addM?type=2&sId={{sId}}&cId={{cId}}">
+    <view bindtap='add' class='add'>
+      <image class='add-img' src='../../images/add.png'></image>
+      <text>新增</text>
+    </view>
+  </navigator>
+</view>
+<view class="index-bd">
+  <view class='index-title'><text>学生列表</text></view>
+  <block wx:for="{{students}}" wx:for-item="student" wx:key="id">
+    <view class='child-bd'>
+      <view class='child-detail'>
+        <view class="child-content">
+          <view class='child-pic'><image src='{{student.pic}}'></image></view>
+          <view class='child-de'>
+            <view class='child-right'>
+              <view class="child-name">
+                <text>{{student.name}}</text>
+                <image wx:if="{{student.sex == 1}}" class='child-sex' src='../../images/boy.png'></image>
+                <image wx:else class='child-sex' src='../../images/girl.png'></image>
+              </view>
+              <view class="child-birthday"><text>{{student.birthday}}</text></view>
+            </view>
+          </view>
+          <view class='child-btn'>
+            <view class='view-delete' bindtap='editStudentModal' data-stuid="{{student.id}}">
+              <image class='icon-delete' src='../../images/edit.png'></image>
+            </view>
+            <view class='view-delete' bindtap='deleteStudentModal' data-index="{{index}}" data-sid="{{student.id}}">
+              <image class='icon-delete' src='../../images/delete.png'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>	
+  </block>
+</view>

@@ -1,0 +1,42 @@
+<!--pages/classM/classM.wxml-->
+<view wx:if="{{role == 1 || role == 2 || role == 3}}" class='index-hd'>
+  <navigator url="../../pages/addM/addM?type=1">
+    <view bindtap='add' class='add'>
+      <image class='add-img' src='../../images/add.png'></image>
+      <text>新增</text>
+    </view>
+  </navigator>
+</view>
+<view class="index-bd">
+  <view class='index-title'><text>班级列表</text></view>
+  <block wx:for="{{classs}}" wx:for-item="class" wx:key="id">
+    <block wx:for="{{class.classes}}" wx:for-item="classes" wx:key="id">
+      <view class='index-c'>
+        <view class="index-list">
+          <view class="kind-list-hd">
+            <text>班级：{{classes.grade}}年级{{classes.number}}班</text>
+          </view>
+          <view class='view-delete' bindtap='deleteClassModal' data-index="{{index}}" data-cid="{{classes.id}}">
+            <image class='icon-delete' src='../../images/delete.png'></image>
+          </view>
+        </view>
+        <view class="index-list">
+          <view class="kind-list-hd">
+            <text>学校：{{class.name}}</text>
+          </view>
+        </view>
+        <navigator url="../../pages/studentM/studentM?sId={{class.id}}&cId={{classes.id}}">
+          <view class="index-list">
+            <view class="kind-list-hd-l index-student">
+              <image class="kind-list-img" src="../../images/student.png"></image>
+              <view class='index-stu-title'><text>学生管理</text></view>
+              <view class='child-right-icon'>
+                <image class='icon-right' src='../../images/right.png'></image>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </block>
+  </block>
+</view>

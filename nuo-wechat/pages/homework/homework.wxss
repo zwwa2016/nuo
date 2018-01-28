@@ -1,0 +1,2 @@
+/* pages/homework/homework.wxss */
+@import "../transcript/transcript.wxss";

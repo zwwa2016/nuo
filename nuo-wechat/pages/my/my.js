@@ -4,18 +4,27 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
+    list: [
+      {
+        id: 'order',
+        name: '我的订单'
+      }, {
+        id: 'children',
+        name: '我的孩子'
+      }
+    ],
+    role:0,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
   onLoad: function () {
+    var role = wx.getStorageSync("role");
+    this.setData({
+      role:role
+    });
+    console.log("当前的role");
+    console.log(this.data.role);
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

@@ -1,12 +1,44 @@
 {
-  "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
+  "pages": [
+    "pages/children/children",
+    "pages/findChild/findChild",
+    "pages/my/my",
+    "pages/homework/homework",
+    "pages/transcript/transcript",
+    "pages/score/score",
+    "pages/scoreBatch/scoreBatch",
+    "pages/students/students",
+    "pages/uplodScore/uplodScore",
+    "pages/schoolM/schoolM",
+    "pages/studentM/studentM",
+    "pages/classM/classM",
+    "pages/batchM/batchM",
+    "pages/addM/addM"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fc6804",
+    "navigationBarTextStyle": "#000",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#515151",
+    "selectedColor": "#fc6804",
+    "borderStyle": "#f8f8f8",
+    "backgroundColor": "white",
+    "list": [
+      {
+        "pagePath": "pages/children/children",
+        "text": "首页",
+        "iconPath": "images/homeN.png",
+        "selectedIconPath": "images/homeS.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/myN.png",
+        "selectedIconPath": "images/myS.png"
+      }
+    ]
   }
 }

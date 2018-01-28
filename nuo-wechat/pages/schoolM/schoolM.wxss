@@ -1,0 +1,74 @@
+/* pages/schoolM/schoolM.wxss */
+page{
+  background-color: #FFF;
+}
+.index-hd{
+  border-bottom: 5px solid #f8f8f8;
+
+}
+.add{
+  padding: 10rpx 40rpx;
+  display: flex;
+  align-items: center;
+}
+.add-img{
+  width:80rpx;
+  height:80rpx;
+}
+/*新增样式结束*/
+
+.index-list{
+  height:100rpx;
+  font-size:16px;
+  align-items:center;
+  line-height:100rpx;
+  border-bottom:1px solid #f8f8f8;
+  display: flex;
+}
+.index-title{
+  background-color: #f8f8f8;
+  font-size: 12px;
+  padding: 15rpx 40rpx 0rpx 40rpx;
+}
+.kind-list-hd{
+  padding: 0rpx 0rpx 0rpx 40rpx;
+  flex:1;
+}
+.kind-list-hd-l{
+  padding: 0rpx 40rpx;
+  flex:1;
+}
+.view-delete{
+  display: flex;
+  align-items:center;
+  padding: 0 40rpx;
+  height: 100%;
+}
+.icon-delete{
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.index-c{
+  border-bottom: 5px solid #f8f8f8;
+}
+.child-right-icon{
+  width: 60rpx;
+}
+.icon-right{
+  height: 40rpx;
+  width: 40rpx;
+  float: right;
+}
+.index-student{
+  display: flex;
+  align-items:center;
+}
+.index-stu-title{
+  flex: 1;
+}
+.kind-list-img {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 15px;
+}

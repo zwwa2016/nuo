@@ -1,0 +1,39 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="index-bd">
+    <view class="kind-list">
+        <view wx:if="{{role == 1}}" class="kind-list-item">
+          <navigator url="../../pages/schoolM/schoolM">
+            <view id="1" class="kind-list-item-hd">
+              <image class="kind-list-img" src="../../images/school.png"></image>
+              <view class="kind-list-text">学校/批次管理</view>
+            </view>
+          </navigator>
+        </view>
+        <view wx:if="{{role == 1 || role == 2}}" class="kind-list-item">
+          <navigator url="../../pages/classM/classM">
+            <view id="1" class="kind-list-item-hd">
+              <image class="kind-list-img" src="../../images/classs.png"></image>
+              <view class="kind-list-text">班级/学生管理</view>
+            </view>
+          </navigator>
+        </view>
+        <view wx:if="{{role == 1 || role == 2 || role == 3}}" class="kind-list-item">
+          <navigator url="../../pages/score/score">
+            <view id="1" class="kind-list-item-hd">
+              <image class="kind-list-img" src="../../images/transcript.png"></image>
+              <view class="kind-list-text">成绩录入</view>
+            </view>
+          </navigator>
+        </view>
+    </view>
+  </view>
+  
+</view>

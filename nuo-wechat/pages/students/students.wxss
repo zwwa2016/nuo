@@ -1,0 +1,6 @@
+/* pages/studentM/studentM.wxss */
+@import "../classM/classM.wxss";
+@import "../children/children.wxss";
+.view-delete{
+  padding: 0 15rpx;
+}

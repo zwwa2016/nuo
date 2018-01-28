@@ -1,0 +1,40 @@
+<view wx:if="{{role == 1 || role == 2}}" class='index-hd'>
+  <navigator url="../../pages/addM/addM?type=3&schoolId={{schoolId}}&sType={{sType}}">
+    <view bindtap='add' class='add'>
+      <image class='add-img' src='../../images/add.png'></image>
+      <text>新增</text>
+    </view>
+  </navigator>
+</view>
+<view class="index-bd">
+  <view class='index-title'><text>批次列表</text></view>
+  <block wx:for="{{exams}}" wx:for-item="exam" wx:key="id">
+    <view class='index-c'>
+      <view class="index-list">
+        <view class="kind-list-hd">
+          <text>{{exam.name}}</text>
+        </view>
+        <view class='view-delete' bindtap='deleteBatchModal' data-index="{{index}}" 
+        data-eid="{{exam.id}}">
+          <image class='icon-delete' src='../../images/delete.png'></image>
+        </view>
+      </view>
+      <view class="index-list">
+        <view class="kind-list-hd">
+          <text>学校：{{schoolName}}</text>
+        </view>
+      </view>
+      <view class="index-list">
+        <view class="kind-list-hd">
+          <text>年级：{{grade[exam.grade].name}}</text>
+        </view>
+      </view>
+      <view class="index-list">
+        <view class="kind-list-hd">
+          <text>学科：<block wx:for="{{exam.subjectId}}" wx:for-item="subjectId" wx:key="id"><text wx:if="{{index != 0}}">,</text>{{subject[subjectId].name}}</block>
+          </text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

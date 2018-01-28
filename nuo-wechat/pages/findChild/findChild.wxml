@@ -1,0 +1,53 @@
+<!--pages/findChild/findChild.wxml-->
+<view class='find-hd'>
+  <view  class='find'>
+    <icon class='find-icon' type="search" color='#fc6804'></icon>
+    <input bindinput="findChild" class="find-input" placeholder="输入学生全名，键盘搜索" confirm-type="search" type='text' auto-focus/>
+  </view>
+</view>
+
+<view>
+  <block wx:for="{{childs}}" wx:for-item="child" wx:key="id">
+    <view class='child-bd'>
+      <view class='child-detail'>
+        <view class="child-content">
+          <view class='child-pic'><image src='{{child.pic}}'></image></view>
+          <view class='child-de'>
+            <view class='child-right'>
+              <view class="child-name">
+                <text>{{child.name}}</text>
+                <image wx:if="{{child.sex == 1}}" class='child-sex' src='../../images/boy.png'></image>
+                <image wx:else class='child-sex' src='../../images/girl.png'></image>
+              </view>
+              <view class="child-birthday"><text>{{child.birthday}}</text></view>
+            </view>
+          </view>
+          <view class='child-btn'>
+              <button wx:if="{{child.bindState}}" bindtap="bindChild" data-id="{{child.id}}" data-index="{{index}}" data-ix="{{ix}}" type="primary" size='mini'>绑定</button>
+              <text wx:else class='child-btn-text'>已绑定</text>
+          </view>
+        </view>
+        <view class='child-state'>
+          <view class='state-title'><text>关系</text></view>
+          <view class='picker'>
+            <picker class='picker' bindchange="bindPickerChange" value="{{ix}}" range="{{relation}}" range-key='name'>
+              <view class="picker-text">{{relation[ix].name}}</view>
+              <view class="picker-icon"><image class='picker-icon-img' src='../../images/down.png'></image></view>
+              
+            </picker>
+          </view>
+        </view>
+        <view class='child-state'>
+          <view class='state-title'><text>学校</text></view>
+          <text class='state'>{{child.shcoolName}}</text>
+        </view>
+        <view class='child-state'>
+          <view class='state-title'><text>班级</text></view>
+          <text class='state'>{{child.className}}</text>
+        </view>
+        
+      </view>
+    </view>	
+  </block>
+  <view class='error {{errorShow}}'>{{message}}</view>
+</view>

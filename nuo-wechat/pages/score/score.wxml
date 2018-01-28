@@ -1,0 +1,31 @@
+<!--pages/classM/classM.wxml-->
+<view class="index-bd">
+  <view class='index-title'><text>班级列表</text></view>
+  <block wx:for="{{classs}}" wx:for-item="class" wx:key="id">
+    <block wx:for="{{class.classes}}" wx:for-item="classes" wx:key="id">
+      <view class='index-c'>
+        <view class="index-list">
+          <view class="kind-list-hd">
+            <text>班级：{{classes.grade}}年级{{classes.number}}班</text>
+          </view>
+        </view>
+        <view class="index-list">
+          <view class="kind-list-hd">
+            <text>学校：{{class.name}}</text>
+          </view>
+        </view>
+        <navigator url="../../pages/scoreBatch/scoreBatch?sId={{classes.schoolId}}&cId={{classes.id}}">
+          <view class="index-list">
+            <view class="kind-list-hd-l index-student">
+              <image class="kind-list-img" src="../../images/student.png"></image>
+              <view class='index-stu-title'><text>成绩录入</text></view>
+              <view class='child-right-icon'>
+                <image class='icon-right' src='../../images/right.png'></image>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </block>
+  </block>
+</view>

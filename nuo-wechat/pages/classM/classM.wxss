@@ -1,0 +1,3 @@
+/* pages/classM/classM.wxss */
+@import "../schoolM/schoolM.wxss";
+
