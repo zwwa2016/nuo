@@ -101,7 +101,7 @@ public class ManagerClassService {
 			//补充班级列表
 			if(schoolIds != null && schoolIds.size() > 0) {
 				for(Long schoolId: schoolIds) {
-					List<Classes> classes = classesService.selectBySchoolId(schoolId, 1, Integer.MAX_VALUE);
+					List<Classes> classes = classesService.selectBySchoolId(schoolId, 0, 1, Integer.MAX_VALUE);
 					if(classes != null && classes.size()>0) {
 						for(Classes temp: classes) {
 							allClass.add(temp);

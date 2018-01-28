@@ -49,20 +49,6 @@ public class StudentService {
 		Student student = studentMapper.selectOne(id);
 		loginUser.checkLevel(Constant.Role.Teacher, student.getSchoolId(), student.getClassId());
 		
-		List<UserStudent> uss = userStudentService.selectListByUserid(loginUser.getId(), id, 1, Integer.MAX_VALUE);
-		boolean flag = true;
-		if(uss != null && uss.size() > 0) {
-			for(UserStudent us: uss) {
-				if(us.getStudentId().longValue() == student.getId().longValue() 
-						&& us.getRelationship().intValue() == UserStudentRelationship.create) {
-					flag = false;
-				}
-			}
-		}
-		
-		if(flag) {
-			throw new InvalidArgumentException("不是创建人，不能删除学生信息");
-		}
 		studentMapper.delete(id);
 	}
 	

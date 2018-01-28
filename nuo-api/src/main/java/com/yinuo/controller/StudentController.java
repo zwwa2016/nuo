@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yinuo.bean.Constant;
+import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.validation.RoleTeacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,15 +38,22 @@ public class StudentController {
 	
 	@NeedLogin
 	@RequestMapping(value="/students", method=RequestMethod.GET)
-    public Object post(User loginUser, @RequestParam(defaultValue="") String name, @RequestParam(defaultValue="0") long classId,
+    public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="") String name, @RequestParam(defaultValue="0") long classId,
 					   @RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
-		List<Student> students = null;
-		Map<Long, UserStudent> ussMap = null;
+		List<Student> students = new ArrayList<Student>();
+		Map<Long, UserStudent> ussMap = new HashMap<Long, UserStudent>();
 		int count = 0;
 
-		if(name != null && !name.isEmpty()) {
+		if(id > 0) {
+			Student student = studentService.selectOne(id);
+			if(student == null) {
+				throw new InvalidArgumentException("找不到该学生");
+			}
+			students.add(student);
+			count = 1;
+		}else if(name != null && !name.isEmpty()) {
 			students = studentService.selectByName(name);
 			count = studentService.countByName(name);
 		}else if(classId > 0L) {
