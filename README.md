@@ -351,6 +351,7 @@ wechat登陆
 		}
 
 	查询：request/get: /exams?schoolId=1&page=1&pageSize=10
+						/exams?id=1
 
 		{
 		    "count": 1,
