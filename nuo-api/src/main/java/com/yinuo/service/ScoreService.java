@@ -9,6 +9,7 @@ import com.yinuo.bean.*;
 import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.util.CommonUtil;
 import com.yinuo.view.ScoreView;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,14 +106,21 @@ public class ScoreService {
 		return scoreMapper.countByClassId(classId, type, scoreBatchId);
 	}
 
-	public List<Score> selectByExamId(long examId, long id, int limit) {
-		return scoreMapper.selectByExamId(examId, id, limit);
+	public List<Score> selectByExamId(long examId, int subject, long id, int limit) {
+		return scoreMapper.selectByExamId(examId, subject, id, limit);
+	}
+
+	public void deleteByExamId(long examId, int subject) {
+		scoreMapper.deleteByExamId(examId, subject);
 	}
 
 	public void insertBatch(List<Score> scores) {
 		scoreMapper.insertBatch(scores);
 	}
 
+	public int updateRank(long id, int schoolRank, int classRank) {
+		return scoreMapper.updateRank(id, schoolRank, classRank);
+	}
 	public List<ScoreView> convert2View(List<Score> scores) {
 		List<ScoreView> views = new ArrayList<ScoreView>();
 		if(scores != null && scores.size() > 0) {

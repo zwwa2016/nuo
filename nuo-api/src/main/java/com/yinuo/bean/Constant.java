@@ -34,7 +34,7 @@ public class Constant {
 	public static class Subject {
 
 		//总分
-		public static final int ALL = 999;
+		public static final int ALL = 127;
 
 	}
 
@@ -57,12 +57,18 @@ public class Constant {
 		}
 	}
 
-
 	public static class ScoreType {
 
-		public static final int Work = 1;
+		public static final int Work = 2;
 
 		public static final int Test = 1;
+	}
+
+	public static class RankUpdateType {
+
+		public static final int Sql = 1;
+
+		public static final int Object = 2;
 	}
 
 }

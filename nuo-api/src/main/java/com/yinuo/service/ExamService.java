@@ -119,6 +119,13 @@ public class ExamService {
 		return examMapper.selectByState(state, limit);
 	}
 
+	public void fixExam(long id) {
+		Exam exam = examMapper.selectOne(id);
+		exam.setState(Constant.ExamState.Done);
+		exam.setFixTime(DateTool.standardSdf.format(new Date()));
+		examMapper.update(exam);
+	}
+
 	public void checkPermission(User loginUser, Exam exam) {
 		CommonUtil.checkNull(exam, "找不到的考试");
 

@@ -17,11 +17,16 @@
 		<result property="scoreBatchId" column="fk_score_batch_id" />
 		<result property="managerId" column="fk_manager_id" />
 		<result property="createTime" column="create_time" />
+
+		<result property="schoolRank" column="school_rank" />
+		<result property="classRank" column="class_rank" />
 	</resultMap>
 	
     <insert id="insert" parameterType="Score" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO t_score(`type`, `subject`, `fk_student_id`, `fk_class_id`, `score`, `pic`, `fk_exam_id`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
-		VALUES(#{type}, #{subject}, #{studentId}, #{classId}, #{score}, #{pic}, #{examId}, #{scoreBatchId}, #{managerId}, #{createTime})
+		INSERT INTO t_score(`type`, `subject`, `fk_student_id`, `fk_class_id`, `score`, `pic`, `fk_exam_id`, `fk_score_batch_id`, `fk_manager_id`, `create_time`,
+		`school_rank`, `class_rank`)
+		VALUES(#{type}, #{subject}, #{studentId}, #{classId}, #{score}, #{pic}, #{examId}, #{scoreBatchId}, #{managerId}, #{createTime},
+		#{schoolRank}, #{classRank})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="scoreMap">
 		SELECT * 
@@ -63,7 +68,17 @@
 		`fk_exam_id` = #{examId},
 		`fk_score_batch_id` = #{scoreBatchId},
 		`fk_manager_id` = #{managerId},
-		`create_time` = #{createTime}
+		`create_time` = #{createTime},
+
+		`school_rank` = #{schoolRank},
+		`class_rank` = #{classRank}
+		WHERE pk_id = #{id}
+	</update>
+
+	<update id="updateRank" parameterType="Map">
+		UPDATE t_score
+		SET `class_rank` = #{classRank},
+		`school_rank` = #{schoolRank}
 		WHERE pk_id = #{id}
 	</update>
 
@@ -125,17 +140,28 @@
 		SELECT *
 		FROM t_score
 		WHERE `fk_exam_id` = #{examId}
+		<if test="subject > 0">
+			and `subject` = #{subject}
+		</if>
 		and `pk_id` &gt; #{id}
 		limit #{limit}
 	</select>
 
 	<insert id="insertBatch" parameterType="java.util.List">
 		INSERT INTO t_score(`type`, `subject`, `fk_student_id`, `fk_class_id`, `score`,
-		`pic`, `fk_exam_id`, `fk_score_batch_id`, `fk_manager_id`, `create_time`)
+		`pic`, `fk_exam_id`, `fk_score_batch_id`, `fk_manager_id`, `create_time`, `school_rank`, `class_rank`)
 		VALUES
 		<foreach collection ="scores" item="item" index= "index" separator =",">
 			(#{item.type}, #{item.subject}, #{item.studentId}, #{item.classId}, #{item.score}, #{item.pic}, #{item.examId},
-			#{item.scoreBatchId}, #{item.managerId}, #{item.createTime})
+			#{item.scoreBatchId}, #{item.managerId}, #{item.createTime}, #{item.schoolRank}, #{item.classRank})
 		</foreach>
 	</insert>
+
+	<delete id="deleteByExamId" parameterType="Map">
+		delete from t_score
+		where `fk_exam_id` = #{examId}
+		<if test="subject > 0">
+			and `subject` = #{subject}
+		</if>
+	</delete>
 </mapper>

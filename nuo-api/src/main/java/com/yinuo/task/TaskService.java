@@ -1,5 +1,6 @@
 package com.yinuo.task;
 
+import com.alibaba.fastjson.JSON;
 import com.yinuo.bean.Constant;
 import com.yinuo.bean.Exam;
 import com.yinuo.bean.Score;
@@ -34,7 +35,7 @@ public class TaskService {
 	@Autowired
 	private ExamService examService;
 
-	private static final long sleepTimes = 1000L * 60 * 5;
+	private static final long sleepTimes = 1000L * 60 * 1;
 
 	private Logger logger = LoggerFactory.getLogger(TaskService.class);
 	
@@ -65,12 +66,15 @@ public class TaskService {
 			return 0;
 		}
 
-		int limit = 500;
+		int limit = 3;
 		long scoreIndexId = 0L;
 		for(Exam exam: exams) {
+			//删除本批次总分成绩，再添加
+			scoreService.deleteByExamId(exam.getId(), Constant.Subject.ALL);
+
 			List<Score> scores = new ArrayList<Score>();
 			scoreLoop: while(true) {
-				List<Score> temp = scoreService.selectByExamId(exam.getId(), scoreIndexId, limit);
+				List<Score> temp = scoreService.selectByExamId(exam.getId(), 0, scoreIndexId, limit);
 				if(temp == null || temp.size() <= 0) {
 					break scoreLoop;
 				}
@@ -84,10 +88,13 @@ public class TaskService {
 
 			if(scores.size() > 0) {
 				String now = DateTool.standardSdf.format(new Date());
+				//更新分科rank
+				updateRank(scores, Constant.RankUpdateType.Sql);
+
 				//学生总分
-				Map<Long, Score> scoreMap = new HashMap<Long, Score>();
+				Map<Long, Score> allScoreMap = new HashMap<Long, Score>();
 				for(Score score: scores) {
-					if(scoreMap.get(score.getStudentId()) == null) {
+					if(allScoreMap.get(score.getStudentId()) == null) {
 						Score studentAllScore = new Score();
 						studentAllScore.setSubject(Constant.Subject.ALL);
 						studentAllScore.setExamId(exam.getId());
@@ -99,24 +106,28 @@ public class TaskService {
 						studentAllScore.setScoreBatchId(0L);
 						studentAllScore.setStudentId(score.getStudentId());
 						studentAllScore.setType(Constant.ScoreType.Test);
+						allScoreMap.put(score.getStudentId(), studentAllScore);
 					}else {
-						int allScore = scoreMap.get(score.getStudentId()).getScore() + score.getScore();
-						scoreMap.get(score.getStudentId()).setScore(allScore);
+						int allScore = allScoreMap.get(score.getStudentId()).getScore() + score.getScore();
+						allScoreMap.get(score.getStudentId()).setScore(allScore);
 					}
 				}
 
 				List<Score> allScores= new ArrayList<Score>();
-				for(Long studentId: scoreMap.keySet()) {
-					allScores.add(scoreMap.get(studentId));
+				for(Long studentId: allScoreMap.keySet()) {
+					allScores.add(allScoreMap.get(studentId));
 				}
 
 				Collections.sort(allScores, new Comparator<Score>() {
 					@Override
 					public int compare(Score o1, Score o2) {
-						return o1.getScore() >= o2.getScore() ? 1 : -1;
+						return o1.getScore() >= o2.getScore() ? -1 : 1;
 					}
 				});
 
+				//更新总分rank
+				updateRank(allScores, Constant.RankUpdateType.Object);
+				//批量插入
 				List<Score> temp = new ArrayList<Score>();
 				for(Score score: allScores) {
 					temp.add(score);
@@ -129,6 +140,10 @@ public class TaskService {
 					scoreService.insertBatch(temp);
 				}
 			}
+
+			exam.setState(Constant.ExamState.Done);
+			examService.fixExam(exam.getId());
+			logger.info("exam state convert to done, id/name: {}/{}", exam.getId(), exam.getName());
 		}
 		return exams.size();
 	}
@@ -150,12 +165,14 @@ public class TaskService {
 				scoreBatchIds.add(scoreBatch.getId());
 				//班级统计
 				classStatService.stat(scoreBatch.getClassId(), scoreBatch.getId());
+				logger.info("class stat done, classId/scoreBatchId: {}/{}", scoreBatch.getClassId(), scoreBatch.getId());
 
 				//学生统计
 				List<Score> scores = scoreService.selectByClassId(scoreBatch.getClassId(), Constant.ScoreType.Test, scoreBatch.getId(), 1, Integer.MAX_VALUE);
 				if(scores != null && scores.size() > 0) {
 					for(Score score: scores) {
 						studentStatService.stat(score.getStudentId(), scoreBatch.getSubject());
+						logger.info("student stat done, studentId/subject: {}/{}", score.getStudentId(), scoreBatch.getSubject());
 					}
 				}
 			}
@@ -163,5 +180,67 @@ public class TaskService {
 		}
 		return scoreBatchCount;
 	}
-	
+
+	private void updateRank(List<Score> scores, int type) {
+		if(scores == null || scores.size() <= 0) {
+			return;
+		}
+		Collections.sort(scores, new Comparator<Score>() {
+			@Override
+			public int compare(Score o1, Score o2) {
+				if(o1.getSubject().intValue() == o2.getSubject().intValue()) {
+					return o1.getScore() >= o2.getScore() ? -1 : 1;
+				}
+				return o1.getSubject() >= o2.getSubject() ? 1 : -1;
+			}
+		});
+
+		long classId = -1L;
+		int subject = -1,schoolScore = -1,classScore = -1,schoolRank = -1,
+				classRank = -1,schoolIndex = -1,classIndex = -1;
+
+		for(Score score: scores) {
+
+			//更换科目，初始化参数
+			if(score.getSubject().intValue() != subject) {
+				classId = -1;
+				subject = score.getSubject();
+				schoolScore = -1;
+				classScore = -1;
+				schoolRank = 0;
+				classRank = 0;
+				schoolIndex = 0;
+				classIndex = 0;
+			}
+
+			//更换班级
+			if(score.getClassId().longValue() != classId) {
+				classRank = 0;
+				classScore = -1;
+			}
+
+			if(score.getScore().intValue() != schoolScore) {
+				schoolRank = schoolIndex + 1;
+			}
+
+			if(score.getScore().intValue() != classScore) {
+				classRank = classIndex + 1;
+			}
+
+			if(type == Constant.RankUpdateType.Sql) {
+				scoreService.updateRank(score.getId(), schoolRank, classRank);
+			}else if(type == Constant.RankUpdateType.Object) {
+				score.setSchoolRank(schoolRank);
+				score.setClassRank(classRank);
+			}
+			schoolScore = score.getScore();
+			classScore = score.getScore();
+			schoolIndex++;
+			classIndex++;
+		}
+
+
+
+	}
+
 }

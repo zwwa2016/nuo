@@ -139,11 +139,11 @@
 	</update>
 
 	<insert id="insertBatch" parameterType="java.util.List">
-		INSERT INTO t_score_batch(`fk_exam_id`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
+		INSERT INTO t_score_batch(`type`, `fk_exam_id`, `fk_school_id`, `fk_class_id`, `fk_manager_id`, `create_time`,
 		`state`, `subject`, `fk_fix_manager_id`, `fix_time`)
 		VALUES
 		<foreach collection ="scoreBatches" item="item" index= "index" separator =",">
-		(#{item.examId}, #{item.schoolId}, #{item.classId}, #{item.managerId}, #{item.createTime},
+		(#{item.type}, #{item.examId}, #{item.schoolId}, #{item.classId}, #{item.managerId}, #{item.createTime},
 		#{item.state}, #{item.subject}, #{item.fixManagerId}, #{item.fixTime})
 		</foreach>
 	</insert>

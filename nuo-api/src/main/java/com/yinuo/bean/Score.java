@@ -37,6 +37,10 @@ public class Score {
 
 	private Long managerId;
 
+	private Integer schoolRank;
+
+	private Integer classRank;
+
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createTime;
@@ -132,6 +136,22 @@ public class Score {
 
 	public void setSubject(Integer subject) {
 		this.subject = subject;
+	}
+
+	public Integer getSchoolRank() {
+		return schoolRank;
+	}
+
+	public void setSchoolRank(Integer schoolRank) {
+		this.schoolRank = schoolRank;
+	}
+
+	public Integer getClassRank() {
+		return classRank;
+	}
+
+	public void setClassRank(Integer classRank) {
+		this.classRank = classRank;
 	}
 
 	public String toString() {
