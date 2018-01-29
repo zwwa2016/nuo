@@ -450,7 +450,7 @@ wechat登陆
 
 	查询：request/get: /scores?studentId=1&type=1&page=1&pageSize=10	//type可选
 					  /scores?id=1
-					  /scores?classId=1&type=1&scoreBatchId=1&page=1&pageSize=10	//type, scoreBatchId可选
+					  /scores?scoreBatchId=1&type=1&page=1&pageSize=10	//type可选
 
 		{
 		    "count": 1,
@@ -469,7 +469,9 @@ wechat登陆
 		                "schoolId": 1,
 		                "classId": 1,
 		                "managerId": 0,
-		                "createTime": "2018-01-13 16:51:07"
+		                "createTime": "2018-01-13 16:51:07",
+		                "schoolRank":1,
+		                "classRank":1
 		            },
 		            "pic": "http://www.baidu.com/1.jpg",
 		            "type": 1

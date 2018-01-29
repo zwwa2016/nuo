@@ -113,27 +113,24 @@
 			and `subject` = #{subject}
 		</if>
 	</select>
-	<select id="selectByClassId" parameterType="Map" resultMap="scoreMap">
+	<select id="selectByScoreBatchId" parameterType="Map" resultMap="scoreMap">
 		SELECT *
 		FROM t_score
-		WHERE `fk_class_id` = #{classId}
+		WHERE fk_score_batch_id = #{scoreBatchId}
 		<if test="type > 0">
 			and `type` = #{type}
 		</if>
-		<if test="scoreBatchId > 0">
-			and fk_score_batch_id = #{scoreBatchId}
+		<if test="type == 1 and scoreBatchId > 0">
+			order by `class_rank` asc
 		</if>
 		limit #{limit} offset #{offset}
 	</select>
-	<select id="countByClassId" parameterType="Map" resultType="Integer">
+	<select id="countByScoreBatchId" parameterType="Map" resultType="Integer">
 		SELECT count(1)
 		FROM t_score
-		WHERE `fk_class_id` = #{classId}
+		WHERE fk_score_batch_id = #{scoreBatchId}
 		<if test="type > 0">
 			and `type` = #{type}
-		</if>
-		<if test="scoreBatchId > 0">
-			and fk_score_batch_id = #{scoreBatchId}
 		</if>
 	</select>
 	<select id="selectByExamId" parameterType="Map" resultMap="scoreMap">

@@ -98,12 +98,12 @@ public class ScoreService {
 	}
 
 
-	public List<Score> selectByClassId(long classId, int type, long scoreBatchId, int page, int pageSize) {
-		return scoreMapper.selectByClassId(classId, type, scoreBatchId, pageSize, (page-1) * pageSize);
+	public List<Score> selectByScoreBatchId(long scoreBatchId, int type, int page, int pageSize) {
+		return scoreMapper.selectByScoreBatchId(scoreBatchId, type, pageSize, (page-1) * pageSize);
 	}
 
-	public int countByClassId(long classId, int type, long scoreBatchId) {
-		return scoreMapper.countByClassId(classId, type, scoreBatchId);
+	public int countByScoreBatchId(long scoreBatchId, int type) {
+		return scoreMapper.countByScoreBatchId(scoreBatchId, type);
 	}
 
 	public List<Score> selectByExamId(long examId, int subject, long id, int limit) {

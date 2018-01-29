@@ -26,6 +26,9 @@ public class ScoreView extends HashMap<String, Object> {
 		put("scoreBatchId", score.getScoreBatchId());
 		put("managerId", score.getManagerId());
 
+		put("schoolRank", score.getSchoolRank());
+		put("classRank", score.getClassRank());
+
 		if(score.getCreateTime() != null) {
 			put("createTime", DateTool.standardSdf.format(score.getCreateTime()));
 		}

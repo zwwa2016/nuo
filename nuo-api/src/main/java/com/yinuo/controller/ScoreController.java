@@ -31,7 +31,7 @@ public class ScoreController {
 	@NeedLogin
 	@RequestMapping(value="/scores", method=RequestMethod.GET)
     public Object post(User loginUser, @RequestParam(defaultValue="0") long id, @RequestParam(defaultValue="0") long studentId,
-					   @RequestParam(defaultValue="0") int type,@RequestParam(defaultValue="0") int subject, @RequestParam(defaultValue="0") long classId,
+					   @RequestParam(defaultValue="0") int type,@RequestParam(defaultValue="0") int subject,
 			@RequestParam(defaultValue="0") long scoreBatchId, @RequestParam(defaultValue="1") int page,
     		@RequestParam(defaultValue="20") int pageSize){
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -46,9 +46,9 @@ public class ScoreController {
 		}else if(studentId > 0 && page > 0 && pageSize > 0) {
 			scores = service.selectByStudentId(studentId, type, subject, page, pageSize);
 			count = service.countByStudentId(studentId, type, subject);
-		}else if(classId > 0 && page > 0 && pageSize > 0) {
-			scores = service.selectByClassId(classId, type, scoreBatchId, page, pageSize);
-			count = service.countByClassId(classId, type, scoreBatchId);
+		}else if(scoreBatchId > 0 && page > 0 && pageSize > 0) {
+			scores = service.selectByScoreBatchId(scoreBatchId, type, page, pageSize);
+			count = service.countByScoreBatchId(scoreBatchId, type);
 		}
 
 		result.put("data", service.convert2View(scores));

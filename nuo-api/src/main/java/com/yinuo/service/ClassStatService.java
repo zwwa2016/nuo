@@ -34,7 +34,7 @@ public class ClassStatService {
 
 		ScoreBatch scoreBatch = scoreBatchService.selectOne(scoreBatchId);
 
-		List<Score> scores = scoreService.selectByClassId(classId, 0, scoreBatchId, 1, Integer.MAX_VALUE);
+		List<Score> scores = scoreService.selectByScoreBatchId(scoreBatchId, 0, 1, Integer.MAX_VALUE);
 		if(scores != null && scores.size() > 0) {
 
 			int high = 0;

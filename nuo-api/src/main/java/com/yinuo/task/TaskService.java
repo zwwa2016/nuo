@@ -168,7 +168,7 @@ public class TaskService {
 				logger.info("class stat done, classId/scoreBatchId: {}/{}", scoreBatch.getClassId(), scoreBatch.getId());
 
 				//学生统计
-				List<Score> scores = scoreService.selectByClassId(scoreBatch.getClassId(), Constant.ScoreType.Test, scoreBatch.getId(), 1, Integer.MAX_VALUE);
+				List<Score> scores = scoreService.selectByScoreBatchId(scoreBatch.getId(), Constant.ScoreType.Test, 1, Integer.MAX_VALUE);
 				if(scores != null && scores.size() > 0) {
 					for(Score score: scores) {
 						studentStatService.stat(score.getStudentId(), scoreBatch.getSubject());

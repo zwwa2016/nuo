@@ -15,11 +15,10 @@ public interface ScoreMapper extends MapperI<Score>{
 	
 	public int countByStudentId(@Param("studentId")long studentId, @Param("type")int type, @Param("subject")int subject);
 
-	public List<Score> selectByClassId(@Param("classId")long classId, @Param("type")int type,
-									   @Param("scoreBatchId")long scoreBatchId, @Param("limit")int limit, @Param("offset")int offset);
+	public List<Score> selectByScoreBatchId(@Param("scoreBatchId")long scoreBatchId, @Param("type")int type,
+									   @Param("limit")int limit, @Param("offset")int offset);
 
-	public int countByClassId(@Param("classId")long classId, @Param("type")int type,
-							  @Param("scoreBatchId")long scoreBatchId);
+	public int countByScoreBatchId(@Param("scoreBatchId")long scoreBatchId, @Param("type")int type);
 
 	public List<Score> selectByExamId(@Param("examId")long examId, @Param("subject")int subject, @Param("id")long id, @Param("limit")int limit);
 
