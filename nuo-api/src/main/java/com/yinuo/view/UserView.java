@@ -25,6 +25,10 @@ public class UserView extends HashMap<String, Object> {
 			put("createTime", DateTool.standardSdf.format(user.getCreateTime()));
 		}
 
+		if(user.getCreateTime() != null) {
+			put("updateTime", DateTool.standardSdf.format(user.getUpdateTime()));
+		}
+
 		put("avatarUrl", user.getAvatarUrl());
 		put("city", user.getCity());
 		put("country", user.getCountry());

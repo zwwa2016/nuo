@@ -12,6 +12,7 @@
 		<result property="sex" column="sex" />
 		<result property="birthday" column="birthday" />
 		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
 		<result property="avatarUrl" column="avatar_url" />
 		<result property="city" column="city" />
 		<result property="province" column="province" />
@@ -20,9 +21,9 @@
 	
     <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_user(`wechat_nickname`, `wechat_openid`, `sex`, `birthday`, `create_time`,
-			`avatar_url`, `city`, `province`, `country`)
+			`avatar_url`, `city`, `province`, `country`, `update_time`)
 		VALUES(#{wechatNickname}, #{wechatOpenid}, #{sex}, #{birthday}, #{createTime},
-			#{avatarUrl}, #{city}, #{province}, #{country})
+			#{avatarUrl}, #{city}, #{province}, #{country}, #{updateTime})
 	</insert>
 	<select id="selectOne" parameterType="Map" resultMap="userMap">
 		SELECT * 
@@ -63,7 +64,8 @@
 		`avatar_url` = #{avatarUrl},
 		`city` = #{city},
 		`province` = #{province},
-		`country` = #{country}
+		`country` = #{country},
+		`update_time` = #{updateTime}
 		WHERE pk_id = #{id}
 	</update>
 

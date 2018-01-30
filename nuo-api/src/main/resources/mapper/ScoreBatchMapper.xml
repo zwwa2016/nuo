@@ -77,23 +77,6 @@
 	<delete id="deleteAll">
 		delete from t_score_batch
     </delete>
-	<select id="selectBySchoolId" parameterType="Map" resultMap="scoreBatchMap">
-		SELECT *
-		FROM t_score_batch
-		WHERE fk_school_id = #{schoolId}
-		<if test="type > 0">
-			and `type` = #{type}
-		</if>
-		limit #{limit} offset #{offset}
-	</select>
-	<select id="countBySchoolId" parameterType="Map" resultType="Integer">
-		SELECT count(1)
-		FROM t_score_batch
-		WHERE fk_school_id = #{schoolId}
-		<if test="type > 0">
-			and `type` = #{type}
-		</if>
-	</select>
 	<select id="selectByClassId" parameterType="Map" resultMap="scoreBatchMap">
 		SELECT *
 		FROM t_score_batch

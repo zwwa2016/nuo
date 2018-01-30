@@ -82,15 +82,6 @@ public class ScoreBatchService {
 		}
 		scoreBatchMapper.update(scoreBatch);
 	}
-
-	public List<ScoreBatch> selectBySchoolId(long schoolId, int type, int page, int pageLength) {
-		return scoreBatchMapper.selectBySchoolId(schoolId, type, pageLength, (page-1)*pageLength);
-	}
-
-	public int countBySchoolId(long schoolId, int type) {
-		return scoreBatchMapper.countBySchoolId(schoolId, type);
-	}
-
 	public List<ScoreBatch> selectByClassId(long classId, int type, int page, int pageLength) {
 		return scoreBatchMapper.selectByClassId(classId, type, pageLength, (page-1)*pageLength);
 	}

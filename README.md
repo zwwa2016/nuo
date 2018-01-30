@@ -59,6 +59,7 @@ wechat登陆
 		    "loginUser": {
 		        "id": 22,
 		        "createTime": "2018-01-09 21:17:16",
+		        "updateTime": "2018-01-09 21:17:16",
 		        "birthday": 0,
 		        "wechatNickname": "凭栏处、潇潇雨歇",
 		        "sex": 1,

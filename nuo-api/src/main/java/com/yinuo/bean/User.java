@@ -50,6 +50,10 @@ public class User {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createTime;
 
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date updateTime;
+
 	private Manager manager;
 
 	private List<ManagerClass> managerClassList;
@@ -109,6 +113,19 @@ public class User {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			this.createTime = sdf.parse(createTime);
+		} catch (ParseException e) {
+			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
+		}
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.updateTime = sdf.parse(updateTime);
 		} catch (ParseException e) {
 			throw new InvalidHttpArgumentException("invalid params.createTime parse error.");
 		}

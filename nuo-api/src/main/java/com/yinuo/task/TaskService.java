@@ -196,47 +196,50 @@ public class TaskService {
 		});
 
 		long classId = -1L;
-		int subject = -1,schoolScore = -1,classScore = -1,schoolRank = -1,
-				classRank = -1,schoolIndex = -1,classIndex = -1;
+		int subject = -1,schoolScore = -1,schoolRank = -1,
+				schoolIndex = -1;
+
+		Map<String, Integer> classScore = new HashMap<String, Integer>();
+		Map<String, Integer> classRank = new HashMap<String, Integer>();
+		Map<String, Integer> classIndex = new HashMap<String, Integer>();
 
 		for(Score score: scores) {
+
+			String key = score.getClassId() + "_" + score.getSubject();
+
+			if(classScore.get(key) == null) {
+				classScore.put(key, -1);
+				classRank.put(key, 0);
+				classIndex.put(key, 0);
+			}
 
 			//更换科目，初始化参数
 			if(score.getSubject().intValue() != subject) {
 				classId = -1;
 				subject = score.getSubject();
 				schoolScore = -1;
-				classScore = -1;
 				schoolRank = 0;
-				classRank = 0;
 				schoolIndex = 0;
-				classIndex = 0;
-			}
-
-			//更换班级
-			if(score.getClassId().longValue() != classId) {
-				classRank = 0;
-				classScore = -1;
 			}
 
 			if(score.getScore().intValue() != schoolScore) {
 				schoolRank = schoolIndex + 1;
 			}
 
-			if(score.getScore().intValue() != classScore) {
-				classRank = classIndex + 1;
+			if(score.getScore().intValue() != classScore.get(key).intValue()) {
+				classRank.put(key, classIndex.get(key) + 1);
 			}
 
 			if(type == Constant.RankUpdateType.Sql) {
-				scoreService.updateRank(score.getId(), schoolRank, classRank);
+				scoreService.updateRank(score.getId(), schoolRank, classRank.get(key));
 			}else if(type == Constant.RankUpdateType.Object) {
 				score.setSchoolRank(schoolRank);
-				score.setClassRank(classRank);
+				score.setClassRank(classRank.get(key));
 			}
 			schoolScore = score.getScore();
-			classScore = score.getScore();
+			classScore.put(key, score.getScore());
 			schoolIndex++;
-			classIndex++;
+			classIndex.put(key, classIndex.get(key) + 1);
 		}
 
 

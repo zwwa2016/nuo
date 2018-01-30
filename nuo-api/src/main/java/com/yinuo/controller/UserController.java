@@ -11,6 +11,7 @@ import com.yinuo.bean.Manager;
 import com.yinuo.exception.InvalidArgumentException;
 import com.yinuo.service.ManagerClassService;
 import com.yinuo.service.ManagerService;
+import com.yinuo.util.DateTool;
 import com.yinuo.validation.RoleSchool;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -67,13 +68,16 @@ public class UserController {
 		String session_key = jsonObject.getString("session_key");
 		
 		User loginUser = userService.selectByOpenid(openid);
-		
+
+		Date now = new Date();
 		if(loginUser == null) {
 			loginUser = new User();
 			loginUser.setWechatOpenid(openid);
-			loginUser.setCreateTime(new SimpleDateFormat("yyyy-MM-hh HH:mm:ss").format(new Date()));
+			loginUser.setCreateTime(DateTool.standardSdf.format(now));
 		}
-		
+		//更新上次登录时间
+		loginUser.setUpdateTime(DateTool.standardSdf.format(now));
+
 		//更新微信用户信息
 		JSONObject userInfoJSON = null;
 		String wechatUserInfo = AesCbcUtil.decrypt(encryptedData, session_key, iv, "UTF-8");

@@ -10,10 +10,6 @@ import java.util.List;
 @Component
 public interface ScoreBatchMapper extends MapperI<ScoreBatch>{
 
-    public List<ScoreBatch> selectBySchoolId(@Param("schoolId") long schoolId,@Param("type") int type, @Param("limit")int limit, @Param("offset")int offset);
-
-    public int countBySchoolId(@Param("schoolId")long schoolId,@Param("type") int type);
-
     public List<ScoreBatch> selectByClassId(@Param("classId")long classId,@Param("type") int type, @Param("limit")int limit, @Param("offset")int offset);
 
     public int countByClassId(@Param("classId")long classId,@Param("type") int type);

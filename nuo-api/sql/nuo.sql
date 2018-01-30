@@ -31,8 +31,9 @@ CREATE TABLE `t_class` (
   `fk_school_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '归属学校',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_school_id` (`fk_school_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,8 +53,10 @@ CREATE TABLE `t_class_stat` (
   `average_score` int(11) NOT NULL DEFAULT '0' COMMENT '平均分',
   `median_score` int(11) NOT NULL DEFAULT '0' COMMENT '中位数分数',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_score_batch_id` (`fk_score_batch_id`),
+  KEY `idx_school_id` (`fk_school_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +72,8 @@ CREATE TABLE `t_course` (
   `pic` varchar(255) NOT NULL DEFAULT '' COMMENT '课程表图片地址',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
-  PRIMARY KEY (`pk_id`)
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_class_id` (`fk_class_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -91,8 +95,9 @@ CREATE TABLE `t_exam` (
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态，1录入中，2统计中，3已统计',
   `fix_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '更新人',
   `fk_fix_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '操作者',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_school_id` (`fk_school_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +113,8 @@ CREATE TABLE `t_manager` (
   `fk_user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '对应用户ID',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间\n',
-  PRIMARY KEY (`pk_id`)
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_user_id` (`fk_user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -127,8 +133,11 @@ CREATE TABLE `t_manager_class` (
   `role` tinyint(4) NOT NULL DEFAULT '0' COMMENT '角色，1.超级管理员，2.学校管理员，3.班级管理员',
   `fk_create_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_school_id` (`fk_school_id`),
+  KEY `idx_class_id` (`fk_class_id`),
+  KEY `idx_manager_id` (`fk_manager_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +174,7 @@ CREATE TABLE `t_school` (
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '类型，1小学，2初中，3高中',
   PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,11 +192,17 @@ CREATE TABLE `t_score` (
   `fk_class_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级ID',
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '成绩分数',
   `pic` varchar(255) NOT NULL DEFAULT '’‘' COMMENT '成绩照片地址',
+  `fk_exam_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '考试ID',
   `fk_score_batch_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '该次考试归属哪一个批次',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+  `school_rank` int(11) NOT NULL DEFAULT '0' COMMENT '学校排名',
+  `class_rank` int(11) NOT NULL DEFAULT '0' COMMENT '班级排名',
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_student_id` (`fk_student_id`),
+  KEY `idx_score_batch_id` (`fk_score_batch_id`),
+  KEY `idx_exam_id` (`fk_exam_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,6 +214,7 @@ DROP TABLE IF EXISTS `t_score_batch`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_score_batch` (
   `pk_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '类型 1考试，2作业',
   `fk_exam_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '考试ID',
   `subject` tinyint(6) NOT NULL DEFAULT '0' COMMENT '科目，1语文，2数学，3英语，4地理，5政治，6物理，7化学，8生物，9文综，10理综',
   `fk_school_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '学校ID',
@@ -208,8 +224,10 @@ CREATE TABLE `t_score_batch` (
   `create_time` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
   `fk_fix_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '操作完成的管理员',
   `fix_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '完成时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_class_id` (`fk_class_id`),
+  KEY `idx_exam_id` (`fk_exam_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,8 +247,10 @@ CREATE TABLE `t_student` (
   `fk_class_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级id',
   `fk_manager_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_name` (`name`),
+  KEY `idx_class_id` (`fk_class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,8 +268,9 @@ CREATE TABLE `t_student_stat` (
   `average_score` int(11) NOT NULL DEFAULT '0' COMMENT '平均分',
   `median_score` int(11) NOT NULL DEFAULT '0' COMMENT '中位数',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_student_id` (`fk_student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,8 +291,11 @@ CREATE TABLE `t_user` (
   `province` varchar(15) NOT NULL DEFAULT '' COMMENT '省份',
   `country` varchar(15) NOT NULL DEFAULT '' COMMENT '国家',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+  `update_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '上次登录时间',
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_wechat_openid` (`wechat_openid`) COMMENT '微信openid索引',
+  KEY `idx_wechat_nickname` (`wechat_nickname`) COMMENT '微信昵称索引'
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,8 +313,10 @@ CREATE TABLE `t_user_student` (
   `fk_class_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级ID',
   `relationship` tinyint(4) NOT NULL DEFAULT '0' COMMENT '关系，1自己，2父亲，3母亲，4爷爷，5奶奶，6姑姑，7姑父，8姨，9姨父, 10创建者',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '创建时间',
-  PRIMARY KEY (`pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`pk_id`),
+  KEY `idx_student_id` (`fk_student_id`),
+  KEY `idx_user_id` (`fk_user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -302,4 +328,4 @@ CREATE TABLE `t_user_student` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-28 13:15:37
+-- Dump completed on 2018-01-31  0:14:08
