@@ -79,8 +79,6 @@
 	    	and fk_student_id = #{studentId}
         </if>
         order by pk_id desc
-        LIMIT #{limit}
-        OFFSET #{offset}
     </select>
 	
 	<select id="countListByUserid" parameterType="Map" resultType="Integer">
@@ -102,4 +100,9 @@
 			#{item}
 		</foreach>
 	</select>
+
+	<delete id="deleteByStudentId" parameterType="Map">
+		delete from t_user_student
+		where `fk_student_id` = #{studentId}
+	</delete>
 </mapper>

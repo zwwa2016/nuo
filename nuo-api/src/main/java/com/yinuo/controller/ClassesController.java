@@ -50,7 +50,7 @@ public class ClassesController {
 		if(id > 0) {
 			Classes classes = service.selectOne(id);
 			CommonUtil.checkNull(classes, "找不到该班级");
-			list.add(service.selectOne(id));
+			list.add(classes);
 			count = 1;
 		}else if(schoolId > 0 && page > 0 && pageSize > 0){
 			list = service.selectBySchoolId(schoolId, grade, page, pageSize);

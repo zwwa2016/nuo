@@ -66,9 +66,9 @@ public class StudentController {
 				ussMap = CommonUtil.entityMap(uss, "studentId", Long.class);
 			}
 
-		}else if(page > 0 && pageSize > 0){
-			List<UserStudent> uss = userStudentService.selectListByUserid(loginUser.getId(), 0, page, pageSize);
-			count = userStudentService.countListByUserid(loginUser.getId(), 0);
+		}else {
+			List<UserStudent> uss = userStudentService.selectCacheByUserid(loginUser.getId());
+			count = uss == null ? 0 : uss.size();
 
 			if(uss != null && uss.size() > 0) {
 				List<Long> studentIds = CommonUtil.entity(uss, "studentId", Long.class);

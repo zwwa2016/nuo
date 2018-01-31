@@ -110,14 +110,23 @@ public class JedisUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T get(String key,T t){
+	public <T> T get(String key,Class clazz){
 		String value = this.get(key);
 		if(value != null && !"".equals(value)){
 			try {
-				t = (T) JSON.parseObject(value, t.getClass());
-				if(t != null){
-					return t;
-				}
+				return (T) JSON.parseObject(value, clazz);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	public <T> List<T> getArray(String key, Class clazz) {
+		String value = this.get(key);
+		if(value != null && !"".equals(value)){
+			try {
+				return JSON.parseArray(value, clazz);
 			} catch (Exception e) {
 				return null;
 			}

@@ -10,7 +10,7 @@ public class Constant {
 
 		public static final int create = 10;
 
-		public static final int MaxTimes = 3;
+		public static final int MaxTimes = 10;
 	}
 
 	public static class Role {
@@ -69,6 +69,21 @@ public class Constant {
 		public static final int Sql = 1;
 
 		public static final int Object = 2;
+	}
+
+	public static class JedisNames {
+
+		public static final int OneDay = 60 * 60 * 24;
+
+		public static final String Project = "nuo-api";
+
+		public static final String Split = "-";
+
+		public static final String UserStudent = Project + Split + "userStudent" + Split;
+
+		public static final String ClassId = Project + Split + "schoolId" + Split;
+
+		public static final String SchoolId = Project + Split + "classId" + Split;
 	}
 
 }

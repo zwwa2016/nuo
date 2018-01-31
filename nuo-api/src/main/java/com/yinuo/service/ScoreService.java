@@ -110,6 +110,10 @@ public class ScoreService {
 		return scoreMapper.selectByExamId(examId, subject, id, limit);
 	}
 
+	public void deleteByStudentId(long studentId) {
+		scoreMapper.deleteByStudentId(studentId);
+	}
+
 	public void deleteByExamId(long examId, int subject) {
 		scoreMapper.deleteByExamId(examId, subject);
 	}

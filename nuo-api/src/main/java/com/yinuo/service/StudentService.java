@@ -26,6 +26,9 @@ public class StudentService {
 
 	@Autowired
 	private ClassesService classesService;
+
+	@Autowired
+	private ScoreService scoreService;
 	
 	public long insert(User loginUser, Student student) {
 		loginUser.checkLevel(Constant.Role.Teacher, student.getSchoolId(), student.getClassId());
@@ -35,9 +38,7 @@ public class StudentService {
 		student.setCreateTime(DateTool.standardSdf.format(new Date()));
 		student.setManagerId(loginUser.getManager().getId());
 		studentMapper.insert(student);
-		
-		//UserStudent us = new UserStudent(null, student.getId(), loginUser.getId(), UserStudentRelationship.create, new Date());
-		//userStudentService.insert(loginUser, us);
+
 		return student.getId();
 	}
 	
@@ -48,7 +49,10 @@ public class StudentService {
 	public void delete (User loginUser, long id) {
 		Student student = studentMapper.selectOne(id);
 		loginUser.checkLevel(Constant.Role.Teacher, student.getSchoolId(), student.getClassId());
-		
+
+		userStudentService.deleteByStudentId(id);
+		scoreService.deleteByStudentId(id);
+
 		studentMapper.delete(id);
 	}
 	

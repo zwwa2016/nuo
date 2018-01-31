@@ -27,5 +27,7 @@ public interface ScoreMapper extends MapperI<Score>{
 	public void insertBatch(@Param("scores")List<Score> scores);
 
 	public int updateRank( @Param("id")long id, @Param("schoolRank")int schoolRank, @Param("classRank")int classRank);
+
+	public void deleteByStudentId(@Param("studentId") long studentId);
 }
  
